@@ -1,0 +1,209 @@
+This file contains any messages produced by compilers while
+running configure, to aid debugging if configure makes a mistake.
+
+configure:586: checking for Tcl configuration
+configure:683: checking for existence of /home/yongj/NS2/tcl8.4.13/unix/tclConfig.sh
+configure:750: checking for tclsh
+configure:783: checking for tclsh in Tcl build directory
+configure:815: checking whether to use symlinks for manpages
+configure:827: checking whether to compress the manpages
+configure:853: checking whether to add a package name suffix for the manpages
+configure:884: checking for gcc
+configure:997: checking whether the C compiler (gcc  ) works
+configure:1013: gcc -o conftest    conftest.c  1>&5
+configure:1039: checking whether the C compiler (gcc  ) is a cross-compiler
+configure:1044: checking whether we are using GNU C
+configure:1053: gcc -E conftest.c
+configure:1072: checking whether gcc accepts -g
+configure:1107: checking how to run the C preprocessor
+configure:1128: gcc -E  conftest.c >/dev/null 2>conftest.out
+configure:1188: checking for limits.h
+configure:1198: gcc -E  conftest.c >/dev/null 2>conftest.out
+configure:1230: checking for unistd.h
+configure:1240: gcc -E  conftest.c >/dev/null 2>conftest.out
+configure:1273: checking stdlib.h
+configure:1333: checking if the compiler understands -pipe
+configure:1344: gcc -pipe -c   conftest.c 1>&5
+configure:1752: checking for building with threads
+configure:1779: checking for sin
+configure:1807: gcc -pipe -o conftest    conftest.c  1>&5
+configure:1791:6: warning: conflicting types for built-in function 'sin' [enabled by default]
+/tmp/ccjZk89h.o: In function `main':
+conftest.c:(.text+0x7): undefined reference to `sin'
+collect2: ld returned 1 exit status
+configure: failed program was:
+#line 1784 "configure"
+#include "confdefs.h"
+/* System header to define __stub macros and hopefully few prototypes,
+    which can conflict with char sin(); below.  */
+#include <assert.h>
+/* Override any gcc2 internal prototype to avoid an error.  */
+/* We use char because int might match the return type of a gcc2
+    builtin and then its argument prototype would still apply.  */
+char sin();
+
+int main() {
+
+/* The GNU C library defines this for functions which it implements
+    to always fail with ENOSYS.  Some functions are actually named
+    something starting with __ and the normal name is an alias.  */
+#if defined (__stub_sin) || defined (__stub___sin)
+choke me
+#else
+sin();
+#endif
+
+; return 0; }
+configure:1828: checking for main in -lieee
+configure:1843: gcc -pipe -o conftest    conftest.c -lieee   1>&5
+configure:1869: checking how to build libraries
+configure:1908: checking for ranlib
+configure:1940: checking if 64bit support is requested
+configure:1954: checking if 64bit Sparc VIS support is requested
+configure:1975: checking system version
+configure:2010: checking for dlopen in -ldl
+configure:2029: gcc -pipe -o conftest    conftest.c -ldl   1>&5
+configure:2077: checking for ar
+configure:3926: checking for build with symbols
+configure:3987: checking for required early compiler flags
+configure:4001: gcc -pipe -c   conftest.c 1>&5
+configure:4051: gcc -pipe -c   conftest.c 1>&5
+configure: In function 'main':
+configure:4047:15: error: storage size of 'buf' isn't known
+configure: failed program was:
+#line 4044 "configure"
+#include "confdefs.h"
+#include <sys/stat.h>
+int main() {
+struct stat64 buf; int i = stat64("/", &buf);
+; return 0; }
+configure:4067: gcc -pipe -c   conftest.c 1>&5
+configure:4101: gcc -pipe -c   conftest.c 1>&5
+configure: In function 'main':
+configure:4097:19: error: 'open64' undeclared (first use in this function)
+configure:4097:19: note: each undeclared identifier is reported only once for each function it appears in
+configure: failed program was:
+#line 4094 "configure"
+#include "confdefs.h"
+#include <sys/stat.h>
+int main() {
+char *p = (char *)open64;
+; return 0; }
+configure:4117: gcc -pipe -c   conftest.c 1>&5
+configure: In function 'main':
+configure:4113:19: error: 'open64' undeclared (first use in this function)
+configure:4113:19: note: each undeclared identifier is reported only once for each function it appears in
+configure: failed program was:
+#line 4109 "configure"
+#include "confdefs.h"
+#define _LARGEFILE_SOURCE64 1
+#include <sys/stat.h>
+int main() {
+char *p = (char *)open64;
+; return 0; }
+configure:4148: checking for 64-bit integer type
+configure:4163: gcc -pipe -c   conftest.c 1>&5
+configure: In function 'main':
+configure:4159:1: error: unknown type name '__int64'
+configure:4159:18: error: '__int64' undeclared (first use in this function)
+configure:4159:18: note: each undeclared identifier is reported only once for each function it appears in
+configure:4159:27: error: expected ',' or ';' before numeric constant
+configure: failed program was:
+#line 4156 "configure"
+#include "confdefs.h"
+
+int main() {
+__int64 value = (__int64) 0;
+; return 0; }
+configure:4186: gcc -pipe -c   conftest.c 1>&5
+configure:4211: checking for struct dirent64
+configure:4225: gcc -pipe -c   conftest.c 1>&5
+configure:4219:24: fatal error: sys/dirent.h: No such file or directory
+compilation terminated.
+configure: failed program was:
+#line 4217 "configure"
+#include "confdefs.h"
+#include <sys/types.h>
+#include <sys/dirent.h>
+int main() {
+struct dirent64 p;
+; return 0; }
+configure:4246: checking for struct stat64
+configure:4260: gcc -pipe -c   conftest.c 1>&5
+configure:4283: checking for open64
+configure:4311: gcc -pipe -o conftest    -Wl,--export-dynamic conftest.c  1>&5
+configure:4283: checking for lseek64
+configure:4311: gcc -pipe -o conftest    -Wl,--export-dynamic conftest.c  1>&5
+configure:4336: checking for off64_t
+configure:4350: gcc -pipe -c   conftest.c 1>&5
+configure:4381: checking whether byte ordering is bigendian
+configure:4399: gcc -pipe -c   conftest.c 1>&5
+configure:4414: gcc -pipe -c   conftest.c 1>&5
+configure: In function 'main':
+configure:4409:2: error: unknown type name 'not'
+configure:4409:10: error: expected '=', ',', ';', 'asm' or '__attribute__' before 'endian'
+configure: failed program was:
+#line 4403 "configure"
+#include "confdefs.h"
+#include <sys/types.h>
+#include <sys/param.h>
+int main() {
+
+#if BYTE_ORDER != BIG_ENDIAN
+ not big endian
+#endif
+; return 0; }
+configure:4499: checking for fd_set in sys/types
+configure:4511: gcc -pipe -c   conftest.c 1>&5
+configure:4572: checking for sys/time.h
+configure:4582: gcc -E  conftest.c >/dev/null 2>conftest.out
+configure:4609: checking whether time.h and sys/time.h may both be included
+configure:4623: gcc -pipe -c   conftest.c 1>&5
+configure:4653: checking for strtod
+configure:4681: gcc -pipe -o conftest    -Wl,--export-dynamic conftest.c  1>&5
+configure:4703: checking for Solaris2.4/Tru64 strtod bugs
+configure:4735: gcc -pipe -o conftest    -Wl,--export-dynamic conftest.c  1>&5
+configure: In function 'main':
+configure:4721:4: warning: incompatible implicit declaration of built-in function 'exit' [enabled by default]
+configure:4725:4: warning: incompatible implicit declaration of built-in function 'exit' [enabled by default]
+configure:4729:4: warning: incompatible implicit declaration of built-in function 'exit' [enabled by default]
+configure:4731:7: warning: incompatible implicit declaration of built-in function 'exit' [enabled by default]
+configure:4766: checking for ANSI C header files
+configure:4779: gcc -E  conftest.c >/dev/null 2>conftest.out
+configure:4846: gcc -pipe -o conftest    -Wl,--export-dynamic conftest.c  1>&5
+configure: In function 'main':
+configure:4841:67: warning: incompatible implicit declaration of built-in function 'exit' [enabled by default]
+configure:4870: checking for mode_t
+configure:4903: checking for pid_t
+configure:4936: checking for size_t
+configure:4969: checking for uid_t in sys/types.h
+configure:5008: checking pw_gecos in struct pwd
+configure:5020: gcc -pipe -c   conftest.c 1>&5
+configure:5101: checking for X
+configure:5168: gcc -E  conftest.c >/dev/null 2>conftest.out
+configure:5244: gcc -pipe -o conftest    -Wl,--export-dynamic conftest.c -lXt  1>&5
+configure:5339: gcc -E  conftest.c >/dev/null 2>conftest.out
+configure:5335:28: fatal error: X11/XIntrinsic.h: No such file or directory
+compilation terminated.
+configure: failed program was:
+#line 5334 "configure"
+#include "confdefs.h"
+#include <X11/XIntrinsic.h>
+configure:5359: checking for X11 header files
+configure:5367: gcc -E  conftest.c >/dev/null 2>conftest.out
+configure:5519: checking for main in -lXbsd
+configure:5534: gcc -pipe -o conftest    -Wl,--export-dynamic conftest.c -lXbsd   1>&5
+/usr/bin/ld: cannot find -lXbsd
+collect2: ld returned 1 exit status
+configure: failed program was:
+#line 5527 "configure"
+#include "confdefs.h"
+
+int main() {
+main()
+; return 0; }
+configure:5558: checking for connect
+configure:5586: gcc -pipe -o conftest    -Wl,--export-dynamic conftest.c  1>&5
+configure:5699: checking for gethostbyname
+configure:5727: gcc -pipe -o conftest    -Wl,--export-dynamic conftest.c  1>&5
+configure:5837: checking whether char is unsigned

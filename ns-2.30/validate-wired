@@ -1,0 +1,63 @@
+#!/bin/sh
+
+#
+# validate-wired -- run all test suites except the wireless ones 
+#
+# Copyright (c) 1997 University of Southern California.
+# All rights reserved.                                            
+#                                                                
+# Redistribution and use in source and binary forms are permitted
+# provided that the above copyright notice and this paragraph are
+# duplicated in all such forms and that any documentation, advertising
+# materials, and other materials related to such distribution and use
+# acknowledge that the software was developed by the University of
+# Southern California, Information Sciences Institute.  The name of the
+# University may not be used to endorse or promote products derived from
+# this software without specific prior written permission.
+# 
+# THIS SOFTWARE IS PROVIDED "AS IS" AND WITHOUT ANY EXPRESS OR IMPLIED
+# WARRANTIES, INCLUDING, WITHOUT LIMITATION, THE IMPLIED WARRANTIES OF
+# MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
+#
+# $Header: /cvsroot/nsnam/ns-2/validate-wired,v 1.7 2003/02/02 22:16:13 xuanc Exp $
+
+try () {
+	echo "*** $1"
+	$1 quiet || {
+		any_failed=true
+		failed_list="$failed_list $1"
+	}
+	return $?
+}
+
+
+any_failed=false
+failed_list=""
+
+echo "(Validation can take 1-30 hours to run.)"
+
+cd tcl/test
+
+for i in simple tcp full monitor red sack schedule rr cbq red-v1 cbq-v1 sack-v1 \
+v1 vegas-v1 rbp tcp-init-win tcpVariants ecn manual-routing hier-routing \
+intserv webcache mcast newreno srm session mixmode algo-routing vc \
+simultaneous ecn-ack mcache satellite aimd greis \
+rfc793edu friendly rfc2581 links rio testReno plm linkstate mpls diffserv \
+red-pd jobs
+do
+	try ./test-all-$i
+done
+
+if $any_failed
+then
+	echo "validate overall report: some tests failed:"
+	echo "    $failed_list"
+	echo "to re-run a specific test, cd tcl/test; ../../ns test-all-TEST-NAME"
+	exit 1
+else
+	echo "validate overall report: all tests passed"
+	exit 0
+fi
+
+
+

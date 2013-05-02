@@ -1,0 +1,60 @@
+1. Introduction
+----------------
+
+Ns-allinone is a package which contains required components and some of
+optional components used in running ns. The package contains an
+"install" script to automatically configure, compile and install these
+components. If you haven't installed ns before and want to quickly try
+ns out, ns-allinone may be easier than getting all the pieces by hand.
+ 
+Currently the package contains:
+  
+- Tcl       Tcl release 8.4.5     (required component)
+- Tk        Tk release 8.4.5     (required component)
+- Otcl      otcl release 1.9    (required component)
+- TclCL     tclcl release 1.16  (required component)
+- Ns        ns release 2.28    (required component)
+- TclDebug  tcl-debug relase 1.9  (optional component)
+- Nam       Nam release 1.11       (optional component)
+- Xgraph    xgraph version 12     (optional component)
+- GT-ITM    Georgia Tech Internetwork
+            Topology Modeler      (optional component)
+- SGB       Stanford GraphBase
+            package               (optional component)
+- CWEB      CWeb version 1.0 (?)  (optional component)
+- ZLib      zlib version 1.1.4    (optional component) 
+
+2. FEATURES IN ns-allinone2.28
+-------------------------------
+
+Features in this version include:
+ 
+- Self-containing: All installation will be kept in a directory to help
+		   the user manange and use the package. The execution of ns
+		   ns or nam does not need any ther support outside
+		   this directory
+
+- Bugs fixed:      All components inside the package, are the most recent 
+                   versions;
+
+- Easy to use :    Only one-line command is needed to build all ns
+		   components
+
+3. Installing the package
+--------------------------
+
+All you need to do is type "./install" under this directory. The install
+script will compile and install the whole package for you. The script also
+will tell you the final installation result.
+
+
+4. More information
+--------------------
+
+Ns-allinone is available from
+<http://www.isi.edu/nsnam/ns/ns-build.html>
+
+-----------------------------
+The VINT/CONSER Project
+http://www.isi.edu/nsnam
+
