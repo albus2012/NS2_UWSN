@@ -74,7 +74,7 @@ case $system in
         ;;
     Linux*)
         SHLIB_CFLAGS="-fpic"
-        SHLIB_LD="ld -shared"
+        SHLIB_LD="gcc -shared"
         SHLIB_SUFFIX=".so"
         DL_LIBS="-ldl"
         SHLD_FLAGS=""

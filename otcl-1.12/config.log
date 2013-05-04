@@ -30,6 +30,9 @@ hostinfo               = unknown
 PATH: /home/yongj/NS2/tcl8.4.13/unix
 PATH: /home/yongj/NS2/tk8.4.13/unix
 PATH: /home/yongj/NS2/bin
+PATH: /home/yongj/NS2/bin
+PATH: /home/yongj/NS2/tcl8.4.13/unix
+PATH: //home/yongj/NS2/tk8.4.5/unix
 PATH: /usr/lib/lightdm/lightdm
 PATH: /usr/local/sbin
 PATH: /usr/local/bin

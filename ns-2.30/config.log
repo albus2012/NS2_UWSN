@@ -30,6 +30,9 @@ hostinfo               = unknown
 PATH: /home/yongj/NS2/tcl8.4.13/unix
 PATH: /home/yongj/NS2/tk8.4.13/unix
 PATH: /home/yongj/NS2/bin
+PATH: /home/yongj/NS2/bin
+PATH: /home/yongj/NS2/tcl8.4.13/unix
+PATH: //home/yongj/NS2/tk8.4.5/unix
 PATH: /usr/lib/lightdm/lightdm
 PATH: /usr/local/sbin
 PATH: /usr/local/bin
@@ -863,8 +866,8 @@ configure:6917: $? = 0
 configure:6929: result: yes
 configure:6842: checking for fesetprecision
 configure:6899: gcc -o conftest -g -O2   conftest.c -lm  >&5
-/tmp/ccWuiHz4.o:(.data+0x0): undefined reference to `fesetprecision'
-/tmp/ccWuiHz4.o: In function `main':
+/tmp/cc2AsmyO.o:(.data+0x0): undefined reference to `fesetprecision'
+/tmp/cc2AsmyO.o: In function `main':
 /home/yongj/NS2/ns-2.30/conftest.c:86: undefined reference to `fesetprecision'
 collect2: ld returned 1 exit status
 configure:6905: $? = 1
@@ -1187,8 +1190,8 @@ configure:8410: $? = 0
 configure:8417: result: found
 configure:8436: checking for addr2ascii
 configure:8493: gcc -o conftest -g -O2   conftest.c -lm  >&5
-/tmp/ccPS39GL.o:(.data+0x0): undefined reference to `addr2ascii'
-/tmp/ccPS39GL.o: In function `main':
+/tmp/ccfNYEB2.o:(.data+0x0): undefined reference to `addr2ascii'
+/tmp/ccfNYEB2.o: In function `main':
 /home/yongj/NS2/ns-2.30/conftest.c:97: undefined reference to `addr2ascii'
 collect2: ld returned 1 exit status
 configure:8499: $? = 1
