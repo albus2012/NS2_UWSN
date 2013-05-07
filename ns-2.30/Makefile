@@ -22,7 +22,9 @@
 #
 # Various configurable paths (remember to edit Makefile.in, not Makefile)
 #
-
+CCOPT = -g -Wall
+DEFINE = -DNDEBUG
+DEFINE = -DDEBUG
 # Top level hierarchy
 prefix	= /usr/local
 # Pathname of directory to install the binary
@@ -52,7 +54,7 @@ PERL	= /usr/bin/perl
 # for diffusion
 #DIFF_INCLUDES = "./diffusion3/main ./diffusion3/lib ./diffusion3/nr ./diffusion3/ns"
 
-CCOPT	=  -Wall 
+CCOPT	=  -g -Wall 
 STATIC	= 
 #LDFLAGS	= $(STATIC)
 LDFLAGS	= 

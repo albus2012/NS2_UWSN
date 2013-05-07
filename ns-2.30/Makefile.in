@@ -22,7 +22,9 @@
 #
 # Various configurable paths (remember to edit Makefile.in, not Makefile)
 #
-
+CCOPT = -g
+DEFINE = -DNDEBUG
+DEFINE = -DDEBUG
 # Top level hierarchy
 prefix	= @prefix@
 # Pathname of directory to install the binary

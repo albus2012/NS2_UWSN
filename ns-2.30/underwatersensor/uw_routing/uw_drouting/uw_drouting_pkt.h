@@ -7,7 +7,6 @@
 #include <signal.h>
 #include <float.h>
 #include <stdlib.h>
-
 #include <tcl.h>
 
 #include "agent.h"

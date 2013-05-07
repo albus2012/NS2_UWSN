@@ -8,3 +8,13 @@ SINK(4) : num_send = 50, num_recv = 0, cum_delay = 0.000000
 SINK(5) : num_send = 50, num_recv = 0, cum_delay = 0.000000
 SINK(0) : num_send = 0, num_recv = 250, cum_delay = 19.680541
 God : consumped_energy = 165.494161
+New simulation....
+nodes  = 6, maxspeed = 3, minspeed = 0, random_seed = 11, sending_interval_=10.0, width=100
+x= 1000 y= 10 z= 10
+SINK(1) : num_send = 50, num_recv = 0, cum_delay = 0.000000
+SINK(2) : num_send = 50, num_recv = 0, cum_delay = 0.000000
+SINK(3) : num_send = 50, num_recv = 0, cum_delay = 0.000000
+SINK(4) : num_send = 50, num_recv = 0, cum_delay = 0.000000
+SINK(5) : num_send = 50, num_recv = 0, cum_delay = 0.000000
+SINK(0) : num_send = 0, num_recv = 250, cum_delay = 19.680541
+God : consumped_energy = 165.494161
