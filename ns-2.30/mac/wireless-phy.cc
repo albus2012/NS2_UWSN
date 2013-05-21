@@ -38,6 +38,8 @@
  * wireless-phy.cc
  */
 
+#include<iostream>
+
 #include <math.h>
 
 #include <packet.h>
@@ -147,7 +149,7 @@ WirelessPhy::command(int argc, const char*const* argv)
 			return TCL_OK;
 		} else if (strcasecmp(argv[1], "NodeOff") == 0) {
 			node_off();
-
+            printf("test\n");
 			if (em() == NULL) 
 				return TCL_OK;
 			if (NOW > update_energy_time_) {
@@ -207,9 +209,11 @@ WirelessPhy::sendDown(Packet *p)
 	if (em()) {
 			//node is off here...
 			if (Is_node_on() != true ) {
+			std::cout << "senddown node off" << std::endl;
 			Packet::free(p);
 			return;
 			}
+			std::cout << "senddown node on" << std::endl;
 			if(Is_node_on() == true && Is_sleeping() == true){
 			em()-> DecrSleepEnergy(NOW-update_energy_time_,
 							P_sleep_);
@@ -292,12 +296,16 @@ WirelessPhy::sendDown(Packet *p)
 			return;
 		}
 	}
-
+	if (Is_node_on() != true ) {
+					std::cout << "senddown node off" << std::endl;
+					Packet::free(p);
+					return;
+					}
 	/*
 	 *  Stamp the packet with the interface arguments
 	 */
 	p->txinfo_.stamp((MobileNode*)node(), ant_->copy(), Pt_, lambda_);
-	
+
 	// Send the packet
 	channel_->recv(p, this);
 }
@@ -315,7 +323,11 @@ WirelessPhy::sendUp(Packet *p)
 	int pkt_recvd = 0;
 
 	Pr = p->txinfo_.getTxPr();
-	
+	if (Is_node_on()!= true){
+				std::cout << "sendup node off" << std::endl;
+				pkt_recvd = 0;
+				goto DONE;
+				}
 	// if the node is in sleeping mode, drop the packet simply
 	if (em()) {
 			if (Is_node_on()!= true){
@@ -451,6 +463,7 @@ void
 WirelessPhy::node_off()
 {
 
+	std::cout << "set node off " << std::endl;
         node_on_= FALSE;
 	status_ = SLEEP;
 

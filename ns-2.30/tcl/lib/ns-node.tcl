@@ -569,3 +569,14 @@ Node instproc is-neighbor { node } {
 	$self instvar neighbor_
 	return [expr [lsearch $neighbor_ $node] != -1]
 }
+
+
+#add by yongj
+Node instproc setON { } {
+	$self instvar netif_
+	$netif_(0) NodeOn
+}
+Node instproc setOFF { } {
+	$self instvar netif_
+	$netif_(0) NodeOff
+}

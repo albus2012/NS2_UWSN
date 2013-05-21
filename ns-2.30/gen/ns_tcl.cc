@@ -758,6 +758,16 @@ $self instvar neighbor_\n\
 return [expr [lsearch $neighbor_ $node] != -1]\n\
 }\n\
 \n\
+\n\
+Node instproc setON { } {\n\
+$self instvar netif_\n\
+$netif_(0) NodeOn\n\
+}\n\
+Node instproc setOFF { } {\n\
+$self instvar netif_\n\
+$netif_(0) NodeOff\n\
+}\n\
+\n\
 RtModule instproc register { node } {\n\
 $self attach-node $node\n\
 $node route-notify $self\n\

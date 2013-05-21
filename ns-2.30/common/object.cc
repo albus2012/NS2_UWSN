@@ -78,6 +78,7 @@ int NsObject::command(int argc, const char*const* argv)
 			reset();
 			return (TCL_OK);
 		}
+
 	}
 	return (TclObject::command(argc, argv));
 }
