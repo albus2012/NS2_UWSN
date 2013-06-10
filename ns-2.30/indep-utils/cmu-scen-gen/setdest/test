@@ -1,0 +1,80 @@
+#
+# nodes: 8, pause: 0.00, max speed: 0.00, max x: 500.00, max y: 500.00
+#
+$node_(0) set X_ 240.548462847732
+$node_(0) set Y_ 302.593411165157
+$node_(0) set Z_ 0.000000000000
+$node_(1) set X_ 285.251265236238
+$node_(1) set Y_ 487.604661360795
+$node_(1) set Z_ 0.000000000000
+$node_(2) set X_ 210.234311695382
+$node_(2) set Y_ 211.412386031304
+$node_(2) set Z_ 0.000000000000
+$node_(3) set X_ 197.452814218166
+$node_(3) set Y_ 258.585852404557
+$node_(3) set Z_ 0.000000000000
+$node_(4) set X_ 158.358545377519
+$node_(4) set Y_ 366.266210606175
+$node_(4) set Z_ 0.000000000000
+$node_(5) set X_ 190.826289866089
+$node_(5) set Y_ 274.862784233750
+$node_(5) set Z_ 0.000000000000
+$node_(6) set X_ 348.604652683662
+$node_(6) set Y_ 408.791121218482
+$node_(6) set Z_ 0.000000000000
+$node_(7) set X_ 162.521389034681
+$node_(7) set Y_ 164.039797294018
+$node_(7) set Z_ 0.000000000000
+$ns_ at 0.000000000000 "$node_(0) setdest 222.269701126986 311.700181764001 0.000121771048"
+$ns_ at 0.000000000000 "$node_(1) setdest 369.601824175841 224.342223178405 0.000690676165"
+$ns_ at 0.000000000000 "$node_(2) setdest 145.466114570608 405.049008957621 0.000539316680"
+$ns_ at 0.000000000000 "$node_(3) setdest 157.487390972063 72.271999212116 0.000941264597"
+$ns_ at 0.000000000000 "$node_(4) setdest 74.421217660330 152.909517824924 0.000997852701"
+$ns_ at 0.000000000000 "$node_(5) setdest 34.912787205973 445.033865996414 0.000683415660"
+$ns_ at 0.000000000000 "$node_(6) setdest 473.173107351178 135.651496987676 0.000102603921"
+$ns_ at 0.000000000000 "$node_(7) setdest 237.479018139568 107.226466714196 0.000859157004"
+$god_ set-dist 0 1 1
+$god_ set-dist 0 2 1
+$god_ set-dist 0 3 1
+$god_ set-dist 0 4 1
+$god_ set-dist 0 5 1
+$god_ set-dist 0 6 1
+$god_ set-dist 0 7 1
+$god_ set-dist 1 2 2
+$god_ set-dist 1 3 1
+$god_ set-dist 1 4 1
+$god_ set-dist 1 5 1
+$god_ set-dist 1 6 1
+$god_ set-dist 1 7 2
+$god_ set-dist 2 3 1
+$god_ set-dist 2 4 1
+$god_ set-dist 2 5 1
+$god_ set-dist 2 6 1
+$god_ set-dist 2 7 1
+$god_ set-dist 3 4 1
+$god_ set-dist 3 5 1
+$god_ set-dist 3 6 1
+$god_ set-dist 3 7 1
+$god_ set-dist 4 5 1
+$god_ set-dist 4 6 1
+$god_ set-dist 4 7 1
+$god_ set-dist 5 6 1
+$god_ set-dist 5 7 1
+$god_ set-dist 6 7 2
+#
+# Destination Unreachables: 0
+#
+# Route Changes: 0
+#
+# Link Changes: 0
+#
+# Node | Route Changes | Link Changes
+#    0 |             0 |            0
+#    1 |             0 |            0
+#    2 |             0 |            0
+#    3 |             0 |            0
+#    4 |             0 |            0
+#    5 |             0 |            0
+#    6 |             0 |            0
+#    7 |             0 |            0
+#

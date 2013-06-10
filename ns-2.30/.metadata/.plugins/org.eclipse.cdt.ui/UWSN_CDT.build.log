@@ -1,0 +1,6 @@
+18:00:21 **** Build of configuration Default for project UWSN_CDT ****
+make all 
+make: *** No rule to make target `all'.  Stop.
+
+18:00:21 Build Finished (took 222ms)
+
