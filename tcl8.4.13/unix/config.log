@@ -41,7 +41,7 @@ configure:1864: checking for building with threads
 configure:1895: checking for sin
 configure:1923: gcc -pipe -o conftest    conftest.c  1>&5
 configure:1907:6: warning: conflicting types for built-in function 'sin' [enabled by default]
-/tmp/ccga2xis.o: In function `main':
+/tmp/ccP6RLce.o: In function `main':
 conftest.c:(.text+0x7): undefined reference to `sin'
 collect2: ld returned 1 exit status
 configure: failed program was:
@@ -313,7 +313,7 @@ configure:7077: gcc -pipe -o conftest    -Wl,--export-dynamic conftest.c  1>&5
 configure:7061:6: warning: conflicting types for built-in function 'strncasecmp' [enabled by default]
 configure:7199: checking for BSDgettimeofday
 configure:7227: gcc -pipe -o conftest    -Wl,--export-dynamic conftest.c  1>&5
-/tmp/ccbxYWqe.o: In function `main':
+/tmp/cc11pNMA.o: In function `main':
 conftest.c:(.text+0x7): undefined reference to `BSDgettimeofday'
 collect2: ld returned 1 exit status
 configure: failed program was:

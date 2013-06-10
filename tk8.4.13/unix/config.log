@@ -28,7 +28,7 @@ configure:1752: checking for building with threads
 configure:1779: checking for sin
 configure:1807: gcc -pipe -o conftest    conftest.c  1>&5
 configure:1791:6: warning: conflicting types for built-in function 'sin' [enabled by default]
-/tmp/cckBaJm2.o: In function `main':
+/tmp/ccPfNQ5T.o: In function `main':
 conftest.c:(.text+0x7): undefined reference to `sin'
 collect2: ld returned 1 exit status
 configure: failed program was:
