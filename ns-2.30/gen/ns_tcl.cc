@@ -759,13 +759,24 @@ return [expr [lsearch $neighbor_ $node] != -1]\n\
 }\n\
 \n\
 \n\
-Node instproc setON { } {\n\
+Node instproc set_Pt { val } {\n\
 $self instvar netif_\n\
-$netif_(0) NodeOn\n\
+$netif_(0) set-Pt $val\n\
 }\n\
-Node instproc setOFF { } {\n\
+\n\
+Node instproc set_RXThresh { val } {\n\
 $self instvar netif_\n\
-$netif_(0) NodeOff\n\
+$netif_(0) set-RXThresh $val\n\
+}\n\
+\n\
+Node instproc set_CSThresh { val } {\n\
+$self instvar netif_\n\
+$netif_(0) set-CSThresh $val\n\
+}\n\
+\n\
+Node instproc set_CPThresh { val } {\n\
+$self instvar netif_\n\
+$netif_(0) set-CPThresh $val\n\
 }\n\
 \n\
 RtModule instproc register { node } {\n\
@@ -1273,7 +1284,7 @@ $dmux_ install $port $agent\n\
 }\n\
 \n\
 Node/MobileNode instproc add-interface { channel pmodel lltype mactype qtype qlen iftype anttype topo inerrproc outerrproc fecproc } {\n\
-$self instvar arptable_ nifs_ netif_ mac_ ifq_ ll_ imep_ inerr_ outerr_ fec_\n\
+$self instvar arptable_ nifs_ netif_ mac_ ifq_ ll_ imep_ inerr_ outerr_ fec_ id_\n\
 \n\
 set ns [Simulator instance]\n\
 set imepflag [$ns imep-support]\n\
@@ -1709,6 +1720,35 @@ SRNodeNew instproc reset args {\n\
 $self instvar dsr_agent_\n\
 eval $self next $args\n\
 $dsr_agent_ reset\n\
+}\n\
+\n\
+Node/MobileNode instproc setON { } {\n\
+$self instvar netif_\n\
+$netif_(0) NodeOn\n\
+}\n\
+Node/MobileNode instproc setOFF { } {\n\
+$self instvar netif_\n\
+$netif_(0) NodeOff\n\
+}\n\
+\n\
+Node/MobileNode instproc set_Pt { val } {\n\
+$self instvar netif_\n\
+$netif_(0) set-Pt $val\n\
+}\n\
+\n\
+Node/MobileNode instproc set_RXThresh { val } {\n\
+$self instvar netif_\n\
+$netif_(0) set-RXThresh $val\n\
+}\n\
+\n\
+Node/MobileNode instproc set_CSThresh { val } {\n\
+$self instvar netif_\n\
+$netif_(0) set-CSThresh $val\n\
+}\n\
+\n\
+Node/MobileNode instproc set_CPThresh { val } {\n\
+$self instvar netif_\n\
+$netif_(0) set-CPThresh $val\n\
 }\n\
 \n\
 \n\
@@ -3626,11 +3666,13 @@ UWVBVA\n\
 uw_drouting\n\
 RMAC     \n\
 TMAC\n\
+AUVMAC\n\
 SFAMA\n\
 StaticRouting\n\
 UWANMac\n\
 OTMAN\n\
 UW_ALOHA\n\
+\n\
 \n\
 Encap 	# common/encap.cc\n\
 IPinIP 	# IP encapsulation \n\

@@ -183,6 +183,11 @@ enum packet_t {
 	
 	// DBR packets : hai
 	PT_DBR,
+	//added by Yongjia Li
+	/*AUV-MAC*/
+	PT_AUV_SYNC,
+	PT_AUV_ML,
+	PT_AUV_HELLO,
 	
 	//added by Yibo Zhu
 	/*UWAN-MAC*/
@@ -306,6 +311,10 @@ public:
 		name_[PT_DBR]="dbr";
 		
 	//UWAN_MAC: donot include it in release version
+	name_[PT_AUV_SYNC] = "auv-SYNC";
+	name_[PT_AUV_HELLO] = "auv-hello";
+	name_[PT_AUV_ML] = "auv-missinglist";
+
 	name_[PT_UWAN_SYNC] = "uwan-SYNC";
 	name_[PT_UWAN_HELLO] = "uwan-hello";
 	name_[PT_UWAN_ML] = "uwan-missinglist";

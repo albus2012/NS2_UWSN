@@ -572,11 +572,30 @@ Node instproc is-neighbor { node } {
 
 
 #add by yongj
-Node instproc setON { } {
+#Node instproc setON { } {
+#	$self instvar netif_
+#	$netif_(0) NodeOn
+#}
+#Node instproc setOFF { } {
+#	$self instvar netif_
+#	$netif_(0) NodeOff
+#}
+Node instproc set_Pt { val } {
 	$self instvar netif_
-	$netif_(0) NodeOn
+	$netif_(0) set-Pt $val
 }
-Node instproc setOFF { } {
+
+Node instproc set_RXThresh { val } {
 	$self instvar netif_
-	$netif_(0) NodeOff
+	$netif_(0) set-RXThresh $val
+}
+
+Node instproc set_CSThresh { val } {
+	$self instvar netif_
+	$netif_(0) set-CSThresh $val
+}
+
+Node instproc set_CPThresh { val } {
+	$self instvar netif_
+	$netif_(0) set-CPThresh $val
 }

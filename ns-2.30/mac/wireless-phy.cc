@@ -163,7 +163,23 @@ WirelessPhy::command(int argc, const char*const* argv)
 		if (strcasecmp(argv[1], "setTxPower") == 0) {
 			Pt_consume_ = atof(argv[2]);
 			return TCL_OK;
-		} else if (strcasecmp(argv[1], "setRxPower") == 0) {
+		} else if (strcasecmp(argv[1], "set-Pt") == 0) {
+			Pt_ = atof(argv[2]);
+			printf("set wirelessphy pt %p, %f\n", this, Pt_);
+			return TCL_OK;
+		} else if (strcasecmp(argv[1], "set-RXThresh") == 0) {
+			RXThresh_ = atof(argv[2]);
+			printf("set wirelessphy RXThresh %p, %.16f\n", this, RXThresh_);
+			return TCL_OK;
+		} else if (strcasecmp(argv[1], "set-CSThresh") == 0) {
+			CSThresh_ = atof(argv[2]);
+			printf("set wirelessphy CSThresh %p, %.16f\n", this, CSThresh_);
+			return TCL_OK;
+		} else if (strcasecmp(argv[1], "set-CPThresh") == 0) {
+			CPThresh_ = atof(argv[2]);
+			printf("set wirelessphy CPThresh %p, %.16f\n", this, CPThresh_);
+			return TCL_OK;
+		}else if (strcasecmp(argv[1], "setRxPower") == 0) {
 			Pr_consume_ = atof(argv[2]);
 			return TCL_OK;
 		} else if (strcasecmp(argv[1], "setIdlePower") == 0) {
@@ -209,11 +225,9 @@ WirelessPhy::sendDown(Packet *p)
 	if (em()) {
 			//node is off here...
 			if (Is_node_on() != true ) {
-			std::cout << "senddown node off" << std::endl;
 			Packet::free(p);
 			return;
 			}
-			std::cout << "senddown node on" << std::endl;
 			if(Is_node_on() == true && Is_sleeping() == true){
 			em()-> DecrSleepEnergy(NOW-update_energy_time_,
 							P_sleep_);
@@ -448,7 +462,7 @@ DONE:
 void
 WirelessPhy::node_on()
 {
-
+	std::cout << "set node on " << std::endl;
         node_on_= TRUE;
 	status_ = IDLE;
 

@@ -172,11 +172,13 @@ foreach prot {
        uw_drouting
 	RMAC     
 	TMAC
+	AUVMAC
     	SFAMA
 	StaticRouting
 	UWANMac
 	OTMAN
 	UW_ALOHA
+	
     
 # Other:
 	Encap 	# common/encap.cc

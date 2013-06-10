@@ -358,7 +358,7 @@ Node/MobileNode instproc add-target-rtagent { agent port } {
 # and physical layer structures for the mobile node.
 #
 Node/MobileNode instproc add-interface { channel pmodel lltype mactype qtype qlen iftype anttype topo inerrproc outerrproc fecproc } {
-	$self instvar arptable_ nifs_ netif_ mac_ ifq_ ll_ imep_ inerr_ outerr_ fec_
+	$self instvar arptable_ nifs_ netif_ mac_ ifq_ ll_ imep_ inerr_ outerr_ fec_ id_
 	
 	set ns [Simulator instance]
 	set imepflag [$ns imep-support]
@@ -881,4 +881,34 @@ SRNodeNew instproc reset args {
 	$self instvar dsr_agent_
 	eval $self next $args
 	$dsr_agent_ reset
+}
+
+#add by yongj
+Node/MobileNode instproc setON { } {
+	$self instvar netif_
+	$netif_(0) NodeOn
+}
+Node/MobileNode instproc setOFF { } {
+	$self instvar netif_
+	$netif_(0) NodeOff
+}
+
+Node/MobileNode instproc set_Pt { val } {
+	$self instvar netif_
+	$netif_(0) set-Pt $val
+}
+
+Node/MobileNode instproc set_RXThresh { val } {
+	$self instvar netif_
+	$netif_(0) set-RXThresh $val
+}
+
+Node/MobileNode instproc set_CSThresh { val } {
+	$self instvar netif_
+	$netif_(0) set-CSThresh $val
+}
+
+Node/MobileNode instproc set_CPThresh { val } {
+	$self instvar netif_
+	$netif_(0) set-CPThresh $val
 }
