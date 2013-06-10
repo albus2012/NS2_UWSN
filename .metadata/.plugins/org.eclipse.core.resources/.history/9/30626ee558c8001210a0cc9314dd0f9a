@@ -1,0 +1,129 @@
+#==============================================
+#Define options
+#==============================================
+set val(chan)    Channel/WirelessChannel;
+set val(prop)    Propagation/TwoRayGround;
+set val(netif)   Phy/WirelessPhy;
+set val(mac)     Mac/802_11;
+set val(ifq)     Queue/DropTail/PriQueue;
+set val(ll)      LL;
+set val(ant)     Antenna/OmniAntenna;
+set val(ifqlen)  2;
+set val(nn)      50;
+set val(rp)      AODV;
+set val(x)       1400;
+set val(y)       1400;
+set val(stoptime) 300;
+set val(a)        7
+set val(b)        7
+
+#===============================
+#Main Program
+#===============================
+
+#��ʼ��ģ�����͸��ٶ���
+set ns_ [new Simulator]
+set tracefd [open result/out2014_3.tr a]
+
+#�¸�ʽ
+#$ns_ use-newtrace
+$ns_ trace-all $tracefd
+set namtracefd [open result/out2013.nam w]
+$ns_ namtrace-all-wireless $namtracefd $val(x) $val(y)
+proc finish {} {
+     global ns_tracefd namtracefd
+     $ns_ flush-trace
+     close $tracefd
+     close $namtracefd
+     exit 0 
+     }
+
+#�����ƶ�����
+set topo [new Topography]
+
+#�����ƶ�����
+$topo load_flatgrid $val(x) $val(y)
+set god_ [create-god $val(nn)]
+
+#���ýڵ�����
+$ns_ node-config -adhocRouting  $val(rp)\
+            -llType $val(ll)\
+            -macType $val(mac)\
+            -ifqType $val(ifq)\
+            -ifqLen $val(ifqlen)\
+            -antType $val(ant)\
+            -propType $val(prop)\
+            -phyType $val(netif)\
+            -channelType $val(chan)\
+            -topoInstance $topo\
+            -agentTrace ON\
+            -routerTrace ON\
+            -macTrace OFF\
+            -movementTrace OFF
+                
+Phy/WirelessPhy set CSThresh_ 1.559e-11
+Phy/WirelessPhy set RXThresh_ 1.76149e-10
+Phy/WirelessPhy set Pt_ 0.28183815
+            
+#�����ƶ��ڵ�  
+
+for {set i 0} {$i < $val(nn) } {incr i} {
+			set node_($i) [$ns_ node];
+			$node_($i) random-motion 0;
+		}
+for {set i 0} {$i < $val(nn)} {incr i} {
+        $ns_ initial_node_pos $node_($i) 30;
+}
+
+
+for {set i 0} {$i < $val(a) } {incr i} {
+     for {set j 0} {$j < $val(b) } {incr j} {
+       set x [expr $i*7+$j];
+       $node_($x) set X_ [expr 100.0+200.0*$j];
+       $node_($x) set Y_ [expr 100.0+200.0*$i];
+       $node_($x) set Z_ 0.0;
+       }
+  }
+
+$node_(49) set X_ 0.0
+$node_(49) set Y_ 720.0
+$node_(49) set Z_ 0.0
+
+#$ns_ at 3.0 "$node_(25) setOFF"
+
+set rng [new RNG] 
+      $rng seed 0
+      set random [new RandomVariable/Uniform]
+      $random use-rng $rng
+      $random set min_ 0.0 
+      $random set max_ 10.0 	
+      puts [$random value]
+         
+for {set ti 0} {$ti < $val(stoptime) } {incr ti} {
+    for {set i 0} {$i < $val(nn) } {incr i} { 
+        if { ($i!=49)&&($i!=2)&&($i!=5)&&($i!=6)&&($i!=7)&&($i!=8)&&($i!=9)&&($i!=9)&&($i!=10)} {
+	    if { [$random value] > 3} {
+	      
+        $ns_ at ($ti) "$node_($i) set_CSThresh 1.76149e-13";
+	$ns_ at ($ti) "$node_($i) set_RXThresh 1.76149e-12";	    
+ 	$ns_ at ($ti) "$node_($i) set_Pt 0.08183815";	    
+
+        $ns_ at ([expr {0.1+$ti}]) "$node_($i) set_CSThresh 1.559e-11";
+	$ns_ at ([expr {0.1+$ti}]) "$node_($i) set_RXThresh 1.76149e-10";
+	$ns_ at ([expr {0.1+$ti}]) "$node_($i) set_Pt 0.28183815";
+        puts $i;
+        }
+       }
+      }
+  }
+
+puts "Loading connection pattern ..."
+source cbr_50  
+ 
+#ģ����������ڵ�
+for {set i 0} {$i < $val(nn) } {incr i} {
+	$ns_ at $val(stoptime) "$node_($i) reset";
+}
+$ns_ at $val(stoptime) "$ns_ nam-end-wireless $val(stoptime)"
+$ns_ at $val(stoptime) "$ns_ halt"
+$ns_ run

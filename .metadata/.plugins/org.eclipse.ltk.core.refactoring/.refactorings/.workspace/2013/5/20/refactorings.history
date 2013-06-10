@@ -1,0 +1,3 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">&#x0A;<refactoring comment="Delete resource &apos;ns-2.30/out_10.nam&apos;" deleteContents="false" description="Delete resource &apos;ns-2.30/out_10.nam&apos;" element1="/ns-2.30/out_10.nam" flags="7" id="org.eclipse.ltk.core.refactoring.delete.resources" resources="1" stamp="1368863393696"/>&#x0A;<refactoring comment="Delete resource &apos;ns-2.30/out_10.tr&apos;" deleteContents="false" description="Delete resource &apos;ns-2.30/out_10.tr&apos;" element1="/ns-2.30/out_10.tr" flags="7" id="org.eclipse.ltk.core.refactoring.delete.resources" resources="1" stamp="1368863402827"/>
+</session>

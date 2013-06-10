@@ -1,0 +1,186 @@
+#include "uwan-mac-pkt.h"
+#include <stdio.h>
+
+int hdr_SYNC::offset_;
+int hdr_MissingList::offset_;
+
+static class UWAN_SYNC_HeaderClass: public PacketHeaderClass{
+public:
+	UWAN_SYNC_HeaderClass():
+			PacketHeaderClass("PacketHeader/UWAN_SYNC", sizeof(hdr_SYNC)) {
+				bind_offset(&hdr_SYNC::offset_);
+	}
+}class_UWAN_SYNC_hdr;
+
+
+
+static class UWAN_MissingListClass: public PacketHeaderClass {
+public:
+	UWAN_MissingListClass(): 
+			PacketHeaderClass("PacketHeader/UWAN_ML", sizeof(hdr_MissingList)) {
+				bind_offset(&hdr_MissingList::offset_);
+	}
+}class_UWAN_ML_hdr;
+
+
+UWAN_MAC_WakeTimer::UWAN_MAC_WakeTimer(UWAN_MAC* mac, 
+									   ScheduleTime* ScheT): TimerHandler() {
+		mac_ = mac;
+		ScheT_ = ScheT;
+}
+
+
+
+void ScheduleQueue::push(Time SendTime, nsaddr_t node_id, Time Interval)
+{
+	ScheduleTime* newElem = new ScheduleTime(SendTime, node_id, mac_);
+	newElem->start(Interval);
+
+	ScheduleTime* pos = Head_->next_;
+	ScheduleTime* pre_pos = Head_;
+
+	//find the position where new element should be insert
+	while( pos != NULL ) {
+		if( pos->SendTime_ > SendTime ) {
+			break;
+		}
+		else {
+			pos = pos->next_;
+			pre_pos = pre_pos->next_;
+		}
+
+	}
+	/*
+	 * insert new element after pre_pos
+	 */
+	newElem->next_ = pos;
+	pre_pos->next_ = newElem;
+}
+
+
+//get the top element, but not pop it
+ScheduleTime* ScheduleQueue::top()
+{
+	return Head_->next_;
+}
+
+//pop the top element
+void ScheduleQueue::pop()
+{
+	if( Head_->next_ != NULL ) {
+
+		ScheduleTime* tmp = Head_->next_;
+		Head_->next_ = Head_->next_->next_;
+
+		if( tmp->timer_.status() == TimerHandler::TIMER_PENDING ) {
+			tmp->timer_.cancel();
+		}
+
+		delete tmp;  
+	}
+}
+
+
+bool ScheduleQueue::checkGuardTime(Time SendTime, Time GuardTime, Time MaxTxTime)
+{
+	ScheduleTime* pos = Head_->next_;
+	ScheduleTime* pre_pos = Head_;
+
+	while( pos != NULL && SendTime > pos->SendTime_ ) {
+		pos = pos->next_;
+		pre_pos = pre_pos->next_;
+	}
+
+	/*now, pos->SendTime > SendTime > pre_pos->SendTime
+	 *start to check the sendtime.
+	 */
+	if( pos == NULL ) {
+		if( pre_pos == Head_ )
+			return true;
+		else {
+			if( SendTime - pre_pos->SendTime_ >= GuardTime )
+				return true;
+			else 
+				return false;
+		}
+	}
+	else {
+		if( pre_pos == Head_ ) {
+			if( (pos->SendTime_ - SendTime) > (GuardTime + MaxTxTime) )
+				return true;
+			else
+				return false;
+		}
+		else {
+			if( ((pos->SendTime_ - SendTime) > (GuardTime + MaxTxTime))
+				&& (SendTime - pre_pos->SendTime_ >= GuardTime) )
+				return true;
+			else
+				return false;
+		}
+	}
+}
+
+
+
+Time ScheduleQueue::getAvailableSendTime(Time StartTime, 
+							Time OriginalSchedule, Time GuardTime, Time MaxTxTime)
+{
+	ScheduleTime* pos = Head_->next_;
+	ScheduleTime* pre_pos = Head_;
+
+	Time DeltaTime = 0.0;
+	while( pos != NULL && StartTime > pos->SendTime_ ) {
+		pos = pos->next_;
+		pre_pos = pre_pos->next_;
+	}
+
+	while( pos != NULL ) {
+		DeltaTime = pos->SendTime_ - pre_pos->SendTime_ - (2*GuardTime + MaxTxTime);
+		if( DeltaTime > 0 ) {
+			return Random::uniform(pre_pos->SendTime_+GuardTime+MaxTxTime, 
+						pre_pos->SendTime_+DeltaTime);
+		}
+
+		pos = pos->next_;
+		pre_pos = pre_pos->next_;
+	}
+
+	//there is no available interval, so the time out of range of this queue is returned.
+	/*
+	 * Before calling this function, OriginalSchedule collides with other times,
+	 * so originalSchedule is at most pre_pos->SendTime_ + GuardTime + MaxTxTime.
+	 * Otherwise, it cannot collides.
+	 */
+	return pre_pos->SendTime_ + MaxTxTime + GuardTime ;
+
+}
+
+
+void ScheduleQueue::clearExpired(Time CurTime)
+{
+	ScheduleTime* NextSch = NULL;
+	while( (NextSch = top()) && NextSch->SendTime_ < CurTime ) {
+		pop();
+	}  
+}
+
+
+void ScheduleQueue::print(Time GuardTime, Time MaxTxTime, bool IsMe, nsaddr_t index)
+{
+	ScheduleTime* pos = Head_->next_;
+	char file_name[30];
+	strcpy(file_name, "schedule_");
+	file_name[strlen(file_name)+1] = '\0';
+	file_name[strlen(file_name)] = char(index+'0');
+	FILE* stream = fopen(file_name, "a");
+	if( IsMe )
+			fprintf(stream, "I send  ");
+	while( pos != NULL ) {
+		fprintf(stream, "(%f--%f, %f) ", pos->SendTime_, 
+			pos->SendTime_+MaxTxTime, pos->SendTime_+GuardTime+MaxTxTime);
+		pos = pos->next_;
+	}
+	fprintf(stream, "\n");
+	fclose(stream);
+}

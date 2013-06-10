@@ -1,0 +1,94 @@
+#==============================================
+#Define options
+#==============================================
+set val(chan)    Channel/WirelessChannel;
+set val(prop)    Propagation/TwoRayGround;
+set val(netif)   Phy/WirelessPhy;
+set val(mac)     Mac/802_11;
+set val(ifq)     Queue/DropTail/PriQueue;
+set val(ll)      LL;
+set val(ant)     Antenna/OmniAntenna;
+set val(ifqlen)  50;
+set val(nn)      10;
+set val(rp)      AODV;
+set val(x)       1000;
+set val(y)       1000;
+set val(stoptime) 300;
+
+#===============================
+#Main Program
+#===============================
+
+#��ʼ��ģ�����͸��ٶ���
+set ns_ [new Simulator]
+set tracefd [open out_10.tr w]
+
+#�¸�ʽ
+$ns_ use-newtrace
+$ns_ trace-all $tracefd
+
+set namtracefd [open out_10.nam w]
+$ns_ namtrace-all-wireless $namtracefd $val(x) $val(y)
+proc finish {} {
+     global ns_ tracefd namtracefd
+     $ns_ flush-trace
+     close $tracefd
+     close $namtracefd
+     exec nam out_10.nam &
+	 
+     exit 0 
+     }
+
+#�����ƶ�����
+set topo [new Topography]
+
+#�����ƶ�����
+$topo load_flatgrid $val(x) $val(y)
+set god_ [create-god $val(nn)]
+
+#���ýڵ�����
+$ns_ node-config -adhocRouting  AODV\
+            -llType $val(ll)\
+            -macType $val(mac)\
+            -ifqType $val(ifq)\
+            -ifqLen $val(ifqlen)\
+            -antType $val(ant)\
+            -propType $val(prop)\
+            -phyType $val(netif)\
+            -channelType $val(chan)\
+            -topoInstance $topo\
+            -agentTrace ON\
+            -routerTrace ON\
+            -macTrace OFF\
+            -movementTrace OFF
+            
+              
+            
+#�����ƶ��ڵ�  
+set rng [new RNG] 
+$rng seed 0
+set random_position [new RandomVariable/Uniform]
+$random_position use-rng $rng
+$random_position set min_ 0.0 
+$random_position set max_ 1000.0         
+ for {set i 0} {$i < $val(nn) } {incr i} {
+			set node_($i) [$ns_ node]
+			$node_($i) set X_ [$random_position value] 
+			$node_($i) set Y_ [$random_position value]
+			$node_($i) set Z_ 0
+		}
+
+				
+
+
+#���س����ļ�
+puts "Loading connection pattern ..."
+source cbr-10-cbr  
+ 
+#ģ����������ڵ�
+for {set i 0} {$i < $val(nn) } {incr i} {
+	$ns_ at $val(stoptime) "$node_($i) reset";
+}
+$ns_ at $val(stoptime) "$ns_ nam-end-wireless $val(stoptime)"
+$ns_ at $val(stoptime) "$ns_ halt"
+$ns_ run

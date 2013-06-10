@@ -1,0 +1,262 @@
+set opt(chan)			Channel/UnderwaterChannel
+set opt(prop)			Propagation/UnderwaterPropagation
+set opt(netif)			Phy/UnderwaterPhy
+set opt(mac)			Mac/UnderwaterMac/UWANMac
+set opt(ifq)			Queue/DropTail/PriQueue
+set opt(ll)				LL
+set opt(energy)         EnergyModel
+set opt(txpower)        2.0
+set opt(rxpower)        0.75
+set opt(initialenergy)  10000
+set opt(idlepower)      0.008
+set opt(ant)            Antenna/OmniAntenna  ;#we don't use it in underwater
+set opt(filters)        GradientFilter    ;# options can be one or more of 
+                                ;# TPP/OPP/Gear/Rmst/SourceRoute/Log/TagFilter
+
+
+set opt(data_rate_) 0.02  ;#  [lindex $argv 0]  ;#0.02
+
+# the following parameters are set fot protocols
+set opt(bit_rate)                     1.0e4
+set opt(encoding_efficiency)          1
+set opt(ND_window)                    1
+set opt(ACKND_window)                 1
+set opt(transmission_time_error)      0.0001; 
+
+set opt(dz)                           10
+set opt(ifqlen)		              50	;# max packet in ifq
+set opt(nn)	                	8;# number of nodes
+set opt(layers)                         1
+set opt(x)	                	100	;# X dimension of the topography
+set opt(y)	                        100  ;# Y dimension of the topography
+set opt(z)                              [expr ($opt(layers)-1)*$opt(dz)]
+set opt(seed)	                	348.88
+set opt(stop)	                	1000	;# simulation time
+set opt(prestop)                        20     ;# time to prepare to stop
+set opt(tr)	                	"t4.tr"	;# trace file
+set opt(nam)                            "t4.nam"  ;# nam file
+set opt(adhocRouting)                   Vectorbasedforward ;#SillyRouting
+set opt(width)                           20
+set opt(adj)                             10
+set opt(interval)                        0.001
+#set opt(traf)	                	"diffusion-traf.tcl"      ;# traffic file
+
+# ==================================================================
+
+LL set mindelay_		50us
+LL set delay_			25us
+LL set bandwidth_		0	;# not used
+
+#Queue/DropTail/PriQueue set Prefer_Routing_Protocols    
+
+# unity gain, omni-directional antennas
+# set up the antennas to be centered in the node and 1.5 meters above it
+Antenna/OmniAntenna set X_ 0
+Antenna/OmniAntenna set Y_ 0
+Antenna/OmniAntenna set Z_ 1.5
+Antenna/OmniAntenna set Z_ 0.05
+Antenna/OmniAntenna set Gt_ 1.0
+Antenna/OmniAntenna set Gr_ 1.0
+
+
+
+Mac/UnderwaterMac set bit_rate_  $opt(bit_rate)
+Mac/UnderwaterMac set encoding_efficiency_  $opt(encoding_efficiency)
+
+Mac/UnderwaterMac/UWANMac set AvgCyclePeriod [expr 1/$opt(data_rate_)]
+Mac/UnderwaterMac/UWANMac set StdCyclePeriod 1
+
+# Initialize the SharedMedia interface with parameters to make
+# it work like the 914MHz Lucent WaveLAN DSSS radio interface
+Phy/UnderwaterPhy set CPThresh_ 100  ;#10.0
+Phy/UnderwaterPhy set CSThresh_ 0  ;#1.559e-11
+Phy/UnderwaterPhy set RXThresh_ 0   ;#3.652e-10
+#Phy/UnderwaterPhy set Rb_ 2*1e6
+Phy/UnderwaterPhy set Pt_ 0.2818
+Phy/UnderwaterPhy set freq_ 25  ;#frequency range in khz 
+Phy/UnderwaterPhy set K_ 2.0   ;#spherical spreading
+
+# ==================================================================
+# Main Program
+# =================================================================
+
+#
+# Initialize Global Variables
+# 
+#set sink_ 1
+
+
+remove-all-packet-headers 
+#remove-packet-header AODV ARP TORA  IMEP TFRC
+add-packet-header IP Mac LL  ARP  UWVB RMAC
+
+set ns_ [new Simulator]
+set topo  [new Topography]
+
+$topo load_cubicgrid $opt(x) $opt(y) $opt(z)
+#$ns_ use-newtrace
+set tracefd	[open $opt(tr) w]
+$ns_ trace-all $tracefd
+
+set nf [open $opt(nam) w]
+$ns_ namtrace-all-wireless $nf $opt(x) $opt(y)
+
+
+set start_time 0.001
+puts "the start time is $start_time"
+
+set total_number [expr $opt(nn)-1]
+set god_ [create-god $opt(nn)]
+
+set chan_1_ [new $opt(chan)]
+
+
+global defaultRNG
+$defaultRNG seed $opt(seed)
+
+$ns_ node-config -adhocRouting $opt(adhocRouting) \
+		 -llType $opt(ll) \
+		 -macType $opt(mac) \
+		 -ifqType $opt(ifq) \
+		 -ifqLen $opt(ifqlen) \
+		 -antType $opt(ant) \
+		 -propType $opt(prop) \
+		 -phyType $opt(netif) \
+		 #-channelType $opt(chan) \
+		 -agentTrace OFF \
+                 -routerTrace OFF \
+                 -macTrace ON\
+                 -topoInstance $topo\
+                 -energyModel $opt(energy)\
+                 -txpower $opt(txpower)\
+                 -rxpower $opt(rxpower)\
+                 -initialEnergy $opt(initialenergy)\
+                 -idlePower $opt(idlepower)\
+                 -channel $chan_1_
+
+
+
+for {set i 0} {$i<$opt(nn)} {incr i} {
+
+	set node_($i) [$ns_  node $i]
+	$node_($i) set sinkStatus_ 1
+	$node_($i) set passive 1
+	$god_ new_node $node_($i)
+	
+	set a_($i) [new Agent/UWSink]
+	$ns_ attach-agent $node_($i) $a_($i)
+	$a_($i) attach-vectorbasedforward $opt(width)
+	$a_($i) cmd set-range 20
+	$a_($i) set data_rate_ $opt(data_rate_)
+	
+}
+
+
+$node_(0) set X_  70
+$node_(0) set Y_  70
+$node_(0) set Z_  0
+$a_(0) setTargetAddress 1
+$node_(0) set_next_hop 1
+$node_(0) set-cx 70
+$node_(0) set-cy 70
+$node_(0) set-cz 0
+
+$node_(1) set X_  30
+$node_(1) set Y_  30
+$node_(1) set Z_  1
+#$node_(1) set_next_hop 5
+#$a_(1) setTargetAddress 5
+$node_(1) set-cx 30
+$node_(1) set-cy 30
+$node_(1) set-cz 1
+
+$node_(2) set X_  90
+$node_(2) set Y_  50
+$node_(2) set Z_  6
+$node_(2) set_next_hop 3
+$a_(2) setTargetAddress 3
+$node_(2) set-cx 90
+$node_(2) set-cy 50
+$node_(2) set-cz 6
+
+$node_(3) set X_  30
+$node_(3) set Y_  100
+$node_(3) set Z_  0
+#$node_(3) set_next_hop 0
+#$a_(3) setTargetAddress 0
+$node_(3) set-cx 30
+$node_(3) set-cy 100
+$node_(3) set-cz 0
+
+$node_(4) set X_  110
+$node_(4) set Y_  130
+$node_(4) set Z_  3
+$node_(4) set_next_hop 6
+$a_(4) setTargetAddress 6
+$node_(4) set-cx 110
+$node_(4) set-cy 130
+$node_(4) set-cz 0
+
+$node_(5) set X_  120
+$node_(5) set Y_  200
+$node_(5) set Z_  0
+$node_(5) set_next_hop 7
+$a_(5) setTargetAddress 7
+$node_(5) set-cx 120
+$node_(5) set-cy 200
+$node_(5) set-cz 0
+
+$node_(6) set X_  130
+$node_(6) set Y_  80
+$node_(6) set Z_  0
+#$node_(6) set_next_hop 4
+#$a_(6) setTargetAddress 4
+$node_(6) set-cx 130
+$node_(6) set-cy 80
+$node_(6) set-cz 0
+
+$node_(7) set X_  80
+$node_(7) set Y_  160
+$node_(7) set Z_  0
+#$node_(7) set_next_hop 3
+#$a_(7) setTargetAddress 3
+$node_(7) set-cx 80
+$node_(7) set-cy 160
+$node_(7) set-cz 0
+
+#for { set i 0 } { $i < 8 } { incr i } {
+#	set start_time [expr $start_time+0.69238]
+#	$ns_ at $start_time "$a_($i) cbr-start"
+#}
+
+$ns_ at $start_time.11 "$a_(0) cbr-start"
+$ns_ at $start_time.33 "$a_(2) cbr-start"
+#$ns_ at $start_time "$a_(3) cbr-start"
+$ns_ at $start_time.56 "$a_(4) cbr-start"
+$ns_ at $start_time.79 "$a_(5) cbr-start"
+#$ns_ at $start_time "$a_(6) cbr-start"
+#$ns_ at $start_time "$a_(7) cbr-start"
+
+
+puts "+++++++AFTER ANNOUNCE++++++++++++++"
+
+
+$ns_ at $opt(stop).001 "$a_(0) terminate"
+$ns_ at $opt(stop).002 "$a_(7) terminate"
+$ns_ at $opt(stop).002 "$a_(1) terminate"
+$ns_ at $opt(stop).002 "$a_(2) terminate"
+$ns_ at $opt(stop).002 "$a_(3) terminate"
+$ns_ at $opt(stop).002 "$a_(4) terminate"
+$ns_ at $opt(stop).002 "$a_(5) terminate"
+$ns_ at $opt(stop).002 "$a_(6) terminate"
+
+
+$ns_ at $opt(stop).003  "$god_ compute_energy"
+$ns_ at $opt(stop).004  "$ns_ nam-end-wireless $opt(stop)"
+$ns_ at $opt(stop).005 "puts \"NS EXISTING...\"; $ns_ halt"
+
+ puts $tracefd "SillyRrouting"
+ puts $tracefd "M 0.0 nn $opt(nn) x $opt(x) y $opt(y) z $opt(z)"
+ puts $tracefd "M 0.0 prop $opt(prop) ant $opt(ant)"
+ puts "starting Simulation..."
+ $ns_ run

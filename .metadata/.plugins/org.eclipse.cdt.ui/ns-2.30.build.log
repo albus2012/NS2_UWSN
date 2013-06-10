@@ -1,0 +1,21 @@
+20:51:33 **** Incremental Build of configuration Build (GNU) for project ns-2.30 ****
+make all 
+for i in indep-utils/cmu-scen-gen/setdest indep-utils/webtrace-conv/dec indep-utils/webtrace-conv/epa indep-utils/webtrace-conv/nlanr indep-utils/webtrace-conv/ucb; do ( cd $i; make all; ) done
+make[1]: Entering directory `/home/yongj/NS2/ns-2.30/indep-utils/cmu-scen-gen/setdest'
+make[1]: Nothing to be done for `all'.
+make[1]: Leaving directory `/home/yongj/NS2/ns-2.30/indep-utils/cmu-scen-gen/setdest'
+make[1]: Entering directory `/home/yongj/NS2/ns-2.30/indep-utils/webtrace-conv/dec'
+make[1]: Nothing to be done for `all'.
+make[1]: Leaving directory `/home/yongj/NS2/ns-2.30/indep-utils/webtrace-conv/dec'
+make[1]: Entering directory `/home/yongj/NS2/ns-2.30/indep-utils/webtrace-conv/epa'
+make[1]: Nothing to be done for `all'.
+make[1]: Leaving directory `/home/yongj/NS2/ns-2.30/indep-utils/webtrace-conv/epa'
+make[1]: Entering directory `/home/yongj/NS2/ns-2.30/indep-utils/webtrace-conv/nlanr'
+make[1]: Nothing to be done for `all'.
+make[1]: Leaving directory `/home/yongj/NS2/ns-2.30/indep-utils/webtrace-conv/nlanr'
+make[1]: Entering directory `/home/yongj/NS2/ns-2.30/indep-utils/webtrace-conv/ucb'
+make[1]: Nothing to be done for `all'.
+make[1]: Leaving directory `/home/yongj/NS2/ns-2.30/indep-utils/webtrace-conv/ucb'
+
+20:51:33 Build Finished (took 517ms)
+

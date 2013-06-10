@@ -1,0 +1,53 @@
+#ifndef ns_uw_drouting_pkt_h
+#define ns_uw_drouting_pkt_h
+
+#include <assert.h>
+#include <math.h>
+#include <stdio.h>
+#include <signal.h>
+#include <float.h>
+#include <stdlib.h>
+
+//#include <tcl.h>
+
+#include "agent.h"
+#include "tclcl.h"
+#include "config.h"
+#include "packet.h"
+#include "trace.h"
+#include "random.h"
+#include "classifier.h"
+
+#include "uw_drouting_rtable.h"
+
+#define HDR_UW_DROUTING_PKT(P) hdr_uw_drouting_pkt::access(p)
+
+
+struct hdr_uw_drouting_pkt {
+
+ nsaddr_t  pkt_src_; // Node which originated this packet
+ u_int16_t pkt_len_; // Packet length (in bytes)
+ u_int8_t  pkt_seq_num_; // Packet sequence number
+ u_int32_t entry_num_; // Packet length (in bytes)
+ 
+ //add by jun-------routing table
+ 
+ inline nsaddr_t&  pkt_src() { return pkt_src_; }
+ inline u_int16_t& pkt_len() { return pkt_len_; }
+ inline u_int8_t&  pkt_seq_num() { return pkt_seq_num_; }
+ inline u_int32_t& entry_num() { return entry_num_; }
+
+ static int offset_;
+ inline static int& offset() { return offset_; }
+ inline static hdr_uw_drouting_pkt* access(const Packet* p) {
+ return (hdr_uw_drouting_pkt*)p->access(offset_);
+ }
+
+ };
+
+
+#endif
+
+
+
+

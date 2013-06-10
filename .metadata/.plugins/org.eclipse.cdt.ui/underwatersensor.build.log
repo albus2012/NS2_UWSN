@@ -1,0 +1,13 @@
+10:48:14 **** Build of configuration Default for project underwatersensor ****
+make all 
+Building file: ../uw_routing/uw_drouting/uw_drouting.cc
+Invoking: GCC C++ Compiler
+g++ -O2 -g -Wall -c -fmessage-length=0 -MMD -MP -MF"uw_routing/uw_drouting/uw_drouting.d" -MT"uw_routing/uw_drouting/uw_drouting.d" -o "uw_routing/uw_drouting/uw_drouting.o" "../uw_routing/uw_drouting/uw_drouting.cc"
+In file included from ../uw_routing/uw_drouting/uw_drouting.h:4:0,
+                 from ../uw_routing/uw_drouting/uw_drouting.cc:1:
+../uw_routing/uw_drouting/uw_drouting_pkt.h:10:17: fatal error: tcl.h: No such file or directory
+compilation terminated.
+make: *** [uw_routing/uw_drouting/uw_drouting.o] Error 1
+
+10:48:15 Build Finished (took 657ms)
+
