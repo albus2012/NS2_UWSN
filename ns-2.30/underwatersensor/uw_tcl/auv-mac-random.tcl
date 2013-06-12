@@ -88,7 +88,7 @@ Phy/UnderwaterPhy set K_ 2.0   ;#spherical spreading
 
 remove-all-packet-headers 
 #remove-packet-header AODV ARP TORA  IMEP TFRC
-add-packet-header IP Mac LL  ARP  UWVB RMAC
+add-packet-header IP Mac LL  ARP  UWVB AUV_SYNC AUV_ML
 
 set ns_ [new Simulator]
 set topo  [new Topography]

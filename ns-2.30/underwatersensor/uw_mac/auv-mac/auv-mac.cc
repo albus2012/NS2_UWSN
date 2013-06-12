@@ -1,6 +1,7 @@
 #include "auv-mac.h"
 #include "underwatersensor/uw_routing/vectorbasedforward.h"
-
+#include "iostream"
+using namespace std;
 namespace AUV
 {
 
@@ -61,7 +62,7 @@ AUV_MAC::AUV_MAC(): UnderwaterMac(), callback_handler(this),
 	NumPktSend_ = 0;
 	bind("AvgCyclePeriod", &AvgCyclePeriod_);
 	bind("StdCyclePeriod", &StdCyclePeriod_);
-	start_timer_.resched(0.001);	
+	start_timer_.resched(0.001);
 	next_hop_num = 0;
 } 
 
@@ -76,6 +77,7 @@ void AUV_MAC::send_info() {
 
 void AUV_MAC::sendFrame(Packet* p, bool IsMacPkt, Time delay)
 {
+	cout << "AUV_MAC::sendFrame" << endl;
 	hdr_cmn* cmh = HDR_CMN(p);
 	cmh->direction() = hdr_cmn::DOWN; 
 	cmh->txtime() = cmh->size()*encoding_efficiency_/bit_rate_;
@@ -101,6 +103,7 @@ void AUV_MAC::sendFrame(Packet* p, bool IsMacPkt, Time delay)
 
 void AUV_MAC::TxPktProcess(Event *e, AUV_MAC_PktSendTimer* pkt_send_timer)
 {
+	cout << "AUV_MAC::TxPktProcess" << endl;
 	Packet* p = pkt_send_timer->p_;
 	pkt_send_timer->p_ = NULL;
 	if( ((UnderwaterSensorNode*) node_)->TransmissionStatus() == SEND
@@ -117,6 +120,7 @@ void AUV_MAC::TxPktProcess(Event *e, AUV_MAC_PktSendTimer* pkt_send_timer)
 
 	
 	((UnderwaterSensorNode*) node_)->SetTransmissionStatus(SEND);
+	cout << "AUV_MAC::TxPktProcess sendDown" << endl;
 	sendDown(p);
 	Scheduler::instance().schedule(&status_handler, 
 				&status_event, pkt_send_timer->tx_time() );
@@ -147,7 +151,8 @@ Packet* AUV_MAC::makeSYNCPkt(Time CyclePeriod, nsaddr_t Recver)
 	hdr_SYNC *hdr_s = hdr_SYNC::access(p);
 	hdr_s->cycle_period() = CyclePeriod;
 
-	hdr_cmn* cmh = HDR_CMN(p);
+	hdr_cmn* cmh = HDR_CMN(p);     // (hdr_cmn::access(p))
+	//cout << "hdr cmn offset:"<< hdr_cmn::offset()<< endl;
     
 	cmh->size() = hdr_SYNC::size();
 
@@ -155,6 +160,9 @@ Packet* AUV_MAC::makeSYNCPkt(Time CyclePeriod, nsaddr_t Recver)
     cmh->direction()=hdr_cmn::DOWN; 
     cmh->addr_type()=NS_AF_ILINK;
     cmh->ptype()=PT_AUV_SYNC;
+    cout << "AUV_MAC::makeSYNCPkt PT type:"<< cmh->ptype()<< endl;
+
+    cout << "AUV_MAC::makeSYNCPkt cycle_period():"<< hdr_s->cycle_period()<< endl;
 
 	hdr_mac* mh=hdr_mac::access(p);
 	mh->macDA() = Recver;
@@ -205,6 +213,7 @@ Packet* AUV_MAC::fillSYNCHdr(Packet *p, Time CyclePeriod)
 
 void AUV_MAC::wakeup(nsaddr_t node_id)
 {
+	cout << "AUV_MAC::wakeup" << endl;
 	Time now = Scheduler::instance().clock();
 	
 	if( ((UnderwaterSensorNode*)node_)->TransmissionStatus() == SLEEP )
@@ -290,12 +299,13 @@ Time AUV_MAC::genNxCyclePeriod()
  */
 void AUV_MAC::RecvProcess(Packet *p)
 {
+	cout << "AUV_MAC::RecvProcess" << endl;
 	Time now = Scheduler::instance().clock();
 	hdr_mac* mh=hdr_mac::access(p);
 	int dst = mh->macDA();
 	int src = mh->macSA();
 	hdr_cmn* cmh=HDR_CMN(p);
-
+	cout << "AUV_MAC::RecvProcess PT type:"<< cmh->ptype()<< endl;
 
     if( cmh->error() ) 
     {
@@ -307,42 +317,50 @@ void AUV_MAC::RecvProcess(Packet *p)
 
      	return;
     }
+    cout << "AUV_MAC::RecvProcess dst:"<< dst << endl;
+    cout << "AUV_MAC::RecvProcess neighbors_.insert(src):"<< src << endl;
 
 	neighbors_.insert(src);		//update the neighbor list
 	CL_.insert(src);			//update the contact list
 	
 	hdr_SYNC* SYNC_h = hdr_SYNC::access(p);
+	cout << "AUV_MAC::RecvProcess cycle_period() :"<< SYNC_h->cycle_period() << endl;
+	cout << "AUV_MAC::RecvProcess PT type:"<< cmh->ptype()<< endl;
 	SYNC_h->cycle_period() -= PRE_WAKE_TIME;
+    cout << "AUV_MAC::RecvProcess PT type:"<< cmh->ptype()<< endl;
+	if( cmh->ptype() == PT_AUV_HELLO || cmh->ptype() == 65 ) {
 
-	if( cmh->ptype() == PT_AUV_HELLO || cmh->ptype() == PT_AUV_SYNC ) {
+		cout << "AUV_MAC::RecvProcess cmh->ptype(): PT_AUV_HELLO PT_AUV_SYNC" << endl;
 		//the process to hello packet is same to SYNC packet
 		WakeSchQueue_.push(SYNC_h->cycle_period()+now, src, SYNC_h->cycle_period());
 		//WakeSchQueue_.print(2*MaxPropTime_, MaxTxTime_, false, index_);
 	}
 	else {
-		/*
-		 * it must be data packet. we should extract the SYNC hdr & missing list
-		 */
+		 cout << "AUV_MAC::RecvProcess cmh->ptype() is not PT_AUV_HELLO PT_AUV_SYNC" << endl;
+		    /*
+		    * it must be data packet. we should extract the SYNC hdr & missing list
+		    */
 			/*either unicasted or broadcasted*/
 			//need overhearing!
 			//update the schedule queue
 			//then send packet to upper layers
-			if( index_ == dst )
-				printf("node(%d) recv %s\n", index_, packet_info.name(cmh->ptype()));
+		if( index_ == dst )
+			printf("node(%d) recv %s\n", index_, packet_info.name(cmh->ptype()));
 
-			WakeSchQueue_.push(SYNC_h->cycle_period_+now, src, SYNC_h->cycle_period() );
-			//WakeSchQueue_.print(2*MaxPropTime_, MaxTxTime_, false, index_);
+		WakeSchQueue_.push(SYNC_h->cycle_period_+now, src, SYNC_h->cycle_period() );
+		WakeSchQueue_.print(2*MaxPropTime_, MaxTxTime_, false, index_);
 
-			//extract Missing list
-			processMissingList(p->accessdata(), src);  //hello is sent to src in this function
+		//extract Missing list
+		//processMissingList(p->accessdata(), src);  //hello is sent to src in this function
 
-			if( dst == index_ || (u_int32_t)dst == MAC_BROADCAST ) {
-				sendUp(p);
-				return;
-			}
+		if( dst == index_ || (u_int32_t)dst == MAC_BROADCAST ) {
+			cout << "AUV_MAC::RecvProcess dst == index_ || (u_int32_t)dst == MAC_BROADCAST" << endl;
+			sendUp(p);
+			return;
+		}
 
 	}
-
+	cout << "AUV_MAC::RecvProcess Packet::free(p)" << endl;
 	//packet sent to other nodes will be freed
 	Packet::free(p);
 }
@@ -358,7 +376,7 @@ void AUV_MAC::TxProcess(Packet *p)
 	 * Simply cache the packet to simulate the pre-knowledge of next transmission time
 	 */
 	
-
+	cout << "AUV_MAC::TxProcess" << endl;
 	HDR_CMN(p)->size() = 1600;
 	PacketQueue_.push(p);
 	Scheduler::instance().schedule(&callback_handler, 
@@ -368,10 +386,12 @@ void AUV_MAC::TxProcess(Packet *p)
 
 void AUV_MAC::SYNCSchedule(bool initial)
 {
+	cout << "AUV_MAC::SYNCSchedule" << endl;
 	//time is not well scheduled!!!!!
 	Time now = Scheduler::instance().clock();
 	NextCyclePeriod_ = InitialCyclePeriod_ + now;
 	if( initial ) {
+		cout << "AUV_MAC::SYNCSchedule initial" << endl;
 		Time RandomDelay = Random::uniform(0, InitialCyclePeriod_);
 		WakeSchQueue_.push(NextCyclePeriod_+RandomDelay, index_, NextCyclePeriod_+RandomDelay-now);
 		//WakeSchQueue_.print(2*MaxPropTime_, MaxTxTime_, true, index_);
@@ -395,6 +415,7 @@ void AUV_MAC::SYNCSchedule(bool initial)
 
 void AUV_MAC::start()
 {
+	cout << "AUV_MAC::start" << endl;
 	//init WakeSchQueue. Before sleep, Wake Schedule Queue will pop this value.
 	//WakeSchQueue_.push(0.0, index_, -1); //the timer will not start
 	((UnderwaterSensorNode*)node_)->SetTransmissionStatus(IDLE);
@@ -414,6 +435,7 @@ void AUV_MAC::start()
  */ 
 void AUV_MAC::sendoutPkt(Time NextCyclePeriod)
 {
+	cout << "AUV_MAC::sendoutPkt" << endl;
 	if( PacketQueue_.empty() ) {
 			return; /*because there is no packet, this node cannot sendout packet.
 					 * This is due to the stupid idea proposed by the authors of this protocol.

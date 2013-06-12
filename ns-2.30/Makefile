@@ -22,7 +22,7 @@
 #
 # Various configurable paths (remember to edit Makefile.in, not Makefile)
 #
-CCOPT = -g -Wall
+CCOPT = -g
 DEFINE = -DNDEBUG
 DEFINE = -DDEBUG
 # Top level hierarchy
@@ -54,7 +54,7 @@ PERL	= /usr/bin/perl
 # for diffusion
 #DIFF_INCLUDES = "./diffusion3/main ./diffusion3/lib ./diffusion3/nr ./diffusion3/ns"
 
-CCOPT	=  -g -Wall 
+CCOPT	=  -Wall 
 STATIC	= 
 #LDFLAGS	= $(STATIC)
 LDFLAGS	= 
@@ -64,7 +64,7 @@ DEFINE	= -DTCP_DELAY_BIND_ALL -DNO_TK -DTCLCL_CLASSINSTVAR  -DNDEBUG -DLINUX_TCP
 
 INCLUDES = \
 	-I. \
-	-I/home/yongj/NS2/tclcl-1.18 -I/home/yongj/NS2/otcl-1.12 -I/home/yongj/NS2/include -I/home/yongj/NS2/include -I/usr/include/pcap \
+	-I/home/yongj/NS2/tclcl-1.18 -I/home/yongj/NS2/otcl -I/home/yongj/NS2/include -I/home/yongj/NS2/include -I/usr/include/pcap \
 	-I./tcp -I./sctp -I./common -I./link -I./queue \
 	-I./adc -I./apps -I./mac -I./mobile -I./trace \
 	-I./routing -I./tools -I./classifier -I./mcast \
@@ -76,7 +76,7 @@ INCLUDES = \
 
 
 LIB	= \
-	-L/home/yongj/NS2/tclcl-1.18 -ltclcl -L/home/yongj/NS2/otcl-1.12 -lotcl -L/home/yongj/NS2/lib -ltk8.4 -L/home/yongj/NS2/lib -ltcl8.4 \
+	-L/home/yongj/NS2/tclcl-1.18 -ltclcl -L/home/yongj/NS2/otcl -lotcl -L/home/yongj/NS2/lib -ltk8.4 -L/home/yongj/NS2/lib -ltcl8.4 \
 	 -lnsl -ldl \
 	-lm -lm 
 #	-L${exec_prefix}/lib \

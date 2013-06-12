@@ -1,0 +1,847 @@
+V -t * -v 1.0a5 -a 0
+W -t * -x 100 -y 100
+A -t * -n 1 -p 0 -o 0xffffffff -c 31 -a 1
+A -t * -h 1 -m 2147483647 -s 0
++ -t 0.296645795 -s 2 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC 
+- -t 0.296645795 -s 2 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC
+h -t 0.296645795 -s 2 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC -R 1100.000000
+v -t 0.296645795 -e sim_annotation 0.296645795 1 node 2 sendout packet (auv-SYNC) 0
++ -t 2.215919226 -s 5 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC 
+- -t 2.215919226 -s 5 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC
+h -t 2.215919226 -s 5 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC -R 1100.000000
+v -t 2.215919226 -e sim_annotation 2.215919226 2 node 5 sendout packet (auv-SYNC) 0
++ -t 2.225529987 -s 7 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC 
+- -t 2.225529987 -s 7 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC
+h -t 2.225529987 -s 7 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC -R 1100.000000
+v -t 2.225529987 -e sim_annotation 2.225529987 3 node 7 sendout packet (auv-SYNC) 0
++ -t 3.629256634 -s 3 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC 
+- -t 3.629256634 -s 3 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC
+h -t 3.629256634 -s 3 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC -R 1100.000000
+v -t 3.629256634 -e sim_annotation 3.629256634 4 node 3 sendout packet (auv-SYNC) 0
++ -t 4.100096896 -s 6 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC 
+- -t 4.100096896 -s 6 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC
+h -t 4.100096896 -s 6 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC -R 1100.000000
+v -t 4.100096896 -e sim_annotation 4.100096896 5 node 6 sendout packet (auv-SYNC) 0
++ -t 7.105357040 -s 1 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC 
+- -t 7.105357040 -s 1 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC
+h -t 7.105357040 -s 1 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC -R 1100.000000
+v -t 7.105357040 -e sim_annotation 7.105357040 6 node 1 sendout packet (auv-SYNC) 0
++ -t 7.416816519 -s 4 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC 
+- -t 7.416816519 -s 4 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC
+h -t 7.416816519 -s 4 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC -R 1100.000000
+v -t 7.416816519 -e sim_annotation 7.416816519 7 node 4 sendout packet (auv-SYNC) 0
++ -t 9.431124995 -s 0 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC 
+- -t 9.431124995 -s 0 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC
+h -t 9.431124995 -s 0 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC -R 1100.000000
+v -t 9.431124995 -e sim_annotation 9.431124995 8 node 0 sendout packet (auv-SYNC) 0
++ -t 10.296645795 -s 2 -d 0 -p vectorbasedforward -e 1696 -c 2 -a 0 -i 1 -k MAC 
+- -t 10.296645795 -s 2 -d 0 -p vectorbasedforward -e 1696 -c 2 -a 0 -i 1 -k MAC
+h -t 10.296645795 -s 2 -d 0 -p vectorbasedforward -e 1696 -c 2 -a 0 -i 1 -k MAC -R 1100.000000
+v -t 10.296645795 -e sim_annotation 10.296645795 9 node 2 sendout packet (vectorbasedforward) 1
+r -t 10.485521572 -s 0 -d 0 -p vectorbasedforward -e 1696 -c 2 -a 0 -i 1 -k MAC -R 1100.000000
+v -t 10.485521572 -e sim_annotation 10.485521572 10 node 0 receive vectorbasedforward 1 from 0
++ -t 12.215919226 -s 5 -d 0 -p vectorbasedforward -e 1728 -c 2 -a 0 -i 3 -k MAC 
+- -t 12.215919226 -s 5 -d 0 -p vectorbasedforward -e 1728 -c 2 -a 0 -i 3 -k MAC
+h -t 12.215919226 -s 5 -d 0 -p vectorbasedforward -e 1728 -c 2 -a 0 -i 3 -k MAC -R 1100.000000
+v -t 12.215919226 -e sim_annotation 12.215919226 11 node 5 sendout packet (vectorbasedforward) 3
++ -t 12.225529987 -s 7 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC 
+- -t 12.225529987 -s 7 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC
+h -t 12.225529987 -s 7 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC -R 1100.000000
+v -t 12.225529987 -e sim_annotation 12.225529987 12 node 7 sendout packet (auv-SYNC) 0
+r -t 12.481575148 -s 0 -d 0 -p vectorbasedforward -e 1728 -c 2 -a 0 -i 3 -k MAC -R 1100.000000
+v -t 12.481575148 -e sim_annotation 12.481575148 13 node 0 receive vectorbasedforward 3 from 0
++ -t 13.629256634 -s 3 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC 
+- -t 13.629256634 -s 3 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC
+h -t 13.629256634 -s 3 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC -R 1100.000000
+v -t 13.629256634 -e sim_annotation 13.629256634 14 node 3 sendout packet (auv-SYNC) 0
++ -t 14.100096896 -s 6 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC 
+- -t 14.100096896 -s 6 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC
+h -t 14.100096896 -s 6 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC -R 1100.000000
+v -t 14.100096896 -e sim_annotation 14.100096896 15 node 6 sendout packet (auv-SYNC) 0
++ -t 17.105357040 -s 1 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC 
+- -t 17.105357040 -s 1 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC
+h -t 17.105357040 -s 1 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC -R 1100.000000
+v -t 17.105357040 -e sim_annotation 17.105357040 16 node 1 sendout packet (auv-SYNC) 0
++ -t 17.416816519 -s 4 -d 0 -p vectorbasedforward -e 1696 -c 2 -a 0 -i 2 -k MAC 
+- -t 17.416816519 -s 4 -d 0 -p vectorbasedforward -e 1696 -c 2 -a 0 -i 2 -k MAC
+h -t 17.416816519 -s 4 -d 0 -p vectorbasedforward -e 1696 -c 2 -a 0 -i 2 -k MAC -R 1100.000000
+v -t 17.416816519 -e sim_annotation 17.416816519 17 node 4 sendout packet (vectorbasedforward) 2
+r -t 17.634532121 -s 0 -d 0 -p vectorbasedforward -e 1696 -c 2 -a 0 -i 2 -k MAC -R 1100.000000
+v -t 17.634532121 -e sim_annotation 17.634532121 18 node 0 receive vectorbasedforward 2 from 0
++ -t 19.431124995 -s 0 -d 1 -p vectorbasedforward -e 1696 -c 2 -a 0 -i 0 -k MAC 
+- -t 19.431124995 -s 0 -d 1 -p vectorbasedforward -e 1696 -c 2 -a 0 -i 0 -k MAC
+h -t 19.431124995 -s 0 -d 1 -p vectorbasedforward -e 1696 -c 2 -a 0 -i 0 -k MAC -R 1100.000000
+v -t 19.431124995 -e sim_annotation 19.431124995 19 node 0 sendout packet (vectorbasedforward) 0
+r -t 19.638443249 -s 1 -d 1 -p vectorbasedforward -e 1696 -c 2 -a 0 -i 0 -k MAC -R 1100.000000
+v -t 19.638443249 -e sim_annotation 19.638443249 20 node 1 receive vectorbasedforward 0 from 1
++ -t 21.565923322 -s 3 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC 
+- -t 21.565923322 -s 3 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC
+h -t 21.565923322 -s 3 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC -R 1100.000000
+v -t 21.565923322 -e sim_annotation 21.565923322 21 node 3 sendout packet (auv-SYNC) 0
++ -t 23.555169131 -s 1 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC 
+- -t 23.555169131 -s 1 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC
+h -t 23.555169131 -s 1 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC -R 1100.000000
+v -t 23.555169131 -e sim_annotation 23.555169131 22 node 1 sendout packet (auv-SYNC) 0
++ -t 25.074659551 -s 0 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC 
+- -t 25.074659551 -s 0 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC
+h -t 25.074659551 -s 0 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC -R 1100.000000
+v -t 25.074659551 -e sim_annotation 25.074659551 23 node 0 sendout packet (auv-SYNC) 0
++ -t 27.004867518 -s 4 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC 
+- -t 27.004867518 -s 4 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC
+h -t 27.004867518 -s 4 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC -R 1100.000000
+v -t 27.004867518 -e sim_annotation 27.004867518 24 node 4 sendout packet (auv-SYNC) 0
++ -t 29.535980172 -s 1 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC 
+- -t 29.535980172 -s 1 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC
+h -t 29.535980172 -s 1 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC -R 1100.000000
+v -t 29.535980172 -e sim_annotation 29.535980172 25 node 1 sendout packet (auv-SYNC) 0
++ -t 32.704135283 -s 6 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC 
+- -t 32.704135283 -s 6 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC
+h -t 32.704135283 -s 6 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC -R 1100.000000
+v -t 32.704135283 -e sim_annotation 32.704135283 26 node 6 sendout packet (auv-SYNC) 0
++ -t 47.917218811 -s 6 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC 
+- -t 47.917218811 -s 6 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC
+h -t 47.917218811 -s 6 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC -R 1100.000000
+v -t 47.917218811 -e sim_annotation 47.917218811 27 node 6 sendout packet (auv-SYNC) 0
++ -t 52.222083620 -s 7 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC 
+- -t 52.222083620 -s 7 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC
+h -t 52.222083620 -s 7 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC -R 1100.000000
+v -t 52.222083620 -e sim_annotation 52.222083620 28 node 7 sendout packet (auv-SYNC) 0
++ -t 59.125759970 -s 5 -d 1 -p vectorbasedforward -e 1792 -c 2 -a 0 -i 7 -k MAC 
+- -t 59.125759970 -s 5 -d 1 -p vectorbasedforward -e 1792 -c 2 -a 0 -i 7 -k MAC
+h -t 59.125759970 -s 5 -d 1 -p vectorbasedforward -e 1792 -c 2 -a 0 -i 7 -k MAC -R 1100.000000
+v -t 59.125759970 -e sim_annotation 59.125759970 29 node 5 sendout packet (vectorbasedforward) 7
++ -t 60.719955025 -s 2 -d 1 -p vectorbasedforward -e 1792 -c 2 -a 0 -i 5 -k MAC 
+- -t 60.719955025 -s 2 -d 1 -p vectorbasedforward -e 1792 -c 2 -a 0 -i 5 -k MAC
+h -t 60.719955025 -s 2 -d 1 -p vectorbasedforward -e 1792 -c 2 -a 0 -i 5 -k MAC -R 1100.000000
+v -t 60.719955025 -e sim_annotation 60.719955025 30 node 2 sendout packet (vectorbasedforward) 5
+r -t 60.941450283 -s 1 -d 1 -p vectorbasedforward -e 1792 -c 2 -a 0 -i 5 -k MAC -R 1100.000000
+v -t 60.941450283 -e sim_annotation 60.941450283 31 node 1 receive vectorbasedforward 5 from 1
++ -t 71.492474473 -s 3 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC 
+- -t 71.492474473 -s 3 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC
+h -t 71.492474473 -s 3 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC -R 1100.000000
+v -t 71.492474473 -e sim_annotation 71.492474473 32 node 3 sendout packet (auv-SYNC) 0
++ -t 75.223819802 -s 0 -d 2 -p vectorbasedforward -e 1760 -c 2 -a 0 -i 4 -k MAC 
+- -t 75.223819802 -s 0 -d 2 -p vectorbasedforward -e 1760 -c 2 -a 0 -i 4 -k MAC
+h -t 75.223819802 -s 0 -d 2 -p vectorbasedforward -e 1760 -c 2 -a 0 -i 4 -k MAC -R 1100.000000
+v -t 75.223819802 -e sim_annotation 75.223819802 33 node 0 sendout packet (vectorbasedforward) 4
+r -t 75.419095578 -s 2 -d 2 -p vectorbasedforward -e 1760 -c 2 -a 0 -i 4 -k MAC -R 1100.000000
+v -t 75.419095578 -e sim_annotation 75.419095578 34 node 2 receive vectorbasedforward 4 from 2
++ -t 76.694001546 -s 4 -d 1 -p vectorbasedforward -e 1728 -c 2 -a 0 -i 6 -k MAC 
+- -t 76.694001546 -s 4 -d 1 -p vectorbasedforward -e 1728 -c 2 -a 0 -i 6 -k MAC
+h -t 76.694001546 -s 4 -d 1 -p vectorbasedforward -e 1728 -c 2 -a 0 -i 6 -k MAC -R 1100.000000
+v -t 76.694001546 -e sim_annotation 76.694001546 35 node 4 sendout packet (vectorbasedforward) 6
+r -t 76.952186947 -s 1 -d 1 -p vectorbasedforward -e 1728 -c 2 -a 0 -i 6 -k MAC -R 1100.000000
+v -t 76.952186947 -e sim_annotation 76.952186947 36 node 1 receive vectorbasedforward 6 from 1
++ -t 77.947761476 -s 4 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC 
+- -t 77.947761476 -s 4 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC
+h -t 77.947761476 -s 4 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC -R 1100.000000
+v -t 77.947761476 -e sim_annotation 77.947761476 37 node 4 sendout packet (auv-SYNC) 0
++ -t 80.484188861 -s 1 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC 
+- -t 80.484188861 -s 1 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC
+h -t 80.484188861 -s 1 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC -R 1100.000000
+v -t 80.484188861 -e sim_annotation 80.484188861 38 node 1 sendout packet (auv-SYNC) 0
++ -t 98.894284248 -s 6 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC 
+- -t 98.894284248 -s 6 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC
+h -t 98.894284248 -s 6 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC -R 1100.000000
+v -t 98.894284248 -e sim_annotation 98.894284248 39 node 6 sendout packet (auv-SYNC) 0
++ -t 103.124013944 -s 7 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC 
+- -t 103.124013944 -s 7 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC
+h -t 103.124013944 -s 7 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC -R 1100.000000
+v -t 103.124013944 -e sim_annotation 103.124013944 40 node 7 sendout packet (auv-SYNC) 0
++ -t 108.998701703 -s 5 -d 2 -p vectorbasedforward -e 1760 -c 2 -a 0 -i 11 -k MAC 
+- -t 108.998701703 -s 5 -d 2 -p vectorbasedforward -e 1760 -c 2 -a 0 -i 11 -k MAC
+h -t 108.998701703 -s 5 -d 2 -p vectorbasedforward -e 1760 -c 2 -a 0 -i 11 -k MAC -R 1100.000000
+v -t 108.998701703 -e sim_annotation 108.998701703 41 node 5 sendout packet (vectorbasedforward) 11
++ -t 110.586240117 -s 2 -d 3 -p vectorbasedforward -e 1760 -c 2 -a 0 -i 9 -k MAC 
+- -t 110.586240117 -s 2 -d 3 -p vectorbasedforward -e 1760 -c 2 -a 0 -i 9 -k MAC
+h -t 110.586240117 -s 2 -d 3 -p vectorbasedforward -e 1760 -c 2 -a 0 -i 9 -k MAC -R 1100.000000
+v -t 110.586240117 -e sim_annotation 110.586240117 42 node 2 sendout packet (vectorbasedforward) 9
++ -t 122.008827256 -s 3 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC 
+- -t 122.008827256 -s 3 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC
+h -t 122.008827256 -s 3 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC -R 1100.000000
+v -t 122.008827256 -e sim_annotation 122.008827256 43 node 3 sendout packet (auv-SYNC) 0
++ -t 124.642646766 -s 0 -d 3 -p vectorbasedforward -e 1792 -c 2 -a 0 -i 8 -k MAC 
+- -t 124.642646766 -s 0 -d 3 -p vectorbasedforward -e 1792 -c 2 -a 0 -i 8 -k MAC
+h -t 124.642646766 -s 0 -d 3 -p vectorbasedforward -e 1792 -c 2 -a 0 -i 8 -k MAC -R 1100.000000
+v -t 124.642646766 -e sim_annotation 124.642646766 44 node 0 sendout packet (vectorbasedforward) 8
++ -t 128.495038879 -s 4 -d 2 -p vectorbasedforward -e 1792 -c 2 -a 0 -i 10 -k MAC 
+- -t 128.495038879 -s 4 -d 2 -p vectorbasedforward -e 1792 -c 2 -a 0 -i 10 -k MAC
+h -t 128.495038879 -s 4 -d 2 -p vectorbasedforward -e 1792 -c 2 -a 0 -i 10 -k MAC -R 1100.000000
+v -t 128.495038879 -e sim_annotation 128.495038879 45 node 4 sendout packet (vectorbasedforward) 10
+r -t 128.729249989 -s 2 -d 2 -p vectorbasedforward -e 1792 -c 2 -a 0 -i 10 -k MAC -R 1100.000000
+v -t 128.729249989 -e sim_annotation 128.729249989 46 node 2 receive vectorbasedforward 10 from 2
++ -t 130.707031168 -s 1 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC 
+- -t 130.707031168 -s 1 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC
+h -t 130.707031168 -s 1 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC -R 1100.000000
+v -t 130.707031168 -e sim_annotation 130.707031168 47 node 1 sendout packet (auv-SYNC) 0
++ -t 148.666678101 -s 6 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC 
+- -t 148.666678101 -s 6 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC
+h -t 148.666678101 -s 6 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC -R 1100.000000
+v -t 148.666678101 -e sim_annotation 148.666678101 48 node 6 sendout packet (auv-SYNC) 0
++ -t 153.821441443 -s 7 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC 
+- -t 153.821441443 -s 7 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC
+h -t 153.821441443 -s 7 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC -R 1100.000000
+v -t 153.821441443 -e sim_annotation 153.821441443 49 node 7 sendout packet (auv-SYNC) 0
++ -t 158.679348949 -s 5 -d 3 -p vectorbasedforward -e 1760 -c 2 -a 0 -i 15 -k MAC 
+- -t 158.679348949 -s 5 -d 3 -p vectorbasedforward -e 1760 -c 2 -a 0 -i 15 -k MAC
+h -t 158.679348949 -s 5 -d 3 -p vectorbasedforward -e 1760 -c 2 -a 0 -i 15 -k MAC -R 1100.000000
+v -t 158.679348949 -e sim_annotation 158.679348949 50 node 5 sendout packet (vectorbasedforward) 15
++ -t 160.025097413 -s 2 -d 4 -p vectorbasedforward -e 1760 -c 2 -a 0 -i 13 -k MAC 
+- -t 160.025097413 -s 2 -d 4 -p vectorbasedforward -e 1760 -c 2 -a 0 -i 13 -k MAC
+h -t 160.025097413 -s 2 -d 4 -p vectorbasedforward -e 1760 -c 2 -a 0 -i 13 -k MAC -R 1100.000000
+v -t 160.025097413 -e sim_annotation 160.025097413 51 node 2 sendout packet (vectorbasedforward) 13
++ -t 172.463962535 -s 3 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC 
+- -t 172.463962535 -s 3 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC
+h -t 172.463962535 -s 3 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC -R 1100.000000
+v -t 172.463962535 -e sim_annotation 172.463962535 52 node 3 sendout packet (auv-SYNC) 0
++ -t 174.090541384 -s 0 -d 4 -p vectorbasedforward -e 1760 -c 2 -a 0 -i 12 -k MAC 
+- -t 174.090541384 -s 0 -d 4 -p vectorbasedforward -e 1760 -c 2 -a 0 -i 12 -k MAC
+h -t 174.090541384 -s 0 -d 4 -p vectorbasedforward -e 1760 -c 2 -a 0 -i 12 -k MAC -R 1100.000000
+v -t 174.090541384 -e sim_annotation 174.090541384 53 node 0 sendout packet (vectorbasedforward) 12
+r -t 174.314656986 -s 4 -d 4 -p vectorbasedforward -e 1760 -c 2 -a 0 -i 12 -k MAC -R 1100.000000
+v -t 174.314656986 -e sim_annotation 174.314656986 54 node 4 receive vectorbasedforward 12 from 4
++ -t 175.765722775 -s 0 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC 
+- -t 175.765722775 -s 0 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC
+h -t 175.765722775 -s 0 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC -R 1100.000000
+v -t 175.765722775 -e sim_annotation 175.765722775 55 node 0 sendout packet (auv-SYNC) 0
++ -t 179.090566686 -s 4 -d 3 -p vectorbasedforward -e 1792 -c 2 -a 0 -i 14 -k MAC 
+- -t 179.090566686 -s 4 -d 3 -p vectorbasedforward -e 1792 -c 2 -a 0 -i 14 -k MAC
+h -t 179.090566686 -s 4 -d 3 -p vectorbasedforward -e 1792 -c 2 -a 0 -i 14 -k MAC -R 1100.000000
+v -t 179.090566686 -e sim_annotation 179.090566686 56 node 4 sendout packet (vectorbasedforward) 14
++ -t 180.900571092 -s 1 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC 
+- -t 180.900571092 -s 1 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC
+h -t 180.900571092 -s 1 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC -R 1100.000000
+v -t 180.900571092 -e sim_annotation 180.900571092 57 node 1 sendout packet (auv-SYNC) 0
++ -t 198.949721827 -s 6 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC 
+- -t 198.949721827 -s 6 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC
+h -t 198.949721827 -s 6 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC -R 1100.000000
+v -t 198.949721827 -e sim_annotation 198.949721827 58 node 6 sendout packet (auv-SYNC) 0
++ -t 203.802477559 -s 7 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC 
+- -t 203.802477559 -s 7 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC
+h -t 203.802477559 -s 7 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC -R 1100.000000
+v -t 203.802477559 -e sim_annotation 203.802477559 59 node 7 sendout packet (auv-SYNC) 0
++ -t 208.704141955 -s 5 -d 4 -p vectorbasedforward -e 1792 -c 2 -a 0 -i 19 -k MAC 
+- -t 208.704141955 -s 5 -d 4 -p vectorbasedforward -e 1792 -c 2 -a 0 -i 19 -k MAC
+h -t 208.704141955 -s 5 -d 4 -p vectorbasedforward -e 1792 -c 2 -a 0 -i 19 -k MAC -R 1100.000000
+v -t 208.704141955 -e sim_annotation 208.704141955 60 node 5 sendout packet (vectorbasedforward) 19
++ -t 209.554243034 -s 2 -d 5 -p vectorbasedforward -e 1792 -c 2 -a 0 -i 17 -k MAC 
+- -t 209.554243034 -s 2 -d 5 -p vectorbasedforward -e 1792 -c 2 -a 0 -i 17 -k MAC
+h -t 209.554243034 -s 2 -d 5 -p vectorbasedforward -e 1792 -c 2 -a 0 -i 17 -k MAC -R 1100.000000
+v -t 209.554243034 -e sim_annotation 209.554243034 61 node 2 sendout packet (vectorbasedforward) 17
+r -t 209.835501840 -s 5 -d 5 -p vectorbasedforward -e 1792 -c 2 -a 0 -i 17 -k MAC -R 1100.000000
+v -t 209.835501840 -e sim_annotation 209.835501840 62 node 5 receive vectorbasedforward 17 from 5
++ -t 223.440599261 -s 3 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC 
+- -t 223.440599261 -s 3 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC
+h -t 223.440599261 -s 3 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC -R 1100.000000
+v -t 223.440599261 -e sim_annotation 223.440599261 63 node 3 sendout packet (auv-SYNC) 0
++ -t 225.177257323 -s 0 -d 5 -p vectorbasedforward -e 1792 -c 2 -a 0 -i 16 -k MAC 
+- -t 225.177257323 -s 0 -d 5 -p vectorbasedforward -e 1792 -c 2 -a 0 -i 16 -k MAC
+h -t 225.177257323 -s 0 -d 5 -p vectorbasedforward -e 1792 -c 2 -a 0 -i 16 -k MAC -R 1100.000000
+v -t 225.177257323 -e sim_annotation 225.177257323 64 node 0 sendout packet (vectorbasedforward) 16
+r -t 225.449313245 -s 5 -d 5 -p vectorbasedforward -e 1792 -c 2 -a 0 -i 16 -k MAC -R 1100.000000
+v -t 225.449313245 -e sim_annotation 225.449313245 65 node 5 receive vectorbasedforward 16 from 5
++ -t 229.909709506 -s 4 -d 5 -p vectorbasedforward -e 1760 -c 2 -a 0 -i 18 -k MAC 
+- -t 229.909709506 -s 4 -d 5 -p vectorbasedforward -e 1760 -c 2 -a 0 -i 18 -k MAC
+h -t 229.909709506 -s 4 -d 5 -p vectorbasedforward -e 1760 -c 2 -a 0 -i 18 -k MAC -R 1100.000000
+v -t 229.909709506 -e sim_annotation 229.909709506 66 node 4 sendout packet (vectorbasedforward) 18
++ -t 231.455603848 -s 1 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC 
+- -t 231.455603848 -s 1 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC
+h -t 231.455603848 -s 1 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC -R 1100.000000
+v -t 231.455603848 -e sim_annotation 231.455603848 67 node 1 sendout packet (auv-SYNC) 0
++ -t 248.059302689 -s 6 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC 
+- -t 248.059302689 -s 6 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC
+h -t 248.059302689 -s 6 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC -R 1100.000000
+v -t 248.059302689 -e sim_annotation 248.059302689 68 node 6 sendout packet (auv-SYNC) 0
++ -t 254.608106415 -s 7 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC 
+- -t 254.608106415 -s 7 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC
+h -t 254.608106415 -s 7 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC -R 1100.000000
+v -t 254.608106415 -e sim_annotation 254.608106415 69 node 7 sendout packet (auv-SYNC) 0
++ -t 258.761735155 -s 2 -d 6 -p vectorbasedforward -e 1760 -c 2 -a 0 -i 21 -k MAC 
+- -t 258.761735155 -s 2 -d 6 -p vectorbasedforward -e 1760 -c 2 -a 0 -i 21 -k MAC
+h -t 258.761735155 -s 2 -d 6 -p vectorbasedforward -e 1760 -c 2 -a 0 -i 21 -k MAC -R 1100.000000
+v -t 258.761735155 -e sim_annotation 258.761735155 70 node 2 sendout packet (vectorbasedforward) 21
++ -t 259.112734790 -s 5 -d 6 -p vectorbasedforward -e 1792 -c 2 -a 0 -i 23 -k MAC 
+- -t 259.112734790 -s 5 -d 6 -p vectorbasedforward -e 1792 -c 2 -a 0 -i 23 -k MAC
+h -t 259.112734790 -s 5 -d 6 -p vectorbasedforward -e 1792 -c 2 -a 0 -i 23 -k MAC -R 1100.000000
+v -t 259.112734790 -e sim_annotation 259.112734790 71 node 5 sendout packet (vectorbasedforward) 23
++ -t 272.821107967 -s 3 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC 
+- -t 272.821107967 -s 3 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC
+h -t 272.821107967 -s 3 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC -R 1100.000000
+v -t 272.821107967 -e sim_annotation 272.821107967 72 node 3 sendout packet (auv-SYNC) 0
++ -t 275.901904755 -s 0 -d 6 -p vectorbasedforward -e 1792 -c 2 -a 0 -i 20 -k MAC 
+- -t 275.901904755 -s 0 -d 6 -p vectorbasedforward -e 1792 -c 2 -a 0 -i 20 -k MAC
+h -t 275.901904755 -s 0 -d 6 -p vectorbasedforward -e 1792 -c 2 -a 0 -i 20 -k MAC -R 1100.000000
+v -t 275.901904755 -e sim_annotation 275.901904755 73 node 0 sendout packet (vectorbasedforward) 20
++ -t 278.923752945 -s 4 -d 6 -p vectorbasedforward -e 1792 -c 2 -a 0 -i 22 -k MAC 
+- -t 278.923752945 -s 4 -d 6 -p vectorbasedforward -e 1792 -c 2 -a 0 -i 22 -k MAC
+h -t 278.923752945 -s 4 -d 6 -p vectorbasedforward -e 1792 -c 2 -a 0 -i 22 -k MAC -R 1100.000000
+v -t 278.923752945 -e sim_annotation 278.923752945 74 node 4 sendout packet (vectorbasedforward) 22
++ -t 282.352982318 -s 1 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC 
+- -t 282.352982318 -s 1 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC
+h -t 282.352982318 -s 1 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC -R 1100.000000
+v -t 282.352982318 -e sim_annotation 282.352982318 75 node 1 sendout packet (auv-SYNC) 0
++ -t 298.671233765 -s 6 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC 
+- -t 298.671233765 -s 6 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC
+h -t 298.671233765 -s 6 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC -R 1100.000000
+v -t 298.671233765 -e sim_annotation 298.671233765 76 node 6 sendout packet (auv-SYNC) 0
++ -t 304.550548494 -s 7 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC 
+- -t 304.550548494 -s 7 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC
+h -t 304.550548494 -s 7 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC -R 1100.000000
+v -t 304.550548494 -e sim_annotation 304.550548494 77 node 7 sendout packet (auv-SYNC) 0
++ -t 308.035623743 -s 2 -d 7 -p vectorbasedforward -e 1760 -c 2 -a 0 -i 25 -k MAC 
+- -t 308.035623743 -s 2 -d 7 -p vectorbasedforward -e 1760 -c 2 -a 0 -i 25 -k MAC
+h -t 308.035623743 -s 2 -d 7 -p vectorbasedforward -e 1760 -c 2 -a 0 -i 25 -k MAC -R 1100.000000
+v -t 308.035623743 -e sim_annotation 308.035623743 78 node 2 sendout packet (vectorbasedforward) 25
++ -t 309.067536036 -s 5 -d 7 -p vectorbasedforward -e 1824 -c 2 -a 0 -i 27 -k MAC 
+- -t 309.067536036 -s 5 -d 7 -p vectorbasedforward -e 1824 -c 2 -a 0 -i 27 -k MAC
+h -t 309.067536036 -s 5 -d 7 -p vectorbasedforward -e 1824 -c 2 -a 0 -i 27 -k MAC -R 1100.000000
+v -t 309.067536036 -e sim_annotation 309.067536036 79 node 5 sendout packet (vectorbasedforward) 27
++ -t 321.941948167 -s 3 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC 
+- -t 321.941948167 -s 3 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC
+h -t 321.941948167 -s 3 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC -R 1100.000000
+v -t 321.941948167 -e sim_annotation 321.941948167 80 node 3 sendout packet (auv-SYNC) 0
++ -t 326.072224619 -s 0 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC 
+- -t 326.072224619 -s 0 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC
+h -t 326.072224619 -s 0 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC -R 1100.000000
+v -t 326.072224619 -e sim_annotation 326.072224619 81 node 0 sendout packet (auv-SYNC) 0
++ -t 328.960287040 -s 4 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC 
+- -t 328.960287040 -s 4 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC
+h -t 328.960287040 -s 4 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC -R 1100.000000
+v -t 328.960287040 -e sim_annotation 328.960287040 82 node 4 sendout packet (auv-SYNC) 0
++ -t 333.122674156 -s 1 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC 
+- -t 333.122674156 -s 1 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC
+h -t 333.122674156 -s 1 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC -R 1100.000000
+v -t 333.122674156 -e sim_annotation 333.122674156 83 node 1 sendout packet (auv-SYNC) 0
++ -t 336.072224619 -s 0 -d 7 -p vectorbasedforward -e 1760 -c 2 -a 0 -i 24 -k MAC 
+- -t 336.072224619 -s 0 -d 7 -p vectorbasedforward -e 1760 -c 2 -a 0 -i 24 -k MAC
+h -t 336.072224619 -s 0 -d 7 -p vectorbasedforward -e 1760 -c 2 -a 0 -i 24 -k MAC -R 1100.000000
+v -t 336.072224619 -e sim_annotation 336.072224619 84 node 0 sendout packet (vectorbasedforward) 24
++ -t 338.960287040 -s 4 -d 7 -p vectorbasedforward -e 1792 -c 2 -a 0 -i 26 -k MAC 
+- -t 338.960287040 -s 4 -d 7 -p vectorbasedforward -e 1792 -c 2 -a 0 -i 26 -k MAC
+h -t 338.960287040 -s 4 -d 7 -p vectorbasedforward -e 1792 -c 2 -a 0 -i 26 -k MAC -R 1100.000000
+v -t 338.960287040 -e sim_annotation 338.960287040 85 node 4 sendout packet (vectorbasedforward) 26
++ -t 343.122674156 -s 1 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC 
+- -t 343.122674156 -s 1 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC
+h -t 343.122674156 -s 1 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC -R 1100.000000
+v -t 343.122674156 -e sim_annotation 343.122674156 86 node 1 sendout packet (auv-SYNC) 0
++ -t 348.054845914 -s 6 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC 
+- -t 348.054845914 -s 6 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC
+h -t 348.054845914 -s 6 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC -R 1100.000000
+v -t 348.054845914 -e sim_annotation 348.054845914 87 node 6 sendout packet (auv-SYNC) 0
++ -t 353.802138476 -s 7 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC 
+- -t 353.802138476 -s 7 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC
+h -t 353.802138476 -s 7 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC -R 1100.000000
+v -t 353.802138476 -e sim_annotation 353.802138476 88 node 7 sendout packet (auv-SYNC) 0
++ -t 357.153729087 -s 2 -d 0 -p vectorbasedforward -e 1760 -c 2 -a 0 -i 29 -k MAC 
+- -t 357.153729087 -s 2 -d 0 -p vectorbasedforward -e 1760 -c 2 -a 0 -i 29 -k MAC
+h -t 357.153729087 -s 2 -d 0 -p vectorbasedforward -e 1760 -c 2 -a 0 -i 29 -k MAC -R 1100.000000
+v -t 357.153729087 -e sim_annotation 357.153729087 89 node 2 sendout packet (vectorbasedforward) 29
++ -t 358.054845914 -s 6 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC 
+- -t 358.054845914 -s 6 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC
+h -t 358.054845914 -s 6 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC -R 1100.000000
+v -t 358.054845914 -e sim_annotation 358.054845914 90 node 6 sendout packet (auv-SYNC) 0
++ -t 358.226336271 -s 5 -d 0 -p vectorbasedforward -e 1824 -c 2 -a 0 -i 31 -k MAC 
+- -t 358.226336271 -s 5 -d 0 -p vectorbasedforward -e 1824 -c 2 -a 0 -i 31 -k MAC
+h -t 358.226336271 -s 5 -d 0 -p vectorbasedforward -e 1824 -c 2 -a 0 -i 31 -k MAC -R 1100.000000
+v -t 358.226336271 -e sim_annotation 358.226336271 91 node 5 sendout packet (vectorbasedforward) 31
+r -t 358.501592193 -s 0 -d 0 -p vectorbasedforward -e 1824 -c 2 -a 0 -i 31 -k MAC -R 1100.000000
+v -t 358.501592193 -e sim_annotation 358.501592193 92 node 0 receive vectorbasedforward 31 from 0
++ -t 360.613738000 -s 5 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC 
+- -t 360.613738000 -s 5 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC
+h -t 360.613738000 -s 5 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC -R 1100.000000
+v -t 360.613738000 -e sim_annotation 360.613738000 93 node 5 sendout packet (auv-SYNC) 0
++ -t 364.676686988 -s 5 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC 
+- -t 364.676686988 -s 5 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC
+h -t 364.676686988 -s 5 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC -R 1100.000000
+v -t 364.676686988 -e sim_annotation 364.676686988 94 node 5 sendout packet (auv-SYNC) 0
++ -t 371.609567993 -s 3 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC 
+- -t 371.609567993 -s 3 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC
+h -t 371.609567993 -s 3 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC -R 1100.000000
+v -t 371.609567993 -e sim_annotation 371.609567993 95 node 3 sendout packet (auv-SYNC) 0
++ -t 381.609567993 -s 3 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC 
+- -t 381.609567993 -s 3 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC
+h -t 381.609567993 -s 3 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC -R 1100.000000
+v -t 381.609567993 -e sim_annotation 381.609567993 96 node 3 sendout packet (auv-SYNC) 0
++ -t 385.361522062 -s 0 -d 1 -p vectorbasedforward -e 1760 -c 2 -a 0 -i 28 -k MAC 
+- -t 385.361522062 -s 0 -d 1 -p vectorbasedforward -e 1760 -c 2 -a 0 -i 28 -k MAC
+h -t 385.361522062 -s 0 -d 1 -p vectorbasedforward -e 1760 -c 2 -a 0 -i 28 -k MAC -R 1100.000000
+v -t 385.361522062 -e sim_annotation 385.361522062 97 node 0 sendout packet (vectorbasedforward) 28
++ -t 389.719709846 -s 4 -d 0 -p vectorbasedforward -e 1792 -c 2 -a 0 -i 30 -k MAC 
+- -t 389.719709846 -s 4 -d 0 -p vectorbasedforward -e 1792 -c 2 -a 0 -i 30 -k MAC
+h -t 389.719709846 -s 4 -d 0 -p vectorbasedforward -e 1792 -c 2 -a 0 -i 30 -k MAC -R 1100.000000
+v -t 389.719709846 -e sim_annotation 389.719709846 98 node 4 sendout packet (vectorbasedforward) 30
++ -t 392.929696559 -s 1 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC 
+- -t 392.929696559 -s 1 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC
+h -t 392.929696559 -s 1 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC -R 1100.000000
+v -t 392.929696559 -e sim_annotation 392.929696559 99 node 1 sendout packet (auv-SYNC) 0
++ -t 404.741378193 -s 7 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC 
+- -t 404.741378193 -s 7 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC
+h -t 404.741378193 -s 7 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC -R 1100.000000
+v -t 404.741378193 -e sim_annotation 404.741378193 100 node 7 sendout packet (auv-SYNC) 0
++ -t 407.705362264 -s 2 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC 
+- -t 407.705362264 -s 2 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC
+h -t 407.705362264 -s 2 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC -R 1100.000000
+v -t 407.705362264 -e sim_annotation 407.705362264 101 node 2 sendout packet (auv-SYNC) 0
++ -t 408.332155097 -s 6 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC 
+- -t 408.332155097 -s 6 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC
+h -t 408.332155097 -s 6 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC -R 1100.000000
+v -t 408.332155097 -e sim_annotation 408.332155097 102 node 6 sendout packet (auv-SYNC) 0
++ -t 414.741378193 -s 7 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC 
+- -t 414.741378193 -s 7 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC
+h -t 414.741378193 -s 7 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC -R 1100.000000
+v -t 414.741378193 -e sim_annotation 414.741378193 103 node 7 sendout packet (auv-SYNC) 0
++ -t 414.916577044 -s 5 -d 1 -p vectorbasedforward -e 1824 -c 2 -a 0 -i 35 -k MAC 
+- -t 414.916577044 -s 5 -d 1 -p vectorbasedforward -e 1824 -c 2 -a 0 -i 35 -k MAC
+h -t 414.916577044 -s 5 -d 1 -p vectorbasedforward -e 1824 -c 2 -a 0 -i 35 -k MAC -R 1100.000000
+v -t 414.916577044 -e sim_annotation 414.916577044 104 node 5 sendout packet (vectorbasedforward) 35
+r -t 415.227214671 -s 1 -d 1 -p vectorbasedforward -e 1824 -c 2 -a 0 -i 35 -k MAC -R 1100.000000
+v -t 415.227214671 -e sim_annotation 415.227214671 105 node 1 receive vectorbasedforward 35 from 1
++ -t 417.705362264 -s 2 -d 1 -p vectorbasedforward -e 1760 -c 2 -a 0 -i 33 -k MAC 
+- -t 417.705362264 -s 2 -d 1 -p vectorbasedforward -e 1760 -c 2 -a 0 -i 33 -k MAC
+h -t 417.705362264 -s 2 -d 1 -p vectorbasedforward -e 1760 -c 2 -a 0 -i 33 -k MAC -R 1100.000000
+v -t 417.705362264 -e sim_annotation 417.705362264 106 node 2 sendout packet (vectorbasedforward) 33
++ -t 430.986520231 -s 3 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC 
+- -t 430.986520231 -s 3 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC
+h -t 430.986520231 -s 3 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC -R 1100.000000
+v -t 430.986520231 -e sim_annotation 430.986520231 107 node 3 sendout packet (auv-SYNC) 0
++ -t 436.280578733 -s 0 -d 2 -p vectorbasedforward -e 1760 -c 2 -a 0 -i 32 -k MAC 
+- -t 436.280578733 -s 0 -d 2 -p vectorbasedforward -e 1760 -c 2 -a 0 -i 32 -k MAC
+h -t 436.280578733 -s 0 -d 2 -p vectorbasedforward -e 1760 -c 2 -a 0 -i 32 -k MAC -R 1100.000000
+v -t 436.280578733 -e sim_annotation 436.280578733 108 node 0 sendout packet (vectorbasedforward) 32
++ -t 439.566434214 -s 4 -d 1 -p vectorbasedforward -e 1760 -c 2 -a 0 -i 34 -k MAC 
+- -t 439.566434214 -s 4 -d 1 -p vectorbasedforward -e 1760 -c 2 -a 0 -i 34 -k MAC
+h -t 439.566434214 -s 4 -d 1 -p vectorbasedforward -e 1760 -c 2 -a 0 -i 34 -k MAC -R 1100.000000
+v -t 439.566434214 -e sim_annotation 439.566434214 109 node 4 sendout packet (vectorbasedforward) 34
++ -t 442.586843734 -s 1 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC 
+- -t 442.586843734 -s 1 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC
+h -t 442.586843734 -s 1 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC -R 1100.000000
+v -t 442.586843734 -e sim_annotation 442.586843734 110 node 1 sendout packet (auv-SYNC) 0
++ -t 458.699254622 -s 6 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC 
+- -t 458.699254622 -s 6 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC
+h -t 458.699254622 -s 6 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC -R 1100.000000
+v -t 458.699254622 -e sim_annotation 458.699254622 111 node 6 sendout packet (auv-SYNC) 0
++ -t 463.898045455 -s 7 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC 
+- -t 463.898045455 -s 7 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC
+h -t 463.898045455 -s 7 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC -R 1100.000000
+v -t 463.898045455 -e sim_annotation 463.898045455 112 node 7 sendout packet (auv-SYNC) 0
++ -t 465.338092648 -s 5 -d 2 -p vectorbasedforward -e 1824 -c 2 -a 0 -i 39 -k MAC 
+- -t 465.338092648 -s 5 -d 2 -p vectorbasedforward -e 1824 -c 2 -a 0 -i 39 -k MAC
+h -t 465.338092648 -s 5 -d 2 -p vectorbasedforward -e 1824 -c 2 -a 0 -i 39 -k MAC -R 1100.000000
+v -t 465.338092648 -e sim_annotation 465.338092648 113 node 5 sendout packet (vectorbasedforward) 39
+r -t 465.622551455 -s 2 -d 2 -p vectorbasedforward -e 1824 -c 2 -a 0 -i 39 -k MAC -R 1100.000000
+v -t 465.622551455 -e sim_annotation 465.622551455 114 node 2 receive vectorbasedforward 39 from 2
++ -t 468.578506004 -s 2 -d 3 -p vectorbasedforward -e 1760 -c 2 -a 0 -i 37 -k MAC 
+- -t 468.578506004 -s 2 -d 3 -p vectorbasedforward -e 1760 -c 2 -a 0 -i 37 -k MAC
+h -t 468.578506004 -s 2 -d 3 -p vectorbasedforward -e 1760 -c 2 -a 0 -i 37 -k MAC -R 1100.000000
+v -t 468.578506004 -e sim_annotation 468.578506004 115 node 2 sendout packet (vectorbasedforward) 37
++ -t 481.641681976 -s 3 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC 
+- -t 481.641681976 -s 3 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC
+h -t 481.641681976 -s 3 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC -R 1100.000000
+v -t 481.641681976 -e sim_annotation 481.641681976 116 node 3 sendout packet (auv-SYNC) 0
++ -t 485.465420673 -s 0 -d 3 -p vectorbasedforward -e 1760 -c 2 -a 0 -i 36 -k MAC 
+- -t 485.465420673 -s 0 -d 3 -p vectorbasedforward -e 1760 -c 2 -a 0 -i 36 -k MAC
+h -t 485.465420673 -s 0 -d 3 -p vectorbasedforward -e 1760 -c 2 -a 0 -i 36 -k MAC -R 1100.000000
+v -t 485.465420673 -e sim_annotation 485.465420673 117 node 0 sendout packet (vectorbasedforward) 36
++ -t 490.111916708 -s 4 -d 2 -p vectorbasedforward -e 1760 -c 2 -a 0 -i 38 -k MAC 
+- -t 490.111916708 -s 4 -d 2 -p vectorbasedforward -e 1760 -c 2 -a 0 -i 38 -k MAC
+h -t 490.111916708 -s 4 -d 2 -p vectorbasedforward -e 1760 -c 2 -a 0 -i 38 -k MAC -R 1100.000000
+v -t 490.111916708 -e sim_annotation 490.111916708 118 node 4 sendout packet (vectorbasedforward) 38
++ -t 492.272162283 -s 1 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC 
+- -t 492.272162283 -s 1 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC
+h -t 492.272162283 -s 1 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC -R 1100.000000
+v -t 492.272162283 -e sim_annotation 492.272162283 119 node 1 sendout packet (auv-SYNC) 0
++ -t 508.425669993 -s 6 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC 
+- -t 508.425669993 -s 6 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC
+h -t 508.425669993 -s 6 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC -R 1100.000000
+v -t 508.425669993 -e sim_annotation 508.425669993 120 node 6 sendout packet (auv-SYNC) 0
++ -t 513.411625381 -s 7 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC 
+- -t 513.411625381 -s 7 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC
+h -t 513.411625381 -s 7 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC -R 1100.000000
+v -t 513.411625381 -e sim_annotation 513.411625381 121 node 7 sendout packet (auv-SYNC) 0
++ -t 515.065613961 -s 5 -d 3 -p vectorbasedforward -e 1824 -c 2 -a 0 -i 43 -k MAC 
+- -t 515.065613961 -s 5 -d 3 -p vectorbasedforward -e 1824 -c 2 -a 0 -i 43 -k MAC
+h -t 515.065613961 -s 5 -d 3 -p vectorbasedforward -e 1824 -c 2 -a 0 -i 43 -k MAC -R 1100.000000
+v -t 515.065613961 -e sim_annotation 515.065613961 122 node 5 sendout packet (vectorbasedforward) 43
+r -t 515.337704788 -s 3 -d 3 -p vectorbasedforward -e 1824 -c 2 -a 0 -i 43 -k MAC -R 1100.000000
+v -t 515.337704788 -e sim_annotation 515.337704788 123 node 3 receive vectorbasedforward 43 from 3
++ -t 517.598598715 -s 2 -d 4 -p vectorbasedforward -e 1760 -c 2 -a 0 -i 41 -k MAC 
+- -t 517.598598715 -s 2 -d 4 -p vectorbasedforward -e 1760 -c 2 -a 0 -i 41 -k MAC
+h -t 517.598598715 -s 2 -d 4 -p vectorbasedforward -e 1760 -c 2 -a 0 -i 41 -k MAC -R 1100.000000
+v -t 517.598598715 -e sim_annotation 517.598598715 124 node 2 sendout packet (vectorbasedforward) 41
++ -t 532.250210470 -s 3 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC 
+- -t 532.250210470 -s 3 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC
+h -t 532.250210470 -s 3 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC -R 1100.000000
+v -t 532.250210470 -e sim_annotation 532.250210470 125 node 3 sendout packet (auv-SYNC) 0
++ -t 535.503052292 -s 0 -d 4 -p vectorbasedforward -e 1760 -c 2 -a 0 -i 40 -k MAC 
+- -t 535.503052292 -s 0 -d 4 -p vectorbasedforward -e 1760 -c 2 -a 0 -i 40 -k MAC
+h -t 535.503052292 -s 0 -d 4 -p vectorbasedforward -e 1760 -c 2 -a 0 -i 40 -k MAC -R 1100.000000
+v -t 535.503052292 -e sim_annotation 535.503052292 126 node 0 sendout packet (vectorbasedforward) 40
++ -t 540.174519992 -s 4 -d 3 -p vectorbasedforward -e 1760 -c 2 -a 0 -i 42 -k MAC 
+- -t 540.174519992 -s 4 -d 3 -p vectorbasedforward -e 1760 -c 2 -a 0 -i 42 -k MAC
+h -t 540.174519992 -s 4 -d 3 -p vectorbasedforward -e 1760 -c 2 -a 0 -i 42 -k MAC -R 1100.000000
+v -t 540.174519992 -e sim_annotation 540.174519992 127 node 4 sendout packet (vectorbasedforward) 42
++ -t 543.205782823 -s 1 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC 
+- -t 543.205782823 -s 1 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC
+h -t 543.205782823 -s 1 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC -R 1100.000000
+v -t 543.205782823 -e sim_annotation 543.205782823 128 node 1 sendout packet (auv-SYNC) 0
++ -t 557.668304187 -s 6 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC 
+- -t 557.668304187 -s 6 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC
+h -t 557.668304187 -s 6 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC -R 1100.000000
+v -t 557.668304187 -e sim_annotation 557.668304187 129 node 6 sendout packet (auv-SYNC) 0
++ -t 564.284179731 -s 7 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC 
+- -t 564.284179731 -s 7 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC
+h -t 564.284179731 -s 7 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC -R 1100.000000
+v -t 564.284179731 -e sim_annotation 564.284179731 130 node 7 sendout packet (auv-SYNC) 0
++ -t 564.375573303 -s 5 -d 4 -p vectorbasedforward -e 1824 -c 2 -a 0 -i 47 -k MAC 
+- -t 564.375573303 -s 5 -d 4 -p vectorbasedforward -e 1824 -c 2 -a 0 -i 47 -k MAC
+h -t 564.375573303 -s 5 -d 4 -p vectorbasedforward -e 1824 -c 2 -a 0 -i 47 -k MAC -R 1100.000000
+v -t 564.375573303 -e sim_annotation 564.375573303 131 node 5 sendout packet (vectorbasedforward) 47
+r -t 564.605156163 -s 4 -d 4 -p vectorbasedforward -e 1824 -c 2 -a 0 -i 47 -k MAC -R 1100.000000
+v -t 564.605156163 -e sim_annotation 564.605156163 132 node 4 receive vectorbasedforward 47 from 4
++ -t 567.270179856 -s 2 -d 5 -p vectorbasedforward -e 1760 -c 2 -a 0 -i 45 -k MAC 
+- -t 567.270179856 -s 2 -d 5 -p vectorbasedforward -e 1760 -c 2 -a 0 -i 45 -k MAC
+h -t 567.270179856 -s 2 -d 5 -p vectorbasedforward -e 1760 -c 2 -a 0 -i 45 -k MAC -R 1100.000000
+v -t 567.270179856 -e sim_annotation 567.270179856 133 node 2 sendout packet (vectorbasedforward) 45
++ -t 583.103307902 -s 3 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC 
+- -t 583.103307902 -s 3 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC
+h -t 583.103307902 -s 3 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC -R 1100.000000
+v -t 583.103307902 -e sim_annotation 583.103307902 134 node 3 sendout packet (auv-SYNC) 0
++ -t 586.291662329 -s 0 -d 5 -p vectorbasedforward -e 1760 -c 2 -a 0 -i 44 -k MAC 
+- -t 586.291662329 -s 0 -d 5 -p vectorbasedforward -e 1760 -c 2 -a 0 -i 44 -k MAC
+h -t 586.291662329 -s 0 -d 5 -p vectorbasedforward -e 1760 -c 2 -a 0 -i 44 -k MAC -R 1100.000000
+v -t 586.291662329 -e sim_annotation 586.291662329 135 node 0 sendout packet (vectorbasedforward) 44
++ -t 590.322902286 -s 4 -d 5 -p vectorbasedforward -e 1760 -c 2 -a 0 -i 46 -k MAC 
+- -t 590.322902286 -s 4 -d 5 -p vectorbasedforward -e 1760 -c 2 -a 0 -i 46 -k MAC
+h -t 590.322902286 -s 4 -d 5 -p vectorbasedforward -e 1760 -c 2 -a 0 -i 46 -k MAC -R 1100.000000
+v -t 590.322902286 -e sim_annotation 590.322902286 136 node 4 sendout packet (vectorbasedforward) 46
++ -t 592.760421467 -s 1 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC 
+- -t 592.760421467 -s 1 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC
+h -t 592.760421467 -s 1 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC -R 1100.000000
+v -t 592.760421467 -e sim_annotation 592.760421467 137 node 1 sendout packet (auv-SYNC) 0
++ -t 608.006900302 -s 6 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC 
+- -t 608.006900302 -s 6 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC
+h -t 608.006900302 -s 6 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC -R 1100.000000
+v -t 608.006900302 -e sim_annotation 608.006900302 138 node 6 sendout packet (auv-SYNC) 0
++ -t 613.593241611 -s 7 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC 
+- -t 613.593241611 -s 7 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC
+h -t 613.593241611 -s 7 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC -R 1100.000000
+v -t 613.593241611 -e sim_annotation 613.593241611 139 node 7 sendout packet (auv-SYNC) 0
++ -t 615.029611053 -s 5 -d 6 -p vectorbasedforward -e 1824 -c 2 -a 0 -i 51 -k MAC 
+- -t 615.029611053 -s 5 -d 6 -p vectorbasedforward -e 1824 -c 2 -a 0 -i 51 -k MAC
+h -t 615.029611053 -s 5 -d 6 -p vectorbasedforward -e 1824 -c 2 -a 0 -i 51 -k MAC -R 1100.000000
+v -t 615.029611053 -e sim_annotation 615.029611053 140 node 5 sendout packet (vectorbasedforward) 51
+r -t 615.292288350 -s 6 -d 6 -p vectorbasedforward -e 1824 -c 2 -a 0 -i 51 -k MAC -R 1100.000000
+v -t 615.292288350 -e sim_annotation 615.292288350 141 node 6 receive vectorbasedforward 51 from 6
++ -t 618.035546603 -s 2 -d 6 -p vectorbasedforward -e 1760 -c 2 -a 0 -i 49 -k MAC 
+- -t 618.035546603 -s 2 -d 6 -p vectorbasedforward -e 1760 -c 2 -a 0 -i 49 -k MAC
+h -t 618.035546603 -s 2 -d 6 -p vectorbasedforward -e 1760 -c 2 -a 0 -i 49 -k MAC -R 1100.000000
+v -t 618.035546603 -e sim_annotation 618.035546603 142 node 2 sendout packet (vectorbasedforward) 49
++ -t 633.248537950 -s 3 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC 
+- -t 633.248537950 -s 3 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC
+h -t 633.248537950 -s 3 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC -R 1100.000000
+v -t 633.248537950 -e sim_annotation 633.248537950 143 node 3 sendout packet (auv-SYNC) 0
++ -t 636.182526248 -s 0 -d 6 -p vectorbasedforward -e 1760 -c 2 -a 0 -i 48 -k MAC 
+- -t 636.182526248 -s 0 -d 6 -p vectorbasedforward -e 1760 -c 2 -a 0 -i 48 -k MAC
+h -t 636.182526248 -s 0 -d 6 -p vectorbasedforward -e 1760 -c 2 -a 0 -i 48 -k MAC -R 1100.000000
+v -t 636.182526248 -e sim_annotation 636.182526248 144 node 0 sendout packet (vectorbasedforward) 48
++ -t 639.715808064 -s 4 -d 6 -p vectorbasedforward -e 1760 -c 2 -a 0 -i 50 -k MAC 
+- -t 639.715808064 -s 4 -d 6 -p vectorbasedforward -e 1760 -c 2 -a 0 -i 50 -k MAC
+h -t 639.715808064 -s 4 -d 6 -p vectorbasedforward -e 1760 -c 2 -a 0 -i 50 -k MAC -R 1100.000000
+v -t 639.715808064 -e sim_annotation 639.715808064 145 node 4 sendout packet (vectorbasedforward) 50
++ -t 641.822008274 -s 1 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC 
+- -t 641.822008274 -s 1 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC
+h -t 641.822008274 -s 1 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC -R 1100.000000
+v -t 641.822008274 -e sim_annotation 641.822008274 146 node 1 sendout packet (auv-SYNC) 0
++ -t 657.549200219 -s 6 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC 
+- -t 657.549200219 -s 6 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC
+h -t 657.549200219 -s 6 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC -R 1100.000000
+v -t 657.549200219 -e sim_annotation 657.549200219 147 node 6 sendout packet (auv-SYNC) 0
++ -t 664.105750597 -s 7 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC 
+- -t 664.105750597 -s 7 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC
+h -t 664.105750597 -s 7 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC -R 1100.000000
+v -t 664.105750597 -e sim_annotation 664.105750597 148 node 7 sendout packet (auv-SYNC) 0
++ -t 664.267845530 -s 5 -d 7 -p vectorbasedforward -e 1824 -c 2 -a 0 -i 55 -k MAC 
+- -t 664.267845530 -s 5 -d 7 -p vectorbasedforward -e 1824 -c 2 -a 0 -i 55 -k MAC
+h -t 664.267845530 -s 5 -d 7 -p vectorbasedforward -e 1824 -c 2 -a 0 -i 55 -k MAC -R 1100.000000
+v -t 664.267845530 -e sim_annotation 664.267845530 149 node 5 sendout packet (vectorbasedforward) 55
+r -t 664.487957891 -s 7 -d 7 -p vectorbasedforward -e 1824 -c 2 -a 0 -i 55 -k MAC -R 1100.000000
+v -t 664.487957891 -e sim_annotation 664.487957891 150 node 7 receive vectorbasedforward 55 from 7
++ -t 668.057578755 -s 2 -d 7 -p vectorbasedforward -e 1760 -c 2 -a 0 -i 53 -k MAC 
+- -t 668.057578755 -s 2 -d 7 -p vectorbasedforward -e 1760 -c 2 -a 0 -i 53 -k MAC
+h -t 668.057578755 -s 2 -d 7 -p vectorbasedforward -e 1760 -c 2 -a 0 -i 53 -k MAC -R 1100.000000
+v -t 668.057578755 -e sim_annotation 668.057578755 151 node 2 sendout packet (vectorbasedforward) 53
++ -t 682.419295665 -s 3 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC 
+- -t 682.419295665 -s 3 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC
+h -t 682.419295665 -s 3 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC -R 1100.000000
+v -t 682.419295665 -e sim_annotation 682.419295665 152 node 3 sendout packet (auv-SYNC) 0
++ -t 686.841519568 -s 0 -d 7 -p vectorbasedforward -e 1760 -c 2 -a 0 -i 52 -k MAC 
+- -t 686.841519568 -s 0 -d 7 -p vectorbasedforward -e 1760 -c 2 -a 0 -i 52 -k MAC
+h -t 686.841519568 -s 0 -d 7 -p vectorbasedforward -e 1760 -c 2 -a 0 -i 52 -k MAC -R 1100.000000
+v -t 686.841519568 -e sim_annotation 686.841519568 153 node 0 sendout packet (vectorbasedforward) 52
++ -t 690.244919393 -s 4 -d 7 -p vectorbasedforward -e 1760 -c 2 -a 0 -i 54 -k MAC 
+- -t 690.244919393 -s 4 -d 7 -p vectorbasedforward -e 1760 -c 2 -a 0 -i 54 -k MAC
+h -t 690.244919393 -s 4 -d 7 -p vectorbasedforward -e 1760 -c 2 -a 0 -i 54 -k MAC -R 1100.000000
+v -t 690.244919393 -e sim_annotation 690.244919393 154 node 4 sendout packet (vectorbasedforward) 54
++ -t 691.666444460 -s 1 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC 
+- -t 691.666444460 -s 1 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC
+h -t 691.666444460 -s 1 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC -R 1100.000000
+v -t 691.666444460 -e sim_annotation 691.666444460 155 node 1 sendout packet (auv-SYNC) 0
++ -t 707.084698707 -s 6 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC 
+- -t 707.084698707 -s 6 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC
+h -t 707.084698707 -s 6 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC -R 1100.000000
+v -t 707.084698707 -e sim_annotation 707.084698707 156 node 6 sendout packet (auv-SYNC) 0
++ -t 713.363906301 -s 5 -d 0 -p vectorbasedforward -e 1824 -c 2 -a 0 -i 59 -k MAC 
+- -t 713.363906301 -s 5 -d 0 -p vectorbasedforward -e 1824 -c 2 -a 0 -i 59 -k MAC
+h -t 713.363906301 -s 5 -d 0 -p vectorbasedforward -e 1824 -c 2 -a 0 -i 59 -k MAC -R 1100.000000
+v -t 713.363906301 -e sim_annotation 713.363906301 157 node 5 sendout packet (vectorbasedforward) 59
++ -t 713.890341052 -s 7 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC 
+- -t 713.890341052 -s 7 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC
+h -t 713.890341052 -s 7 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC -R 1100.000000
+v -t 713.890341052 -e sim_annotation 713.890341052 158 node 7 sendout packet (auv-SYNC) 0
++ -t 718.184832251 -s 2 -d 0 -p vectorbasedforward -e 1792 -c 2 -a 0 -i 57 -k MAC 
+- -t 718.184832251 -s 2 -d 0 -p vectorbasedforward -e 1792 -c 2 -a 0 -i 57 -k MAC
+h -t 718.184832251 -s 2 -d 0 -p vectorbasedforward -e 1792 -c 2 -a 0 -i 57 -k MAC -R 1100.000000
+v -t 718.184832251 -e sim_annotation 718.184832251 159 node 2 sendout packet (vectorbasedforward) 57
++ -t 732.327736230 -s 3 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC 
+- -t 732.327736230 -s 3 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC
+h -t 732.327736230 -s 3 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC -R 1100.000000
+v -t 732.327736230 -e sim_annotation 732.327736230 160 node 3 sendout packet (auv-SYNC) 0
++ -t 736.931397535 -s 0 -d 1 -p vectorbasedforward -e 1792 -c 2 -a 0 -i 56 -k MAC 
+- -t 736.931397535 -s 0 -d 1 -p vectorbasedforward -e 1792 -c 2 -a 0 -i 56 -k MAC
+h -t 736.931397535 -s 0 -d 1 -p vectorbasedforward -e 1792 -c 2 -a 0 -i 56 -k MAC -R 1100.000000
+v -t 736.931397535 -e sim_annotation 736.931397535 161 node 0 sendout packet (vectorbasedforward) 56
++ -t 740.930516254 -s 1 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC 
+- -t 740.930516254 -s 1 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC
+h -t 740.930516254 -s 1 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC -R 1100.000000
+v -t 740.930516254 -e sim_annotation 740.930516254 162 node 1 sendout packet (auv-SYNC) 0
++ -t 741.207252118 -s 4 -d 0 -p vectorbasedforward -e 1792 -c 2 -a 0 -i 58 -k MAC 
+- -t 741.207252118 -s 4 -d 0 -p vectorbasedforward -e 1792 -c 2 -a 0 -i 58 -k MAC
+h -t 741.207252118 -s 4 -d 0 -p vectorbasedforward -e 1792 -c 2 -a 0 -i 58 -k MAC -R 1100.000000
+v -t 741.207252118 -e sim_annotation 741.207252118 163 node 4 sendout packet (vectorbasedforward) 58
+r -t 741.434567719 -s 0 -d 0 -p vectorbasedforward -e 1792 -c 2 -a 0 -i 58 -k MAC -R 1100.000000
+v -t 741.434567719 -e sim_annotation 741.434567719 164 node 0 receive vectorbasedforward 58 from 0
++ -t 746.751331342 -s 4 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC 
+- -t 746.751331342 -s 4 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC
+h -t 746.751331342 -s 4 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC -R 1100.000000
+v -t 746.751331342 -e sim_annotation 746.751331342 165 node 4 sendout packet (auv-SYNC) 0
++ -t 751.864630831 -s 4 -d 1 -p vectorbasedforward -e 1792 -c 2 -a 0 -i 62 -k MAC 
+- -t 751.864630831 -s 4 -d 1 -p vectorbasedforward -e 1792 -c 2 -a 0 -i 62 -k MAC
+h -t 751.864630831 -s 4 -d 1 -p vectorbasedforward -e 1792 -c 2 -a 0 -i 62 -k MAC -R 1100.000000
+v -t 751.864630831 -e sim_annotation 751.864630831 166 node 4 sendout packet (vectorbasedforward) 62
++ -t 758.005382946 -s 6 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC 
+- -t 758.005382946 -s 6 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC
+h -t 758.005382946 -s 6 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC -R 1100.000000
+v -t 758.005382946 -e sim_annotation 758.005382946 167 node 6 sendout packet (auv-SYNC) 0
++ -t 764.205250680 -s 5 -d 1 -p vectorbasedforward -e 1792 -c 2 -a 0 -i 63 -k MAC 
+- -t 764.205250680 -s 5 -d 1 -p vectorbasedforward -e 1792 -c 2 -a 0 -i 63 -k MAC
+h -t 764.205250680 -s 5 -d 1 -p vectorbasedforward -e 1792 -c 2 -a 0 -i 63 -k MAC -R 1100.000000
+v -t 764.205250680 -e sim_annotation 764.205250680 168 node 5 sendout packet (vectorbasedforward) 63
++ -t 764.816249760 -s 7 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC 
+- -t 764.816249760 -s 7 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC
+h -t 764.816249760 -s 7 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC -R 1100.000000
+v -t 764.816249760 -e sim_annotation 764.816249760 169 node 7 sendout packet (auv-SYNC) 0
++ -t 768.715367773 -s 2 -d 1 -p vectorbasedforward -e 1792 -c 2 -a 0 -i 61 -k MAC 
+- -t 768.715367773 -s 2 -d 1 -p vectorbasedforward -e 1792 -c 2 -a 0 -i 61 -k MAC
+h -t 768.715367773 -s 2 -d 1 -p vectorbasedforward -e 1792 -c 2 -a 0 -i 61 -k MAC -R 1100.000000
+v -t 768.715367773 -e sim_annotation 768.715367773 170 node 2 sendout packet (vectorbasedforward) 61
++ -t 782.390791535 -s 3 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC 
+- -t 782.390791535 -s 3 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC
+h -t 782.390791535 -s 3 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC -R 1100.000000
+v -t 782.390791535 -e sim_annotation 782.390791535 171 node 3 sendout packet (auv-SYNC) 0
++ -t 786.077093929 -s 0 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC 
+- -t 786.077093929 -s 0 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC
+h -t 786.077093929 -s 0 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC -R 1100.000000
+v -t 786.077093929 -e sim_annotation 786.077093929 172 node 0 sendout packet (auv-SYNC) 0
++ -t 790.591709654 -s 1 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC 
+- -t 790.591709654 -s 1 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC
+h -t 790.591709654 -s 1 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC -R 1100.000000
+v -t 790.591709654 -e sim_annotation 790.591709654 173 node 1 sendout packet (auv-SYNC) 0
++ -t 796.077093929 -s 0 -d 2 -p vectorbasedforward -e 1792 -c 2 -a 0 -i 60 -k MAC 
+- -t 796.077093929 -s 0 -d 2 -p vectorbasedforward -e 1792 -c 2 -a 0 -i 60 -k MAC
+h -t 796.077093929 -s 0 -d 2 -p vectorbasedforward -e 1792 -c 2 -a 0 -i 60 -k MAC -R 1100.000000
+v -t 796.077093929 -e sim_annotation 796.077093929 174 node 0 sendout packet (vectorbasedforward) 60
++ -t 800.591709654 -s 1 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC 
+- -t 800.591709654 -s 1 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC
+h -t 800.591709654 -s 1 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC -R 1100.000000
+v -t 800.591709654 -e sim_annotation 800.591709654 175 node 1 sendout packet (auv-SYNC) 0
++ -t 802.682756717 -s 4 -d 2 -p vectorbasedforward -e 1792 -c 2 -a 0 -i 66 -k MAC 
+- -t 802.682756717 -s 4 -d 2 -p vectorbasedforward -e 1792 -c 2 -a 0 -i 66 -k MAC
+h -t 802.682756717 -s 4 -d 2 -p vectorbasedforward -e 1792 -c 2 -a 0 -i 66 -k MAC -R 1100.000000
+v -t 802.682756717 -e sim_annotation 802.682756717 176 node 4 sendout packet (vectorbasedforward) 66
+d -t 802.897913481 -s 6 -d 2 -p vectorbasedforward -e 1792 -c 2 -a 0 -i 66 -k MAC
+v -t 802.897913481 -e sim_annotation 802.897913481 177 node 6 drop packet(vectorbasedforward) 66
+d -t 802.910072318 -s 0 -d 2 -p vectorbasedforward -e 1792 -c 2 -a 0 -i 66 -k MAC
+v -t 802.910072318 -e sim_annotation 802.910072318 178 node 0 drop packet(vectorbasedforward) 66
+d -t 802.916967827 -s 2 -d 2 -p vectorbasedforward -e 1792 -c 2 -a 0 -i 66 -k MAC
+v -t 802.916967827 -e sim_annotation 802.916967827 179 node 2 drop packet(vectorbasedforward) 66
+d -t 802.918951843 -s 3 -d 2 -p vectorbasedforward -e 1792 -c 2 -a 0 -i 66 -k MAC
+v -t 802.918951843 -e sim_annotation 802.918951843 180 node 3 drop packet(vectorbasedforward) 66
+d -t 802.947342118 -s 1 -d 2 -p vectorbasedforward -e 1792 -c 2 -a 0 -i 66 -k MAC
+v -t 802.947342118 -e sim_annotation 802.947342118 181 node 1 drop packet(vectorbasedforward) 66
++ -t 807.833797205 -s 6 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC 
+- -t 807.833797205 -s 6 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC
+h -t 807.833797205 -s 6 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC -R 1100.000000
+v -t 807.833797205 -e sim_annotation 807.833797205 182 node 6 sendout packet (auv-SYNC) 0
++ -t 814.547310619 -s 5 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC 
+- -t 814.547310619 -s 5 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC
+h -t 814.547310619 -s 5 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC -R 1100.000000
+v -t 814.547310619 -e sim_annotation 814.547310619 183 node 5 sendout packet (auv-SYNC) 0
++ -t 814.749377364 -s 7 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC 
+- -t 814.749377364 -s 7 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC
+h -t 814.749377364 -s 7 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC -R 1100.000000
+v -t 814.749377364 -e sim_annotation 814.749377364 184 node 7 sendout packet (auv-SYNC) 0
++ -t 817.833797205 -s 6 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC 
+- -t 817.833797205 -s 6 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC
+h -t 817.833797205 -s 6 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC -R 1100.000000
+v -t 817.833797205 -e sim_annotation 817.833797205 185 node 6 sendout packet (auv-SYNC) 0
++ -t 817.900085370 -s 2 -d 3 -p vectorbasedforward -e 1792 -c 2 -a 0 -i 65 -k MAC 
+- -t 817.900085370 -s 2 -d 3 -p vectorbasedforward -e 1792 -c 2 -a 0 -i 65 -k MAC
+h -t 817.900085370 -s 2 -d 3 -p vectorbasedforward -e 1792 -c 2 -a 0 -i 65 -k MAC -R 1100.000000
+v -t 817.900085370 -e sim_annotation 817.900085370 186 node 2 sendout packet (vectorbasedforward) 65
+r -t 818.131507120 -s 3 -d 3 -p vectorbasedforward -e 1792 -c 2 -a 0 -i 65 -k MAC -R 1100.000000
+v -t 818.131507120 -e sim_annotation 818.131507120 187 node 3 receive vectorbasedforward 65 from 3
++ -t 821.670190706 -s 2 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC 
+- -t 821.670190706 -s 2 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC
+h -t 821.670190706 -s 2 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC -R 1100.000000
+v -t 821.670190706 -e sim_annotation 821.670190706 188 node 2 sendout packet (auv-SYNC) 0
++ -t 823.679348384 -s 2 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC 
+- -t 823.679348384 -s 2 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC
+h -t 823.679348384 -s 2 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC -R 1100.000000
+v -t 823.679348384 -e sim_annotation 823.679348384 189 node 2 sendout packet (auv-SYNC) 0
++ -t 824.547310619 -s 5 -d 2 -p vectorbasedforward -e 1728 -c 2 -a 0 -i 67 -k MAC 
+- -t 824.547310619 -s 5 -d 2 -p vectorbasedforward -e 1728 -c 2 -a 0 -i 67 -k MAC
+h -t 824.547310619 -s 5 -d 2 -p vectorbasedforward -e 1728 -c 2 -a 0 -i 67 -k MAC -R 1100.000000
+v -t 824.547310619 -e sim_annotation 824.547310619 190 node 5 sendout packet (vectorbasedforward) 67
+r -t 824.822169425 -s 2 -d 2 -p vectorbasedforward -e 1728 -c 2 -a 0 -i 67 -k MAC -R 1100.000000
+v -t 824.822169425 -e sim_annotation 824.822169425 191 node 2 receive vectorbasedforward 67 from 2
++ -t 831.826731401 -s 3 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC 
+- -t 831.826731401 -s 3 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC
+h -t 831.826731401 -s 3 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC -R 1100.000000
+v -t 831.826731401 -e sim_annotation 831.826731401 192 node 3 sendout packet (auv-SYNC) 0
++ -t 841.826731401 -s 3 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC 
+- -t 841.826731401 -s 3 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC
+h -t 841.826731401 -s 3 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC -R 1100.000000
+v -t 841.826731401 -e sim_annotation 841.826731401 193 node 3 sendout packet (auv-SYNC) 0
++ -t 846.640326470 -s 0 -d 3 -p vectorbasedforward -e 1760 -c 2 -a 0 -i 64 -k MAC 
+- -t 846.640326470 -s 0 -d 3 -p vectorbasedforward -e 1760 -c 2 -a 0 -i 64 -k MAC
+h -t 846.640326470 -s 0 -d 3 -p vectorbasedforward -e 1760 -c 2 -a 0 -i 64 -k MAC -R 1100.000000
+v -t 846.640326470 -e sim_annotation 846.640326470 194 node 0 sendout packet (vectorbasedforward) 64
++ -t 851.450157587 -s 1 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC 
+- -t 851.450157587 -s 1 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC
+h -t 851.450157587 -s 1 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC -R 1100.000000
+v -t 851.450157587 -e sim_annotation 851.450157587 195 node 1 sendout packet (auv-SYNC) 0
++ -t 853.245545907 -s 4 -d 3 -p vectorbasedforward -e 1760 -c 2 -a 0 -i 70 -k MAC 
+- -t 853.245545907 -s 4 -d 3 -p vectorbasedforward -e 1760 -c 2 -a 0 -i 70 -k MAC
+h -t 853.245545907 -s 4 -d 3 -p vectorbasedforward -e 1760 -c 2 -a 0 -i 70 -k MAC -R 1100.000000
+v -t 853.245545907 -e sim_annotation 853.245545907 196 node 4 sendout packet (vectorbasedforward) 70
+r -t 853.478541033 -s 3 -d 3 -p vectorbasedforward -e 1760 -c 2 -a 0 -i 70 -k MAC -R 1100.000000
+v -t 853.478541033 -e sim_annotation 853.478541033 197 node 3 receive vectorbasedforward 70 from 3
++ -t 865.178078167 -s 7 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC 
+- -t 865.178078167 -s 7 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC
+h -t 865.178078167 -s 7 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC -R 1100.000000
+v -t 865.178078167 -e sim_annotation 865.178078167 198 node 7 sendout packet (auv-SYNC) 0
++ -t 867.986424631 -s 6 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC 
+- -t 867.986424631 -s 6 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC
+h -t 867.986424631 -s 6 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC -R 1100.000000
+v -t 867.986424631 -e sim_annotation 867.986424631 199 node 6 sendout packet (auv-SYNC) 0
++ -t 873.365952638 -s 2 -d 4 -p vectorbasedforward -e 1728 -c 2 -a 0 -i 69 -k MAC 
+- -t 873.365952638 -s 2 -d 4 -p vectorbasedforward -e 1728 -c 2 -a 0 -i 69 -k MAC
+h -t 873.365952638 -s 2 -d 4 -p vectorbasedforward -e 1728 -c 2 -a 0 -i 69 -k MAC -R 1100.000000
+v -t 873.365952638 -e sim_annotation 873.365952638 200 node 2 sendout packet (vectorbasedforward) 69
+r -t 873.593763748 -s 4 -d 4 -p vectorbasedforward -e 1728 -c 2 -a 0 -i 69 -k MAC -R 1100.000000
+v -t 873.593763748 -e sim_annotation 873.593763748 201 node 4 receive vectorbasedforward 69 from 4
++ -t 874.871960143 -s 5 -d 3 -p vectorbasedforward -e 1728 -c 2 -a 0 -i 71 -k MAC 
+- -t 874.871960143 -s 5 -d 3 -p vectorbasedforward -e 1728 -c 2 -a 0 -i 71 -k MAC
+h -t 874.871960143 -s 5 -d 3 -p vectorbasedforward -e 1728 -c 2 -a 0 -i 71 -k MAC -R 1100.000000
+v -t 874.871960143 -e sim_annotation 874.871960143 202 node 5 sendout packet (vectorbasedforward) 71
+r -t 875.134450970 -s 3 -d 3 -p vectorbasedforward -e 1728 -c 2 -a 0 -i 71 -k MAC -R 1100.000000
+v -t 875.134450970 -e sim_annotation 875.134450970 203 node 3 receive vectorbasedforward 71 from 3
++ -t 875.178078167 -s 7 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC 
+- -t 875.178078167 -s 7 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC
+h -t 875.178078167 -s 7 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC -R 1100.000000
+v -t 875.178078167 -e sim_annotation 875.178078167 204 node 7 sendout packet (auv-SYNC) 0
++ -t 876.870654641 -s 7 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC 
+- -t 876.870654641 -s 7 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC
+h -t 876.870654641 -s 7 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC -R 1100.000000
+v -t 876.870654641 -e sim_annotation 876.870654641 205 node 7 sendout packet (auv-SYNC) 0
++ -t 884.837195998 -s 5 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC 
+- -t 884.837195998 -s 5 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC
+h -t 884.837195998 -s 5 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC -R 1100.000000
+v -t 884.837195998 -e sim_annotation 884.837195998 206 node 5 sendout packet (auv-SYNC) 0
++ -t 892.351832502 -s 3 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC 
+- -t 892.351832502 -s 3 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC
+h -t 892.351832502 -s 3 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC -R 1100.000000
+v -t 892.351832502 -e sim_annotation 892.351832502 207 node 3 sendout packet (auv-SYNC) 0
++ -t 896.811840486 -s 0 -d 4 -p vectorbasedforward -e 1728 -c 2 -a 0 -i 68 -k MAC 
+- -t 896.811840486 -s 0 -d 4 -p vectorbasedforward -e 1728 -c 2 -a 0 -i 68 -k MAC
+h -t 896.811840486 -s 0 -d 4 -p vectorbasedforward -e 1728 -c 2 -a 0 -i 68 -k MAC -R 1100.000000
+v -t 896.811840486 -e sim_annotation 896.811840486 208 node 0 sendout packet (vectorbasedforward) 68
++ -t 901.837763657 -s 1 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC 
+- -t 901.837763657 -s 1 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC
+h -t 901.837763657 -s 1 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC -R 1100.000000
+v -t 901.837763657 -e sim_annotation 901.837763657 209 node 1 sendout packet (auv-SYNC) 0
++ -t 903.956187096 -s 4 -d 5 -p vectorbasedforward -e 1760 -c 2 -a 0 -i 74 -k MAC 
+- -t 903.956187096 -s 4 -d 5 -p vectorbasedforward -e 1760 -c 2 -a 0 -i 74 -k MAC
+h -t 903.956187096 -s 4 -d 5 -p vectorbasedforward -e 1760 -c 2 -a 0 -i 74 -k MAC -R 1100.000000
+v -t 903.956187096 -e sim_annotation 903.956187096 210 node 4 sendout packet (vectorbasedforward) 74
+r -t 904.179369955 -s 5 -d 5 -p vectorbasedforward -e 1760 -c 2 -a 0 -i 74 -k MAC -R 1100.000000
+v -t 904.179369955 -e sim_annotation 904.179369955 211 node 5 receive vectorbasedforward 74 from 5
+d -t 904.187198206 -s 2 -d 5 -p vectorbasedforward -e 1760 -c 2 -a 0 -i 74 -k MAC
+v -t 904.187198206 -e sim_annotation 904.187198206 212 node 2 drop packet(vectorbasedforward) 74
++ -t 918.573499804 -s 6 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC 
+- -t 918.573499804 -s 6 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC
+h -t 918.573499804 -s 6 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC -R 1100.000000
+v -t 918.573499804 -e sim_annotation 918.573499804 213 node 6 sendout packet (auv-SYNC) 0
++ -t 924.261367668 -s 2 -d 5 -p vectorbasedforward -e 1792 -c 2 -a 0 -i 73 -k MAC 
+- -t 924.261367668 -s 2 -d 5 -p vectorbasedforward -e 1792 -c 2 -a 0 -i 73 -k MAC
+h -t 924.261367668 -s 2 -d 5 -p vectorbasedforward -e 1792 -c 2 -a 0 -i 73 -k MAC -R 1100.000000
+v -t 924.261367668 -e sim_annotation 924.261367668 214 node 2 sendout packet (vectorbasedforward) 73
++ -t 926.632038129 -s 7 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC 
+- -t 926.632038129 -s 7 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC
+h -t 926.632038129 -s 7 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC -R 1100.000000
+v -t 926.632038129 -e sim_annotation 926.632038129 215 node 7 sendout packet (auv-SYNC) 0
++ -t 934.994587030 -s 5 -d 4 -p vectorbasedforward -e 1760 -c 2 -a 0 -i 75 -k MAC 
+- -t 934.994587030 -s 5 -d 4 -p vectorbasedforward -e 1760 -c 2 -a 0 -i 75 -k MAC
+h -t 934.994587030 -s 5 -d 4 -p vectorbasedforward -e 1760 -c 2 -a 0 -i 75 -k MAC -R 1100.000000
+v -t 934.994587030 -e sim_annotation 934.994587030 216 node 5 sendout packet (vectorbasedforward) 75
++ -t 942.506043018 -s 3 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC 
+- -t 942.506043018 -s 3 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC
+h -t 942.506043018 -s 3 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC -R 1100.000000
+v -t 942.506043018 -e sim_annotation 942.506043018 217 node 3 sendout packet (auv-SYNC) 0
++ -t 946.834218332 -s 0 -d 5 -p vectorbasedforward -e 1760 -c 2 -a 0 -i 72 -k MAC 
+- -t 946.834218332 -s 0 -d 5 -p vectorbasedforward -e 1760 -c 2 -a 0 -i 72 -k MAC
+h -t 946.834218332 -s 0 -d 5 -p vectorbasedforward -e 1760 -c 2 -a 0 -i 72 -k MAC -R 1100.000000
+v -t 946.834218332 -e sim_annotation 946.834218332 218 node 0 sendout packet (vectorbasedforward) 72
++ -t 951.264991866 -s 1 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC 
+- -t 951.264991866 -s 1 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC
+h -t 951.264991866 -s 1 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC -R 1100.000000
+v -t 951.264991866 -e sim_annotation 951.264991866 219 node 1 sendout packet (auv-SYNC) 0
++ -t 954.330282354 -s 4 -d 6 -p vectorbasedforward -e 1792 -c 2 -a 0 -i 78 -k MAC 
+- -t 954.330282354 -s 4 -d 6 -p vectorbasedforward -e 1792 -c 2 -a 0 -i 78 -k MAC
+h -t 954.330282354 -s 4 -d 6 -p vectorbasedforward -e 1792 -c 2 -a 0 -i 78 -k MAC -R 1100.000000
+v -t 954.330282354 -e sim_annotation 954.330282354 220 node 4 sendout packet (vectorbasedforward) 78
++ -t 968.079389609 -s 6 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC 
+- -t 968.079389609 -s 6 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC
+h -t 968.079389609 -s 6 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC -R 1100.000000
+v -t 968.079389609 -e sim_annotation 968.079389609 221 node 6 sendout packet (auv-SYNC) 0
++ -t 974.737553720 -s 2 -d 6 -p vectorbasedforward -e 1792 -c 2 -a 0 -i 77 -k MAC 
+- -t 974.737553720 -s 2 -d 6 -p vectorbasedforward -e 1792 -c 2 -a 0 -i 77 -k MAC
+h -t 974.737553720 -s 2 -d 6 -p vectorbasedforward -e 1792 -c 2 -a 0 -i 77 -k MAC -R 1100.000000
+v -t 974.737553720 -e sim_annotation 974.737553720 222 node 2 sendout packet (vectorbasedforward) 77
++ -t 976.447597639 -s 7 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC 
+- -t 976.447597639 -s 7 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC
+h -t 976.447597639 -s 7 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC -R 1100.000000
+v -t 976.447597639 -e sim_annotation 976.447597639 223 node 7 sendout packet (auv-SYNC) 0
++ -t 984.608266231 -s 5 -d 6 -p vectorbasedforward -e 1792 -c 2 -a 0 -i 79 -k MAC 
+- -t 984.608266231 -s 5 -d 6 -p vectorbasedforward -e 1792 -c 2 -a 0 -i 79 -k MAC
+h -t 984.608266231 -s 5 -d 6 -p vectorbasedforward -e 1792 -c 2 -a 0 -i 79 -k MAC -R 1100.000000
+v -t 984.608266231 -e sim_annotation 984.608266231 224 node 5 sendout packet (vectorbasedforward) 79
++ -t 991.853040327 -s 3 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC 
+- -t 991.853040327 -s 3 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC
+h -t 991.853040327 -s 3 -d -1 -p auv-SYNC -e 64 -c 2 -a 0 -i 0 -k MAC -R 1100.000000
+v -t 991.853040327 -e sim_annotation 991.853040327 225 node 3 sendout packet (auv-SYNC) 0
++ -t 997.050038354 -s 0 -d 6 -p vectorbasedforward -e 1792 -c 2 -a 0 -i 76 -k MAC 
+- -t 997.050038354 -s 0 -d 6 -p vectorbasedforward -e 1792 -c 2 -a 0 -i 76 -k MAC
+h -t 997.050038354 -s 0 -d 6 -p vectorbasedforward -e 1792 -c 2 -a 0 -i 76 -k MAC -R 1100.000000
+v -t 997.050038354 -e sim_annotation 997.050038354 226 node 0 sendout packet (vectorbasedforward) 76
+W -t 1000

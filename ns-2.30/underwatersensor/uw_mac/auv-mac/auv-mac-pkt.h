@@ -4,7 +4,8 @@
 #include <packet.h>
 #include <random.h>
 #include <timer-handler.h>
-
+#include <iostream>
+using namespace std;
 typedef double Time;
 namespace AUV
 {
@@ -29,6 +30,7 @@ struct hdr_SYNC{
 	}
 	inline static hdr_SYNC* access(const Packet* p) 
 	{
+		cout << "hdr_SYNC*)p->access(offset_) offset:"<< offset_<< endl;
 		return (hdr_SYNC*)p->access(offset_);
 	}
 };

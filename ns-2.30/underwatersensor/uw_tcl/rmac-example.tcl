@@ -68,6 +68,8 @@ Antenna/OmniAntenna set Z_ 0.05
 Antenna/OmniAntenna set Gt_ 1.0
 Antenna/OmniAntenna set Gr_ 1.0
 
+#Mac/UnderwaterMac/UWANMac set AvgCyclePeriod 20
+#Mac/UnderwaterMac/AUVMAC set StdCyclePeriod 1
 
 
 Mac/UnderwaterMac set bit_rate_  $opt(bit_rate)

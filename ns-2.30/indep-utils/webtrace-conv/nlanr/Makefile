@@ -49,7 +49,7 @@ prefix  = /usr/local
 BINDEST = /usr/local/bin
 
 CC = g++
-INCLUDE = -I. -I../../.. -I/home/yongj/NS2/tclcl-1.18 -I/home/yongj/NS2/otcl-1.12 -I/home/yongj/NS2/include -I/home/yongj/NS2/include -I/usr/include/pcap
+INCLUDE = -I. -I../../.. -I/home/yongj/NS2/tclcl-1.18 -I/home/yongj/NS2/otcl -I/home/yongj/NS2/include -I/home/yongj/NS2/include -I/usr/include/pcap
 CFLAGS =  -Wall -DCPP_NAMESPACE=std
 LDFLAGS = 
 LIBS = -L/home/yongj/NS2/lib -ltcl8.4  -lnsl -ldl -lm 

@@ -46,7 +46,8 @@
 #include "lib/bsd-list.h"
 #include "packet-stamp.h"
 #include "ns-process.h"
-
+#include <iostream>
+using namespace std;
 // Used by wireless routing code to attach routing agent
 #define RT_PORT		255	/* port that all route msgs are sent to */
 
@@ -188,7 +189,6 @@ enum packet_t {
 	PT_AUV_SYNC,
 	PT_AUV_ML,
 	PT_AUV_HELLO,
-	
 	//added by Yibo Zhu
 	/*UWAN-MAC*/
 	PT_UWAN_SYNC,
