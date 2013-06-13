@@ -35,10 +35,11 @@ set opt(stop)	                	1000	;# simulation time
 set opt(prestop)                        20     ;# time to prepare to stop
 set opt(tr)	                	"result/auvmac.tr"	;# trace file
 set opt(nam)                            "result/auvmac.nam"  ;# nam file
+set opt(datafile)	                "result/auvmac.data"
 set opt(adhocRouting)                   Vectorbasedforward ;#SillyRouting
 set opt(width)                           20
 set opt(adj)                             10
-set opt(interval)                        0.001
+set opt(interval)                        1
 #set opt(traf)	                	"diffusion-traf.tcl"      ;# traffic file
 
 # ==================================================================
@@ -101,6 +102,7 @@ $ns_ trace-all $tracefd
 set nf [open $opt(nam) w]
 $ns_ namtrace-all-wireless $nf $opt(x) $opt(y)
 
+set data [open $opt(datafile) a]
 
 set start_time 0.001
 puts "the start time is $start_time"
@@ -147,6 +149,7 @@ for {set i 0} {$i<$opt(nn)} {incr i} {
 	$ns_ attach-agent $node_($i) $a_($i)
 	$a_($i) attach-vectorbasedforward $opt(width)
 	$a_($i) cmd set-range 20
+	$a_($i) cmd set-filename $opt(datafile)
 	$a_($i) set data_rate_ $opt(data_rate_)
 	
 }
@@ -230,14 +233,19 @@ $node_(7) set-cz 0
 #}
 
 $ns_ at $start_time.11 "$a_(0) cbr-start"
-$ns_ at $start_time.33 "$a_(2) cbr-start"
-#$ns_ at $start_time "$a_(3) cbr-start"
-$ns_ at $start_time.56 "$a_(4) cbr-start"
-$ns_ at $start_time.79 "$a_(5) cbr-start"
-#$ns_ at $start_time "$a_(6) cbr-start"
-#$ns_ at $start_time "$a_(7) cbr-start"
+#$ns_ at $start_time.88 "$a_(1) cbr-start"
+#$ns_ at $start_time.33 "$a_(2) cbr-start"
+#$ns_ at $start_time.22 "$a_(3) cbr-start"
+#$ns_ at $start_time.56 "$a_(4) cbr-start"
+#$ns_ at $start_time.79 "$a_(5) cbr-start"
+#$ns_ at $start_time.44 "$a_(6) cbr-start"
+#$ns_ at $start_time.66 "$a_(7) cbr-start"
 
 
+set node_size 10
+for {set k 0} { $k<$opt(nn) } { incr k } {
+	$ns_ initial_node_pos $node_($k) $node_size
+}
 puts "+++++++AFTER ANNOUNCE++++++++++++++"
 
 
@@ -254,6 +262,11 @@ $ns_ at $opt(stop).002 "$a_(6) terminate"
 $ns_ at $opt(stop).003  "$god_ compute_energy"
 $ns_ at $opt(stop).004  "$ns_ nam-end-wireless $opt(stop)"
 $ns_ at $opt(stop).005 "puts \"NS EXISTING...\"; $ns_ halt"
+
+puts $data  "New simulation...."
+puts $data "nodes  = $opt(nn), random_seed = $opt(seed), sending_interval_=$opt(interval), width=$opt(width)"
+puts $data "x= $opt(x) y= $opt(y) z= $opt(z)"
+close $data
 
  puts $tracefd "SillyRrouting"
  puts $tracefd "M 0.0 nn $opt(nn) x $opt(x) y $opt(y) z $opt(z)"

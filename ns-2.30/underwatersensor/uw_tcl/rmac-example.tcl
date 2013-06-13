@@ -1,7 +1,7 @@
 set opt(chan)		Channel/UnderwaterChannel
 set opt(prop)		Propagation/UnderwaterPropagation
 set opt(netif)		Phy/UnderwaterPhy
-set opt(mac)		Mac/UnderwaterMac/RMac
+set opt(mac)		Mac/UnderwaterMac/AUVMAC
 set opt(ifq)		Queue/DropTail/PriQueue
 set opt(ll)		LL
 set opt(energy)         EnergyModel
@@ -43,8 +43,9 @@ set opt(z)                              [expr ($opt(layers)-1)*$opt(dz)]
 set opt(seed)	                	348.88
 set opt(stop)	                	1000	;# simulation time
 set opt(prestop)                        20     ;# time to prepare to stop
-set opt(tr)	                	"rmac.tr"	;# trace file
-set opt(nam)                            "rmac.nam"  ;# nam file
+set opt(tr)	                	"result/rmac.tr"	;# trace file
+set opt(nam)                            "result/rmac.nam"  ;# nam file
+set opt(datafile)	                "result/rmac.data"
 set opt(adhocRouting)                    Vectorbasedforward
 set opt(width)                           20
 set opt(adj)                             10
@@ -68,8 +69,8 @@ Antenna/OmniAntenna set Z_ 0.05
 Antenna/OmniAntenna set Gt_ 1.0
 Antenna/OmniAntenna set Gr_ 1.0
 
-#Mac/UnderwaterMac/UWANMac set AvgCyclePeriod 20
-#Mac/UnderwaterMac/AUVMAC set StdCyclePeriod 1
+Mac/UnderwaterMac/AUVMAC set AvgCyclePeriod 20
+Mac/UnderwaterMac/AUVMAC set StdCyclePeriod 1
 
 
 Mac/UnderwaterMac set bit_rate_  $opt(bit_rate)
@@ -115,7 +116,7 @@ Phy/UnderwaterPhy set K_ 2.0   ;#spherical spreading
 
 remove-all-packet-headers 
 #remove-packet-header AODV ARP TORA  IMEP TFRC
-add-packet-header IP Mac LL  ARP  UWVB RMAC
+add-packet-header IP Mac LL  ARP  UWVB AUV_ML AUV_SYNC
 
 set ns_ [new Simulator]
 set topo  [new Topography]
@@ -128,6 +129,7 @@ $ns_ trace-all $tracefd
 set nf [open $opt(nam) w]
 $ns_ namtrace-all-wireless $nf $opt(x) $opt(y)
 
+set data [open $opt(datafile) a]
 
 set phase1_time [expr $opt(PhaseOne_cycle)*$opt(PhaseOne_window)]
 set phase2_time [expr $opt(PhaseTwo_cycle)*($opt(PhaseTwo_window)+$opt(PhaseTwo_interval))]
@@ -183,7 +185,7 @@ $a_(0) cmd set-range 20
 $a_(0) cmd set-target-x -20
 $a_(0) cmd set-target-y -10
 $a_(0) cmd set-target-z -20
-
+$a_(0) cmd set-filename $opt(datafile)
 
 
 set node_(1) [$ns_  node 1]
@@ -205,7 +207,7 @@ $a_(1) attach-vectorbasedforward $opt(width)
  $a_(1) cmd set-target-y   0
  $a_(1) cmd set-target-z   0
  $a_(1) set data_rate_ 0.05
-
+$a_(1) cmd set-filename $opt(datafile)
 
 set node_(2) [$ns_  node 2]
 $node_(2) set sinkStatus_ 1
@@ -226,7 +228,7 @@ $a_(2) attach-vectorbasedforward $opt(width)
  $a_(2) cmd set-target-y   0
  $a_(2) cmd set-target-z   0
  $a_(2) set data_rate_ 0.05
-
+$a_(2) cmd set-filename $opt(datafile)
 
 set node_(3) [$ns_  node 3]
 $node_(3) set sinkStatus_ 1
@@ -247,7 +249,7 @@ $a_(3) attach-vectorbasedforward $opt(width)
  $a_(3) cmd set-target-y   0
  $a_(3) cmd set-target-z   0
  $a_(3) set data_rate_ 0.05
-
+$a_(3) cmd set-filename $opt(datafile)
 
 #puts "the total number is $total_number"
 set node_($total_number) [$ns_  node $total_number]
@@ -268,7 +270,7 @@ $a_($total_number) attach-vectorbasedforward $opt(width)
  $a_($total_number) cmd set-target-y 0
  $a_($total_number) cmd set-target-z 0
  $a_($total_number) set data_rate_  0.05
-
+$a_($total_number) cmd set-filename $opt(datafile)
 
 
 
@@ -278,10 +280,10 @@ $a_($total_number) attach-vectorbasedforward $opt(width)
 
 
 #$ns_ at 15 "$a_($total_number) cbr-start"
-$ns_ at $start_time "$a_($total_number) exp-start"
-$ns_ at $start_time "$a_(1) exp-start"
-$ns_ at $start_time "$a_(2) exp-start"
-$ns_ at $start_time "$a_(3) exp-start"
+$ns_ at $start_time.1 "$a_($total_number) exp-start"
+$ns_ at $start_time.2 "$a_(1) exp-start"
+$ns_ at $start_time.3 "$a_(2) exp-start"
+$ns_ at $start_time.4 "$a_(3) exp-start"
 
 #$ns_ at 4 "$a_(0) cbr-start"
 #$ns_ at 2.0003 "$a_(2) cbr-start"
@@ -310,6 +312,11 @@ $ns_ at $opt(stop).002 "$a_(3) terminate"
 $ns_ at $opt(stop).003  "$god_ compute_energy"
 $ns_ at $opt(stop).004  "$ns_ nam-end-wireless $opt(stop)"
 $ns_ at $opt(stop).005 "puts \"NS EXISTING...\"; $ns_ halt"
+
+puts $data  "New simulation...."
+puts $data "nodes  = $opt(nn), random_seed = $opt(seed), sending_interval_=$opt(interval), width=$opt(width)"
+puts $data "x= $opt(x) y= $opt(y) z= $opt(z)"
+close $data
 
  puts $tracefd "vectorbased"
  puts $tracefd "M 0.0 nn $opt(nn) x $opt(x) y $opt(y) z $opt(z)"
