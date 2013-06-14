@@ -134,7 +134,7 @@ private:
 	void    format_imep(Packet *p, int offset);
 	void    format_aodv(Packet *p, int offset);
 	void	format_sfama(Packet* p, int offset);
-		
+	void	format_rmac(Packet* p, int offset);
 };
 
 #endif /* __cmu_trace__ */

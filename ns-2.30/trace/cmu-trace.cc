@@ -47,6 +47,7 @@
 #include <mac.h>
 #include <mac-802_11.h>
 #include <smac.h>
+#include <underwatersensor/uw_mac/rmac.h>
 #include <address.h>
 #include <tora/tora_packet.h> //TORA
 #include <imep/imep_spec.h>         // IMEP
@@ -127,11 +128,14 @@ CMUTrace::format_mac_common(Packet *p, const char *why, int offset)
 	struct hdr_ip *ih = HDR_IP(p);
 	struct hdr_mac802_11 *mh;
 	struct hdr_smac *sh;
+	struct hdr_rmac *rh;
 	char mactype[SMALL_LEN];
 
 	strcpy(mactype, Simulator::instance().macType());
 	if (strcmp (mactype, "Mac/SMAC") == 0)
 		sh = HDR_SMAC(p);
+	else if (strcmp (mactype, "Mac/UnderwaterMac/RMac") == 0)
+		rh = HDR_RMAC(p);
 	else
 		mh = HDR_MAC802_11(p);
 	
@@ -185,8 +189,8 @@ CMUTrace::format_mac_common(Packet *p, const char *why, int offset)
 		offset = strlen(pt_->buffer());
 		if (strcmp (mactype, "Mac/SMAC") == 0) {
 			format_smac(p, offset);
-		} else {
-			format_mac(p, offset);
+		} else if (strcmp (mactype, "Mac/UnderwaterMac/RMac") == 0){
+			format_rmac(p, offset);
 		}
 		return;
 	}
@@ -220,7 +224,9 @@ CMUTrace::format_mac_common(Packet *p, const char *why, int offset)
 	    offset = strlen(pt_->buffer());
 	    if (strcmp(mactype, "Mac/SMAC") == 0) {
 		    format_smac(p, offset);
-	    } else {
+	    } else if (strcmp(mactype, "Mac/UnderwaterMac/RMac") == 0) {
+		    format_rmac(p, offset);
+	    } else{
 		    format_mac(p, offset);
 	    }
 	    return;
@@ -273,13 +279,23 @@ CMUTrace::format_mac_common(Packet *p, const char *why, int offset)
 		  (sh->type == ACK_PKT) ? "ACK" :
 		  (sh->type == SYNC_PKT) ? "SYNC" :
 		  "UNKN") : 
+		 (ch->ptype() == PT_RMAC) ? (
+		  (rh->ptype == P_DATA) ? "DATA" :
+		  (rh->ptype == P_REV) ? "REV" :
+		  (rh->ptype == P_ACKREV) ? "ACKREV" :
+		  (rh->ptype == P_ND) ? "ND" :
+		  (rh->ptype == P_SACKND) ? "ACKND" :
+	      (rh->ptype == P_ACKDATA) ? "ACKDATA" :
+		  (rh->ptype == P_SYN) ? "SYNC" :
+		  "UNKN") :
 		 packet_info.name(ch->ptype())),
 		ch->size());
-	
 	offset = strlen(pt_->buffer());
 
 	if (strncmp (mactype, "Mac/SMAC", 8) == 0) {
 		format_smac(p, offset);
+	} else if(strncmp (mactype, "Mac/UnderwaterMac/RMac", 22) == 0) {
+		format_rmac(p, offset);
 	} else {
 		format_mac(p, offset);
         }
@@ -359,7 +375,17 @@ CMUTrace::format_smac(Packet *p, int offset)
 		sh->dstAddr,
 		sh->srcAddr);
 }
-	
+
+void
+CMUTrace::format_rmac(Packet *p, int offset)
+{
+	struct hdr_rmac *rh = HDR_RMAC(p);
+	sprintf(pt_->buffer() + offset,
+		" [%.2f %d %d] ",
+		rh->duration,
+		rh->receiver_addr,
+		rh->sender_addr);
+}
 
 void
 CMUTrace::format_ip(Packet *p, int offset)
@@ -1287,6 +1313,7 @@ void CMUTrace::format(Packet* p, const char *why)
 	switch(ch->ptype()) {
 	case PT_MAC:
 	case PT_SMAC:
+	case PT_RMAC:
 		break;
 	case PT_ARP:
 		format_arp(p, offset);

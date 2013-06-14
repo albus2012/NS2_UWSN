@@ -326,6 +326,7 @@ Time AUV_MAC::genNxCyclePeriod()
  */
 void AUV_MAC::RecvProcess(Packet *p)
 {
+	sendUp(p);
 	Time now = Scheduler::instance().clock();
 	outfile << index_  << " AUV_MAC::RecvProcess" << endl;
 
@@ -391,7 +392,7 @@ void AUV_MAC::RecvProcess(Packet *p)
 		if( dst == index_ || (u_int32_t)dst == MAC_BROADCAST ) {
 
 			outfile << now << " # " << index_  << " AUV_MAC::RecvProcess MAC_BROADCAST" << endl;
-			sendUp(p);
+			//sendUp(p);
 			return;
 		}
 

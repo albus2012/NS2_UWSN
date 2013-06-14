@@ -1,7 +1,7 @@
 set opt(chan)		Channel/UnderwaterChannel
 set opt(prop)		Propagation/UnderwaterPropagation
 set opt(netif)		Phy/UnderwaterPhy
-set opt(mac)		Mac/UnderwaterMac/AUVMAC
+set opt(mac)		Mac/UnderwaterMac/RMac
 set opt(ifq)		Queue/DropTail/PriQueue
 set opt(ll)		LL
 set opt(energy)         EnergyModel
@@ -69,8 +69,7 @@ Antenna/OmniAntenna set Z_ 0.05
 Antenna/OmniAntenna set Gt_ 1.0
 Antenna/OmniAntenna set Gr_ 1.0
 
-Mac/UnderwaterMac/AUVMAC set AvgCyclePeriod 20
-Mac/UnderwaterMac/AUVMAC set StdCyclePeriod 1
+
 
 
 Mac/UnderwaterMac set bit_rate_  $opt(bit_rate)
@@ -81,7 +80,7 @@ Mac/UnderwaterMac/RMac set PhaseOne_window_ $opt(PhaseOne_window)
 Mac/UnderwaterMac/RMac set PhaseTwo_window_ $opt(PhaseTwo_window)
 Mac/UnderwaterMac/RMac set PhaseTwo_interval_ $opt(PhaseTwo_interval)
 Mac/UnderwaterMac/RMac set IntervalPhase2Phase3_ $opt(IntervalPhase2Phase3)
-#Mac/UnderwaterMac/RMac set ACKRevInterval_ 0.1 
+
 Mac/UnderwaterMac/RMac set duration_ $opt(duration)
 Mac/UnderwaterMac/RMac set PhyOverhead_ $opt(PhyOverhead)
 Mac/UnderwaterMac/RMac set large_packet_size_  $opt(large_packet_size) 
@@ -116,7 +115,7 @@ Phy/UnderwaterPhy set K_ 2.0   ;#spherical spreading
 
 remove-all-packet-headers 
 #remove-packet-header AODV ARP TORA  IMEP TFRC
-add-packet-header IP Mac LL  ARP  UWVB AUV_ML AUV_SYNC
+add-packet-header IP Mac LL  ARP  UWVB RMAC
 
 set ns_ [new Simulator]
 set topo  [new Topography]
@@ -156,7 +155,6 @@ $ns_ node-config -adhocRouting $opt(adhocRouting) \
 		 -antType $opt(ant) \
 		 -propType $opt(prop) \
 		 -phyType $opt(netif) \
-		 #-channelType $opt(chan) \
 		 -agentTrace OFF \
                  -routerTrace OFF \
                  -macTrace ON\
@@ -166,7 +164,8 @@ $ns_ node-config -adhocRouting $opt(adhocRouting) \
                  -rxpower $opt(rxpower)\
                  -initialEnergy $opt(initialenergy)\
                  -idlePower $opt(idlepower)\
-                 -channel $chan_1_
+                 -channel $chan_1_  
+		  #-channelType $opt(chan) \
 
 
 set node_(0) [$ns_  node 0]

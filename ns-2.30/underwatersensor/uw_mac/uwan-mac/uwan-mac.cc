@@ -446,9 +446,9 @@ void UWAN_MAC::sendoutPkt(Time NextCyclePeriod)
 		for(uint i=0; i<next_hop_num; i++, pos++);
 		cmh->next_hop() = *pos;
 		next_hop_num = (next_hop_num+1)%neighbors_.size();
-		vbh->target_id.addr_ = cmh->next_hop();
+		//vbh->target_id.addr_ = cmh->next_hop();
 	}
-
+	cmh->next_hop() = vbh->target_id.addr_;
 	hdr_mac* mh=hdr_mac::access(pkt);
 	mh->macDA() = cmh->next_hop();
 	mh->macSA() = index_;

@@ -20,6 +20,7 @@ in the next period interval
 #include <stdlib.h>
 
 
+
 int hdr_rmac::offset_;
 
 
@@ -186,7 +187,9 @@ void TransmissionHandler::handle(Event*e)
 
 
 
-//NDStatusHandler::NDStatusHandler(RMac* p):mac_(p),status_(SLEEP){}
+NDStatusHandler::NDStatusHandler(RMac* p):mac_(p),status_(SLEEP){}
+
+
 void NDStatusHandler::handle(Event* e)
 {
   if(status_!=SLEEP) mac_->StatusProcess(e,status_);
@@ -2468,7 +2471,7 @@ printf("rmac:ProcessACKDATAPacket: node %d process ACKDATA packets at time %f du
 printf("rmac:ProcessAckData: node %d cancel timeout dutation=%f\n",index_,duration_);    
       s.cancel(&timeout_event);// cancel the timer of data
   
-
+      //uptarget_->recv(pkt,this);
   
     
     for (int i=0;i<MAXIMUM_BUFFER;i++)bit_map[i]=0;
@@ -2582,7 +2585,7 @@ RMac::ProcessDataPacket(Packet* pkt)
       //     MarkBitMap(num);
       UpdateACKDataTable(data_sender,bnum,num);
       
-      uptarget_->recv(pkt,this);
+      //uptarget_->recv(pkt,this);
       return;
 }
 
@@ -2902,6 +2905,7 @@ different versions.
 void 
 RMac::RecvProcess(Packet* pkt){
    
+   sendUp(pkt);
    hdr_cmn* cmh=HDR_CMN(pkt);
    hdr_rmac* cmh1=HDR_RMAC(pkt);
    int dst=cmh->next_hop();
@@ -3151,3 +3155,5 @@ RMac::command(int argc, const char*const* argv)
 
 	return UnderwaterMac::command(argc, argv);
 }
+
+

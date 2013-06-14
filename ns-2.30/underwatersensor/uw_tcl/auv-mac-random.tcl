@@ -126,7 +126,7 @@ $ns_ node-config -adhocRouting $opt(adhocRouting) \
 		 -phyType $opt(netif) \
 		 #-channelType $opt(chan) \
 		 -agentTrace OFF \
-                 -routerTrace OFF \
+                 -routerTrace ON \
                  -macTrace ON\
                  -topoInstance $topo\
                  -energyModel $opt(energy)\
@@ -234,7 +234,7 @@ $node_(7) set-cz 0
 
 #$ns_ at $start_time.11 "$a_(0) cbr-start"
 #$ns_ at $start_time.88 "$a_(1) cbr-start"
-$ns_ at $start_time.33 "$a_(2) cbr-start"
+$ns_ at $start_time.33 "$a_(2) exp-start"
 #$ns_ at $start_time.22 "$a_(3) cbr-start"
 #$ns_ at $start_time.56 "$a_(4) cbr-start"
 #$ns_ at $start_time.79 "$a_(5) cbr-start"

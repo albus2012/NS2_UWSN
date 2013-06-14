@@ -7,6 +7,8 @@
 #include "underwatersensor/uw_common/underwatersensornode.h"
 #include "uwbuffer.h"
 
+
+
 #define TABLE_SIZE 20 // the size of delay table
 #define MAXIMUMBACKOFF 4 // the maximum times of backoffs
 #define BACKOFF 1 //deleted later, used by TxProcess
@@ -353,7 +355,7 @@ class SYNHandler: public Handler{
 class NDStatusHandler: public Handler{
  public:
   // NDStatusHandler(RMac*);
-  NDStatusHandler(RMac* p): status_(SLEEP), mac_(p) {}
+  NDStatusHandler(RMac* p);
   void SetStatus(TransmissionStatus);
   void handle(Event*);
  private:

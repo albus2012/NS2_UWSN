@@ -75,7 +75,7 @@ using namespace std;
 #define HDR_TMAC(p)      (hdr_tmac::access(p))  // added by Peng Xie
 #define HDR_DBR(p)      (hdr_dbr::access(p))  /* hai's dbr */
 #define HDR_LMS(p)		(hdr_lms::access(p))
-
+#define HDR_UWAN(p)		(hdr_SYNC::access(p))
 /* --------------------------------------------------------------------*/
 
 enum packet_t {
