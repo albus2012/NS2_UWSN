@@ -131,9 +131,18 @@ void AUV_MAC::TxPktProcess(Event *e, AUV_MAC_PktSendTimer* pkt_send_timer)
 	hdr_mac* mh=hdr_mac::access(p);
 	int dst = mh->macDA();
 	int src = mh->macSA();
-	//outfile << index_ <<  " AUV_MAC::TxProcess" << endl;
+	hdr_SYNC* SYNC_h = hdr_SYNC::access(p);
 	Time now = Scheduler::instance().clock();
-	outfile << now <<" # "<< index_ <<" sendDown dst: "<< dst <<" src: "<< src <<endl;
+	outfile << now << " # "<< index_
+			        << " src: " << src
+					<< " dst: " << dst
+					<< " nexttime: " << SYNC_h->cycle_period()+now
+					<< endl;
+	//outfile << index_ <<  " AUV_MAC::TxProcess" << endl;
+
+	outfile << now <<" # "<< index_
+			<<" sendDown dst: "<< dst
+			<<" src: "<< src <<endl;
 
 	sendDown(p);
 	Scheduler::instance().schedule(&status_handler, 
@@ -237,7 +246,7 @@ void AUV_MAC::wakeup(nsaddr_t node_id)
 
 	if( node_id == index_ ) {
 		//generate the time when this node will send out next packet
-		CycleCounter_ = (++CycleCounter_) % 100;
+		CycleCounter_ = (++CycleCounter_) % 1000;
 		
 		switch( CycleCounter_ ) {
 			case 0:
@@ -255,11 +264,13 @@ void AUV_MAC::wakeup(nsaddr_t node_id)
 				NextCyclePeriod_ = genNxCyclePeriod();		
 				break;
 		}
-
+        //cout <<"maxproptime: " << MaxPropTime_
+        //     <<"maxproptime: " << MaxTxTime_ << endl;
 		if( ! WakeSchQueue_.checkGuardTime(NextCyclePeriod_, 2*MaxPropTime_, MaxTxTime_) ) {
 			NextCyclePeriod_ = 
 				WakeSchQueue_.getAvailableSendTime(now+WakePeriod_, 
 										NextCyclePeriod_, 2*MaxPropTime_, MaxTxTime_);
+			cout << "re cyclePeriod" << endl;
 		}
 		
 		WakeSchQueue_.push(NextCyclePeriod_, index_, NextCyclePeriod_-now);
@@ -270,6 +281,7 @@ void AUV_MAC::wakeup(nsaddr_t node_id)
 			sendoutPkt(NextCyclePeriod_);
 	}
 	else {
+		//WakeSchQueue_.push(genNxCyclePeriod(), node_id, genNxCyclePeriod()-now);
 		CL_.erase(node_id);
 	}
 
@@ -345,8 +357,13 @@ void AUV_MAC::RecvProcess(Packet *p)
 	if( cmh->ptype() == PT_AUV_HELLO || cmh->ptype() == PT_AUV_SYNC  ) {
 
 		outfile << "AUV_MAC::RecvProcess IS PT_AUV_HELLO PT_AUV_SYNC" << endl;
+		outfile << now << " # "<< index_
+				<< " src: " << src
+				<< " nexttime: " << SYNC_h->cycle_period()+now
+				<< endl;
 		//the process to hello packet is same to SYNC packet
-		WakeSchQueue_.push(SYNC_h->cycle_period()+now, src, SYNC_h->cycle_period());
+		WakeSchQueue_.push(SYNC_h->cycle_period()+now ,
+				src, SYNC_h->cycle_period() );
 		//WakeSchQueue_.print(2*MaxPropTime_, MaxTxTime_, false, index_);
 	}
 	else {
@@ -360,8 +377,12 @@ void AUV_MAC::RecvProcess(Packet *p)
 			//then send packet to upper layers
 		if( index_ == dst )
 			printf("node(%d) recv %s\n", index_, packet_info.name(cmh->ptype()));
-
-		WakeSchQueue_.push(SYNC_h->cycle_period_+now, src, SYNC_h->cycle_period() );
+		outfile << now << " # "<< index_
+						<< " src: " << src
+						<< " nexttime: " << SYNC_h->cycle_period()+now
+						<< endl;
+		WakeSchQueue_.push(SYNC_h->cycle_period_+now ,
+				src, SYNC_h->cycle_period() );
 		WakeSchQueue_.print(2*MaxPropTime_, MaxTxTime_, false, index_);
 
 		//extract Missing list

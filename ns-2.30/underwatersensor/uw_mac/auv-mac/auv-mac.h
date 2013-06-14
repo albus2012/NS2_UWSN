@@ -18,7 +18,7 @@ namespace AUV
 
 #define AUV_MAC_CALLBACK_DELAY 0.001
 #define INFINITE_PERIOD   10000000.0
-#define PRE_WAKE_TIME     0.1
+#define PRE_WAKE_TIME     1
 
 class AUV_MAC;
 
