@@ -4,8 +4,8 @@
 #include <packet.h>
 #include <random.h>
 #include <timer-handler.h>
-#include <iostream>
-using namespace std;
+//#include <iostream>
+//using namespace std;
 typedef double Time;
 namespace AUV
 {
@@ -30,7 +30,7 @@ struct hdr_SYNC{
 	}
 	inline static hdr_SYNC* access(const Packet* p) 
 	{
-		cout << "hdr_SYNC*)p->access(offset_) offset:"<< offset_<< endl;
+		//cout << "hdr_SYNC*)p->access(offset_) offset:"<< offset_<< endl;
 		return (hdr_SYNC*)p->access(offset_);
 	}
 };
@@ -130,8 +130,12 @@ public:
 	}
 
 public:
-	void push(Time SendTime, nsaddr_t node_id, Time Interval);  //first parameter is the time when sending next packet, the last one is the time interval between current time and sending time
-	ScheduleTime* top();		//NULL is returned if the queue is empty
+
+	//first parameter is the time when sending next packet,
+	//the last one is the time interval between current time and sending time
+	void push(Time SendTime, nsaddr_t node_id, Time Interval);
+
+	ScheduleTime* top();//NULL is returned if the queue is empty
 	void pop();
 	bool checkGuardTime(Time SendTime, Time GuardTime, Time MaxTxTime); //the efficiency is too low, I prefer to use the function below
 	Time getAvailableSendTime(Time StartTime, Time OriginalSchedule, Time GuardTime, Time MaxTxTime);

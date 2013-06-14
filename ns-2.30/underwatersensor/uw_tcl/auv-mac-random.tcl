@@ -30,7 +30,7 @@ set opt(layers)                         1
 set opt(x)	                	100	;# X dimension of the topography
 set opt(y)	                        100  ;# Y dimension of the topography
 set opt(z)                              [expr ($opt(layers)-1)*$opt(dz)]
-set opt(seed)	                	348.88
+set opt(seed)	                	349
 set opt(stop)	                	1000	;# simulation time
 set opt(prestop)                        20     ;# time to prepare to stop
 set opt(tr)	                	"result/auvmac.tr"	;# trace file
@@ -65,7 +65,7 @@ Mac/UnderwaterMac set bit_rate_  $opt(bit_rate)
 Mac/UnderwaterMac set encoding_efficiency_  $opt(encoding_efficiency)
 
 Mac/UnderwaterMac/AUVMAC set AvgCyclePeriod [expr 1/$opt(data_rate_)]
-Mac/UnderwaterMac/AUVMAC set StdCyclePeriod 1
+Mac/UnderwaterMac/AUVMAC set StdCyclePeriod 0
 
 # Initialize the SharedMedia interface with parameters to make
 # it work like the 914MHz Lucent WaveLAN DSSS radio interface
@@ -232,9 +232,9 @@ $node_(7) set-cz 0
 #	$ns_ at $start_time "$a_($i) cbr-start"
 #}
 
-$ns_ at $start_time.11 "$a_(0) cbr-start"
+#$ns_ at $start_time.11 "$a_(0) cbr-start"
 #$ns_ at $start_time.88 "$a_(1) cbr-start"
-#$ns_ at $start_time.33 "$a_(2) cbr-start"
+$ns_ at $start_time.33 "$a_(2) cbr-start"
 #$ns_ at $start_time.22 "$a_(3) cbr-start"
 #$ns_ at $start_time.56 "$a_(4) cbr-start"
 #$ns_ at $start_time.79 "$a_(5) cbr-start"
