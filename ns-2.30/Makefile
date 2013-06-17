@@ -234,6 +234,7 @@ OBJ_CC = \
 	underwatersensor/uw_mac/broadcastmac.o \
    	underwatersensor/uw_mac/uwbuffer.o underwatersensor/uw_mac/rmac.o  \
    	underwatersensor/uw_mac/tmac.o \
+   	underwatersensor/uw_mac/DMAC/dmac.o \
 	underwatersensor/uw_mac/uwan-mac/uwan-mac-pkt.o underwatersensor/uw_mac/uwan-mac/uwan-mac.o \
 	underwatersensor/uw_mac/auv-mac/auv-mac-pkt.o underwatersensor/uw_mac/auv-mac/auv-mac.o \
 	underwatersensor/uw_mac/COPEMAC/copemac.o \

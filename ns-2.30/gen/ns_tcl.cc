@@ -3666,6 +3666,7 @@ UWVBVA\n\
 uw_drouting\n\
 RMAC     \n\
 TMAC\n\
+DMAC\n\
 AUVMAC\n\
 SFAMA\n\
 StaticRouting\n\

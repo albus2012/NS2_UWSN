@@ -76,6 +76,7 @@ using namespace std;
 #define HDR_DBR(p)      (hdr_dbr::access(p))  /* hai's dbr */
 #define HDR_LMS(p)		(hdr_lms::access(p))
 #define HDR_UWAN(p)		(hdr_SYNC::access(p))
+#define HDR_DMAC(p)   (hdr_dmac::access(p))
 /* --------------------------------------------------------------------*/
 
 enum packet_t {
@@ -186,6 +187,7 @@ enum packet_t {
 	PT_DBR,
 	//added by Yongjia Li
 	/*AUV-MAC*/
+	PT_DMAC,
 	PT_AUV_SYNC,
 	PT_AUV_ML,
 	PT_AUV_HELLO,
@@ -314,7 +316,7 @@ public:
 	name_[PT_AUV_SYNC] = "auv-SYNC";
 	name_[PT_AUV_HELLO] = "auv-hello";
 	name_[PT_AUV_ML] = "auv-missinglist";
-
+  name_[PT_DMAC] = "UnderwaterDmac";
 	name_[PT_UWAN_SYNC] = "uwan-SYNC";
 	name_[PT_UWAN_HELLO] = "uwan-hello";
 	name_[PT_UWAN_ML] = "uwan-missinglist";

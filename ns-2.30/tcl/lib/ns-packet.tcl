@@ -172,6 +172,7 @@ foreach prot {
        uw_drouting
 	RMAC     
 	TMAC
+	DMAC
 	AUVMAC
     	SFAMA
 	StaticRouting
