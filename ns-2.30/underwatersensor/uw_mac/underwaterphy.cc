@@ -408,9 +408,6 @@ UnderwaterPhy::power_off()
 		update_energy_time_ = NOW;
 	}
 
-	printf("node %d is poweroff energy is %f at %f\n",node_->address(),em()->energy(),NOW);
-
-
 }
 
 void

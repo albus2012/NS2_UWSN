@@ -46,8 +46,8 @@
 #include "lib/bsd-list.h"
 #include "packet-stamp.h"
 #include "ns-process.h"
-#include <iostream>
-using namespace std;
+
+
 // Used by wireless routing code to attach routing agent
 #define RT_PORT		255	/* port that all route msgs are sent to */
 
