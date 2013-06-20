@@ -261,6 +261,19 @@ $node_($total_number) set-cy  0
 $node_($total_number) set-cz  0
 $node_($total_number) set_next_hop 0 ;# target is node 0 
 
+for {set ti 0} {$ti < $opt(stop) } {incr ti 120} {
+    for {set i 0} {$i < $opt(nn) } {incr i} { 
+	#if { ($i!=49)&&($i!=2)&&($i!=5)&&($i!=6)&&($i!=7)&&($i!=8)&&($i!=9)&&($i!=9)&&($i!=10)} {
+	 #   if { [$random value] > 6.5} {
+	      
+	#$ns_ at $ti "$node_($i) setSoundSpeed 1900";
+	#$ns_ at [expr $ti+50] "$node_($i) setSoundSpeed 1100";
+
+	#}
+       #}
+      }
+  }
+
 set a_($total_number) [new Agent/UWSink]
 $ns_ attach-agent $node_($total_number) $a_($total_number)
 $a_($total_number) attach-vectorbasedforward $opt(width)

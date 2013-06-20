@@ -83,12 +83,13 @@ MobileNode(),uw_pos_handle_(this)
 	position_update_interval_ = 1.0;
 	max_thought_time_ = 0.0;  //by default, node does not stop after arrive at the new way point
 	UWMP_ = NULL;
-
+  soundspeed_ = SPEED_OF_SOUND_IN_WATER;
 	bind("sinkStatus_", &sinkStatus_);
 	bind("position_update_interval_", &position_update_interval_);
 	bind("max_speed", &max_speed);
 	bind("min_speed", &min_speed);
 	bind("max_thought_time_", &max_thought_time_);
+	//bind("soundspeed_", &soundspeed_);
 	
 }
 
@@ -168,7 +169,10 @@ UnderwaterSensorNode::command(int argc, const char*const* argv)
 		}else if(strcmp(argv[1], "setSpeed") == 0){
 			speed_=atof(argv[2]);
 			return TCL_OK;
-		}else if(strcmp(argv[1], "random-motion") == 0){
+		}else if(strcmp(argv[1], "setSoundSpeed") == 0){
+      soundspeed_=atof(argv[2]);
+      return TCL_OK;
+    }else if(strcmp(argv[1], "random-motion") == 0){
 			random_motion_=atoi(argv[2]);
 			return TCL_OK;
 		}else if(strcmp(argv[1], "set-mobilitypattern")==0){
@@ -315,7 +319,10 @@ double
 UnderwaterSensorNode::propdelay(UnderwaterSensorNode *m)
 {
 	//printf("underwatersensornode: ?????????????????the properdelay\n");
-	return distance(m) / SPEED_OF_SOUND_IN_WATER;
+	//return distance(m) / SPEED_OF_SOUND_IN_WATER;
+  printf("underwatersensornode soundspeed: %d\n", soundspeed_);
+  return distance(m) / soundspeed_;
+
 }
 
 

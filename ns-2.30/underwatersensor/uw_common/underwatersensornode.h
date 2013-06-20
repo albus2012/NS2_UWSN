@@ -193,6 +193,7 @@ private:
 	void	bound_position();
 	int		random_motion_;	// is mobile
 	double  max_thought_time_;  //for underwater random waypoint model
+	int soundspeed_;
 
 	Topography* T_;
 
