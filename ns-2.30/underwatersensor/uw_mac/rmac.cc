@@ -2585,7 +2585,7 @@ RMac::ProcessDataPacket(Packet* pkt)
       //     MarkBitMap(num);
       UpdateACKDataTable(data_sender,bnum,num);
       
-      //uptarget_->recv(pkt,this);
+      uptarget_->recv(pkt,this);
       return;
 }
 
@@ -2905,7 +2905,7 @@ different versions.
 void 
 RMac::RecvProcess(Packet* pkt){
    
-   sendUp(pkt);
+   //sendUp(pkt);
    hdr_cmn* cmh=HDR_CMN(pkt);
    hdr_rmac* cmh1=HDR_RMAC(pkt);
    int dst=cmh->next_hop();

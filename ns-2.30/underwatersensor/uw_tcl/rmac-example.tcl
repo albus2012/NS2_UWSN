@@ -176,7 +176,7 @@ $god_ new_node $node_(0)
 $node_(0) set X_  0
 $node_(0) set Y_  0
 $node_(0) set Z_   0.0
-$node_(0) set passive 1
+
 set a_(0) [new Agent/UWSink]
 $ns_ attach-agent $node_(0) $a_(0)
 $a_(0) attach-vectorbasedforward $opt(width)
@@ -217,7 +217,7 @@ $node_(2) set Z_   0
 $node_(2) set-cx  0
 $node_(2) set-cy  40
 $node_(2) set-cz  0
-$node_(2) set_next_hop 0 ;# target is node 0 
+$node_(2) set_next_hop 1 ;# target is node 0 
 #$node_(1) set passive 1
 set a_(2) [new Agent/UWSink]
 $ns_ attach-agent $node_(2) $a_(2)
@@ -239,7 +239,7 @@ $node_(3) set-cx  0
 $node_(3) set-cy  -30
 $node_(3) set-cz  0
 $node_(3) set_next_hop 0 ;# target is node 0 
-#$node_(1) set passive 1
+
 set a_(3) [new Agent/UWSink]
 $ns_ attach-agent $node_(3) $a_(3)
 $a_(3) attach-vectorbasedforward $opt(width)

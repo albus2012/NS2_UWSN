@@ -160,7 +160,7 @@ UWSinkAgent::generateInterval()
 	double R=Random::uniform();
 	double lambda=data_rate_;
 	interval_=-log(R)/lambda;
-	// printf("\nuwsink: !!!!!!!!generateInterval the  inetrval is %f\n",interval_);
+	//printf("\nuwsink: !!!!!!!!generateInterval the  inetrval is %f\n",R);
 	return; 
 }
 

@@ -320,7 +320,7 @@ UnderwaterSensorNode::propdelay(UnderwaterSensorNode *m)
 {
 	//printf("underwatersensornode: ?????????????????the properdelay\n");
 	//return distance(m) / SPEED_OF_SOUND_IN_WATER;
-  printf("underwatersensornode soundspeed: %d\n", soundspeed_);
+  //printf("underwatersensornode soundspeed: %d\n", soundspeed_);
   return distance(m) / soundspeed_;
 
 }
