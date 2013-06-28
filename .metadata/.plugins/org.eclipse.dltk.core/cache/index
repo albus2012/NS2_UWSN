@@ -1,18 +1,9 @@
 <?xml version="1.0" encoding="ASCII"?>
-<cache:CacheIndex xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:cache="http://eclipse.org/dltk/cache_model" lastIndex="1748" environment="org.eclipse.dltk.core.environment.localEnvironment">
-  <entries path="/home/yongj/NS2/ns-2.30/tcl/old" timestamp="1328026383000" lastAccessTime="1368862859820">
-    <attributes name=".dltk.core.archive.cache.lastaccess" location="2838196607/1278586814/673.idx"/>
+<cache:CacheIndex xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:cache="http://eclipse.org/dltk/cache_model" lastIndex="2048" environment="org.eclipse.dltk.core.environment.localEnvironment">
+  <entries path="/home/yongj/NS2/ns-2.30/tcl/lib" timestamp="1371449005000" lastAccessTime="1372255787590">
+    <attributes name=".dltk.core.archive.cache.lastaccess" location="2838196607/1278586814/119.idx"/>
   </entries>
-  <entries path="/home/yongj/NS2/ns-2.30/tcl/lib" timestamp="1367843333000" lastAccessTime="1370866185531">
-    <attributes name=".dltk.core.archive.cache.lastaccess" location="2838196607/1278586814/677.idx"/>
-  </entries>
-  <entries path="/home/yongj/NS2/ns-2.30/tcl/ex" timestamp="1328026383000" lastAccessTime="1369102945922">
-    <attributes name=".dltk.core.archive.cache.lastaccess" location="2838196607/1278586814/897.idx"/>
-  </entries>
-  <entries path="/home/yongj/NS2/ns-2.30/underwatersensor/uw_tcl" timestamp="1370868573000" lastAccessTime="1370872117792">
-    <attributes name=".dltk.core.archive.cache.lastaccess" location="2838196607/2499887543/1713.idx"/>
-  </entries>
-  <entries path="/home/yongj/NS2/ns-2.30/underwatersensor/uw_tcl/auv-mac-random.tcl" timestamp="1370868679000" lastAccessTime="1370872117831">
-    <attributes name="_ast" location="2838196607/3907939336/1747.idx"/>
+  <entries path="/home/yongj/NS2/ns-2.30/underwatersensor/uw_tcl" timestamp="1372345715000" lastAccessTime="1372392676917">
+    <attributes name=".dltk.core.archive.cache.lastaccess" location="2838196607/2499887543/2045.idx"/>
   </entries>
 </cache:CacheIndex>

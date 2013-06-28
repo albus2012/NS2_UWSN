@@ -61,8 +61,10 @@ UnderwaterPhy::UnderwaterPhy() : Phy(), idle_timer_(this)
 	bind("K_", &K_);
 	bind("TurnOnEnergy", &Energy_turn_on_);
 	bind("TurnOffEnergy", &Energy_turn_off_);
-	
-	
+	bind("tranp", &Pt_consume_);
+  bind("recvp", &Pr_consume_);
+  bind("idlep", &P_idle_);
+
 	bind("sync_hdr_len", &sync_hdr_len_);
 	bind("fowarding_delay", &fowarding_delay_);
 	
@@ -83,9 +85,9 @@ UnderwaterPhy::UnderwaterPhy() : Phy(), idle_timer_(this)
 	ant_=0;
 
 
-	Pt_consume_ = 0.660;  // 1.6 W drained power for transmission
-	Pr_consume_ = 0.395;  // 1.2 W drained power for reception
-	P_idle_ = 0.0;// 0 W drained power for idle
+//	Pt_consume_ = 0.660;  // 1.6 W drained power for transmission
+//	Pr_consume_ = 0.395;  // 1.2 W drained power for reception
+//	P_idle_ = 0.0;// 0 W drained power for idle
 
 	update_energy_time_ = NOW;
 

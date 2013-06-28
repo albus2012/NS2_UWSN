@@ -252,7 +252,7 @@ CMUTrace::format_mac_common(Packet *p, const char *why, int offset)
 #ifdef LOG_POSITION
 		"%c %.9f %d (%6.2f %6.2f) %3s %4s %d %s %d ",
 #else
-		"%c %.9f _%d_ %3s %4s %d %s %d",
+		"%c %.9f %d %3s %4s %d %s %d",
 #endif
 		op,
 		Scheduler::instance().clock(),
@@ -324,7 +324,7 @@ CMUTrace::format_mac_common(Packet *p, const char *why, int offset)
 			// log detailed energy consumption
 			// total energy and breakdown in idle, sleep, transmit and receive modes
 			sprintf(pt_->buffer() + offset,
-				"[energy %f ei %.3f es %.3f et %.3f er %.3f] ",
+				"[energy %f ei %.3f es %.3f et %.3f er %.3f ] ",
 				thisnode->energy_model()->energy(),
 				thisnode->energy_model()->ei(),
 				thisnode->energy_model()->es(),				

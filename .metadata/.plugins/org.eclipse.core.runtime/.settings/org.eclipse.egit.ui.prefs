@@ -1,8 +1,5 @@
-commit_dialog_history_messages=<?xml version\="1.0" encoding\="UTF-8"?>\n<messages>\n<message>add node on/off to wireless-phy</message>\n<message>add the project into eclipse</message>\n<message>try again to remove subfile</message>\n<message>remove the error subfile</message>\n</messages>
-default_repository_dir=/home/yongj/NS2
+commit_dialog_history_messages=<?xml version\="1.0" encoding\="UTF-8"?>\n<messages>\n<message>try to compare</message>\n<message>add the feature\: send data block&\#x0A;</message>\n<message>1.the dmac can run now,but need to fix the wakeup scheduling&\#x0A;2.the sending should be upgraded&\#x0A;3.ackdata should be added </message>\n<message>add dmac, but still need to fix</message>\n</messages>
 eclipse.preferences.version=1
-merge_mode=0
 resourcehistory_compare_mode=true
 resourcehistory_graph_split=500,500
-resourcehistory_rev_split=623,376
-show_initial_config_dialog=false
+resourcehistory_rev_split=700,300

@@ -1,1 +1,6 @@
+ns-2.30/result
+*.tr
+*.nam
 *.o
+*.a
+.metadata*

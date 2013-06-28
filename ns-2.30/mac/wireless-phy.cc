@@ -114,8 +114,8 @@ WirelessPhy::WirelessPhy() : Phy(), sleep_timer_(this), status_(IDLE)
 	//      Pt_ = 0.2818; // For 250m transmission range.
 	//	Pt_ = pow(10, 2.45) * 1e-3;         // 24.5 dbm, ~ 281.8mw
 	
-	Pt_consume_ = 0.660;  // 1.6 W drained power for transmission
-	Pr_consume_ = 0.395;  // 1.2 W drained power for reception
+//	Pt_consume_ = 0.660;  // 1.6 W drained power for transmission
+	//Pr_consume_ = 0.395;  // 1.2 W drained power for reception
 
 	//	P_idle_ = 0.035; // 1.15 W drained power for idle
 

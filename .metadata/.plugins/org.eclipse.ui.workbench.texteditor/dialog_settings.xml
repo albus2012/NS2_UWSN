@@ -1,26 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog_dialogBounds">
-		<item value="312" key="DIALOG_WIDTH"/>
-		<item value="342" key="DIALOG_Y_ORIGIN"/>
-		<item value="438" key="DIALOG_HEIGHT"/>
-		<item value="786" key="DIALOG_X_ORIGIN"/>
-		<item value="1|Ubuntu|11.114583|0|GTK|1|" key="DIALOG_FONT_NAME"/>
+		<item value="316" key="DIALOG_WIDTH"/>
+		<item value="218" key="DIALOG_Y_ORIGIN"/>
+		<item value="1031" key="DIALOG_X_ORIGIN"/>
+		<item value="437" key="DIALOG_HEIGHT"/>
+		<item value="1|Ubuntu|11.0|0|GTK|1|" key="DIALOG_FONT_NAME"/>
 	</section>
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
 		<item value="true" key="wrap"/>
+		<item value="true" key="casesensitive"/>
 		<item value="false" key="isRegEx"/>
-		<item value="false" key="casesensitive"/>
 		<item value="false" key="incremental"/>
 		<item value="false" key="wholeword"/>
-		<item value="wireless" key="selection"/>
+		<item value="sendDataPkt" key="selection"/>
 		<list key="findhistory">
-			<item value="wireless"/>
-			<item value="test"/>
-			<item value="reset"/>
-			<item value="reset()"/>
-			<item value="setnode"/>
-			<item value="command"/>
+			<item value="sendDataPkt"/>
+			<item value="_%d_"/>
+			<item value="_"/>
+			<item value="er"/>
+			<item value="---"/>
+			<item value="Pt_consume_"/>
+			<item value="soundspeed"/>
+			<item value="recv"/>
 		</list>
 		<list key="replacehistory">
 		</list>

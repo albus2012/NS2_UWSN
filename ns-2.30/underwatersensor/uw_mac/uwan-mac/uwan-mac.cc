@@ -42,7 +42,7 @@ public:
 }class_uwan_mac;
 
 
-Time UWAN_MAC::InitialCyclePeriod_ = 10.0;
+Time UWAN_MAC::InitialCyclePeriod_ = 15.0;
 Time UWAN_MAC::MaxPropTime_ = UnderwaterChannel::Transmit_distance()/1500.0;
 Time UWAN_MAC::MaxTxTime_ = 0.0;
 Time UWAN_MAC::ListenPeriod_ = 0.0;		//the length of listening to the channel after transmission.

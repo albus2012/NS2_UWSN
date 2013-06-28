@@ -1,0 +1,30 @@
+#!/bin/bash
+
+	 rm ~/NS2/ns-2.30/result/*excel;
+	 rm ~/NS2/ns-2.30/result/*data;
+	 rm ~/NS2/ns-2.30/result/*tr;
+	 rm ~/NS2/ns-2.30/result/*nam;
+
+for ((i =10; i< 120; i+=5))
+do
+	for(( j = 0; j < 200; j++))
+	 do
+	ns ~/NS2/ns-2.30/underwatersensor/uw_tcl/dmac1.tcl $i $j; #一次NS运行
+	echo "UWANMAC NO is $j" >>  ~/NS2/ns-2.30/result/uwanexcel;
+	echo "UWANMAC rate is $i" >>  ~/NS2/ns-2.30/result/uwanexcel;
+	awk -f ~/NS2/ns-2.30/result/mactr.awk ~/NS2/ns-2.30/result/dmac1.tr >> ~/NS2/ns-2.30/result/uwanexcel;
+	
+	ns ~/NS2/ns-2.30/underwatersensor/uw_tcl/dmac.tcl $i $j; #一次NS运行
+	echo "DMAC NO is $j" >>  ~/NS2/ns-2.30/result/dmacexcel;
+	echo "DMAC rate is $i" >>  ~/NS2/ns-2.30/result/dmacexcel;
+	awk -f ~/NS2/ns-2.30/result/dmactr.awk ~/NS2/ns-2.30/result/dmac.tr >> ~/NS2/ns-2.30/result/dmacexcel;
+	
+	
+	 done
+	 
+	 awk -f ~/NS2/ns-2.30/result/excel.awk ~/NS2/ns-2.30/result/dmacexcel >> ~/NS2/ns-2.30/result/dmacdata;
+	 awk -f ~/NS2/ns-2.30/result/excel.awk ~/NS2/ns-2.30/result/uwanexcel >> ~/NS2/ns-2.30/result/uwandata;
+	 rm ~/NS2/ns-2.30/result/*excel;
+done
+
+

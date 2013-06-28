@@ -727,8 +727,10 @@ Mac/UnderwaterMac/TMac set transmission_time_error_  0.001
 Mac/UnderwaterMac/TMac set ContentionWindow_  0.1
 Mac/UnderwaterMac/TMac set TransmissionRange_ 90
 
-Mac/UnderwaterMac/UWANMac set AvgCyclePeriod 10
-Mac/UnderwaterMac/UWANMac set StdCyclePeriod 1 
+Mac/UnderwaterMac/UWANMac set AvgCyclePeriod 15
+Mac/UnderwaterMac/UWANMac set StdCyclePeriod 0 
+
+Mac/UnderwaterMac/DMac set CyclePeriod 15 
 
 Mac/UnderwaterMac/OTMAN set NDInterval 3
 Mac/UnderwaterMac/OTMAN set DataAccuPeriod 1
