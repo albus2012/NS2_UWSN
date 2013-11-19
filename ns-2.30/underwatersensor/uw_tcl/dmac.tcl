@@ -13,8 +13,8 @@ set opt(ant)            Antenna/OmniAntenna  ;#we don't use it in underwater
 set opt(filters)        GradientFilter    ;# options can be one or more of 
                                 ;# TPP/OPP/Gear/Rmst/SourceRoute/Log/TagFilter
 
-set rate [lindex $argv 0];
-
+#set rate [lindex $argv 0];
+set rate 20;
 set opt(data_rate_) [expr 0.001*$rate];#  [lindex $argv 0]  ;#0.02
 
 
@@ -50,7 +50,7 @@ set opt(layers)                         1
 set opt(x)	                	100	;# X dimension of the topography
 set opt(y)	                        100  ;# Y dimension of the topography
 set opt(z)                              [expr ($opt(layers)-1)*$opt(dz)]
-set opt(seed)	                	[lindex $argv 1]
+set opt(seed)	                	333;#[lindex $argv 1]
 set opt(stop)	                	1000	;# simulation time
 set opt(prestop)                        20     ;# time to prepare to stop
 set opt(tr)	                	"~/NS2/ns-2.30/result/dmac.tr"	;# trace file

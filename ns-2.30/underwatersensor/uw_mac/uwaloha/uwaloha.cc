@@ -47,7 +47,8 @@ void UWALOHA_WaitACKTimer::expire(Event *e) //WaitACKTimer expire
 
 
 //construct function
-UWALOHA::UWALOHA(): UnderwaterMac(), bo_counter(0), UWALOHA_Status(PASSIVE), Persistent(1.0),
+UWALOHA::UWALOHA(): UnderwaterMac(), bo_counter(0), UWALOHA_Status(PASSIVE),
+    Persistent(1.0),
 		ACKOn(1), Min_Backoff(0.0), Max_Backoff(1.5), MAXACKRetryInterval(0.05), 
 		blocked(false), BackoffTimer(this), WaitACKTimer(this),
 		CallBack_handler(this), status_handler(this)
@@ -136,10 +137,20 @@ void UWALOHA::TxProcess(Packet* pkt)
 
 	hdr_cmn* cmh = HDR_CMN(pkt);
 	hdr_UWALOHA* UWALOHAh = hdr_UWALOHA::access(pkt);
+	hdr_uwvb* vbh = HDR_UWVB(p);
+	hdr_mac* mh=HDR_MAC(p);
+
+
 	cmh->size() += hdr_UWALOHA::size();
 	cmh->txtime() = getTxTime(cmh->size());
 	cmh->error() = 0;
 	cmh->direction() = hdr_cmn::DOWN;
+
+  int dst = vbh->target_id.addr_;
+  mh->macDA() = dst;
+  mh->macSA() = index_;
+  cmh->next_hop() = dst;
+
 
 	Time t = NOW;
 	if( t > 500 ) 
@@ -215,6 +226,7 @@ void UWALOHA::sendPkt(Packet *pkt)
 				//must be a DATA packet, so setup wait ack timer 
 				if ((UWALOHAh->DA != (nsaddr_t)MAC_BROADCAST) && ACKOn) {
 					UWALOHA_Status = WAIT_ACK;
+
 					WaitACKTimer.resched(WaitACKTime+txtime);
 				}
 				else {
