@@ -18,6 +18,8 @@
 
 using namespace std;
 
+
+
 typedef double Time;
 #define CALLBACK_DELAY 0.001	//the interval between two consecutive sendings
 #define MAXIMUMCOUNTER 4
@@ -29,14 +31,14 @@ struct hdr_UWALOHA{
 	nsaddr_t DA;
 
 	enum PacketType {
-		DATA,
-		ACK		
+		ALOHA_DATA,
+		ALOHA_ACK
 	} packet_type;
 	static int offset_;
 	inline static int& offset() {  return offset_; }
 	
 	inline static int size() {
-		return sizeof(nsaddr_t)*2 + 1 /*for packet_type*/;
+		return sizeof(nsaddr_t)*2 + 1; /*for packet_type*/;
 	}
 
 	inline static hdr_UWALOHA* access(const Packet*  p) {
@@ -217,6 +219,8 @@ protected:
 	friend class UWALOHA_ForwardHandler;
 
 };
+
+
 
 #endif
 

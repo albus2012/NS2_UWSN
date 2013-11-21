@@ -1,6 +1,7 @@
 #include "packet.h"
 #include "random.h"
 #include "underwatersensor/uw_common/underwatersensornode.h"
+#include "underwatersensor/uw_routing/vectorbasedforward.h"
 #include "mac.h"
 #include "uwaloha.h"
 #include "../underwaterphy.h"
@@ -137,8 +138,8 @@ void UWALOHA::TxProcess(Packet* pkt)
 
 	hdr_cmn* cmh = HDR_CMN(pkt);
 	hdr_UWALOHA* UWALOHAh = hdr_UWALOHA::access(pkt);
-	hdr_uwvb* vbh = HDR_UWVB(p);
-	hdr_mac* mh=HDR_MAC(p);
+	hdr_uwvb* vbh = HDR_UWVB(pkt);
+	hdr_mac* mh=HDR_MAC(pkt);
 
 
 	cmh->size() += hdr_UWALOHA::size();
@@ -155,7 +156,7 @@ void UWALOHA::TxProcess(Packet* pkt)
 	Time t = NOW;
 	if( t > 500 ) 
 	  t = NOW;
-	UWALOHAh->packet_type = hdr_UWALOHA::DATA;
+	UWALOHAh->packet_type = hdr_UWALOHA::ALOHA_DATA;
 	UWALOHAh->SA = index_;
 	
 	if( cmh->next_hop() == (nsaddr_t)IP_BROADCAST ) {
@@ -222,7 +223,7 @@ void UWALOHA::sendPkt(Packet *pkt)
 			cmh->direction() = hdr_cmn::DOWN;
 			
 			//ACK doesn't affect the status, only process DATA here
-			if (UWALOHAh->packet_type == hdr_UWALOHA::DATA) {
+			if (UWALOHAh->packet_type == hdr_UWALOHA::ALOHA_DATA) {
 				//must be a DATA packet, so setup wait ack timer 
 				if ((UWALOHAh->DA != (nsaddr_t)MAC_BROADCAST) && ACKOn) {
 					UWALOHA_Status = WAIT_ACK;
@@ -247,7 +248,7 @@ void UWALOHA::sendPkt(Packet *pkt)
 			
 		case RECV:
 			printf("RECV-SEND Collision!!!!!\n");
-			if( UWALOHAh->packet_type == hdr_UWALOHA::ACK ) 
+			if( UWALOHAh->packet_type == hdr_UWALOHA::ALOHA_ACK )
 				retryACK(pkt);
 			else
 				Packet::free(pkt);
@@ -258,7 +259,7 @@ void UWALOHA::sendPkt(Packet *pkt)
 		default:
 		//status is SEND
 			printf("node%d send data too fast\n",index_);
-			if( UWALOHAh->packet_type == hdr_UWALOHA::ACK ) 
+			if( UWALOHAh->packet_type == hdr_UWALOHA::ALOHA_ACK )
 				retryACK(pkt);
 			else
 				Packet::free(pkt);
@@ -284,7 +285,7 @@ void UWALOHA::RecvProcess(Packet *pkt)
 	  return;
 	}
 
-	if( UWALOHAh->packet_type == hdr_UWALOHA::ACK ) {
+	if( UWALOHAh->packet_type == hdr_UWALOHA::ALOHA_ACK ) {
 			//if get ACK after WaitACKTimer, ignore ACK
 			if( recver == index_ && UWALOHA_Status == WAIT_ACK) {
 				WaitACKTimer.cancel();
@@ -295,7 +296,7 @@ void UWALOHA::RecvProcess(Packet *pkt)
 				processPassive();
 			}
 	}
-	else if(UWALOHAh->packet_type == hdr_UWALOHA::DATA) {
+	else if(UWALOHAh->packet_type == hdr_UWALOHA::ALOHA_DATA) {
 			//process Data packet
 			if( recver == index_ || recver == (nsaddr_t)MAC_BROADCAST ) {
 				cmh->size() -= hdr_UWALOHA::size();
@@ -332,7 +333,7 @@ Packet* UWALOHA::makeACK(nsaddr_t Data_Sender)
 	cmh->next_hop() = Data_Sender;
 	cmh->ptype() = PT_UWALOHA;
 
-	UWALOHAh->packet_type = hdr_UWALOHA::ACK;
+	UWALOHAh->packet_type = hdr_UWALOHA::ALOHA_ACK;
 	UWALOHAh->SA = index_;
 	UWALOHAh->DA = Data_Sender;
 

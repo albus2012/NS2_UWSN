@@ -29,8 +29,8 @@ typedef double Time;
 enum DmacPacketType
 {
   DP_DATA,
+  DP_END,
   DP_ACKDATA,
-  DP_SYNC
 };
 
 struct NodeInfo
@@ -57,7 +57,7 @@ struct hdr_dmac
   Time t_send;
   Time cycle_period;
   //Time& cycle_period() { return cycle_period; }
-  inline static size_t size() {return 8*sizeof(Time);}
+  inline static size_t size() {return 8*sizeof(struct hdr_dmac);}
   static int offset_;
   inline static int& offset() { return offset_; }
   inline static hdr_dmac* access(const Packet*  p)
@@ -90,7 +90,8 @@ public:
     mac_ = rhs.mac_;
     ScheT_ = rhs.ScheT_;
   }
-  bool isPending() {
+  bool isPending()
+  {
     if( status() == TIMER_PENDING )
       return true;
     else
@@ -100,8 +101,7 @@ public:
 protected:
   DMac* mac_;
   ScheTime* ScheT_;
-  virtual
-  void expire(Event* e);
+  virtual void expire(Event* e);
 };
 
 /*
@@ -207,46 +207,6 @@ protected:
 
 
 
-class DMac_PktSendTimer: public TimerHandler {
-
- public:
-	DMac_PktSendTimer(DMac* mac): TimerHandler() {
-		mac_ = mac;
-	}
-
-	Time& tx_time() {
-		return tx_time_;
-	}
- protected:
-	virtual void expire(Event* e);
-
- public:
-	Packet* p_;
- protected:
-	DMac* mac_;
-	Time	tx_time_;
-};
-
-class DMac_DataPktSendTimer: public TimerHandler {
-
- public:
-  DMac_DataPktSendTimer(DMac* mac, Packet* p, bool ack)
-    : TimerHandler(), mac_(mac), p_(p), ack_(ack)
-  {
-  }
-//
-//  Time& tx_time() {
-//    return tx_time_;
-//  }
- protected:
-  virtual void expire(Event* e);
-
- public:
-  Packet* p_;
- protected:
-  DMac* mac_;
-  bool ack_;
-};
 class DMac_StartTimer: public TimerHandler {
  public:
 	DMac_StartTimer(DMac* mac): TimerHandler() {
@@ -272,19 +232,14 @@ class DMac: public UnderwaterMac
 	DMac();
 
 	virtual  void RecvProcess(Packet*);
-	/*
-	 * AUV MAC assumes that node knows when it will send out the next packet.
-	 * To simulate such pre-knowledge, we should not send out the outgoing packet in TxProcess(),
-	 * but just queue it and then send out it according to the Schedule via sendoutPkt().
-	 */
 	virtual  void TxProcess(Packet*);
 	virtual  int  command(int argc,const char* const* argv);
 
  protected:
-	void	sendFrame(Packet* p, bool IsMacPkt, Time delay = 0.0);
+
 	void	CallbackProcess(Event* e);
 	void	StatusProcess(Event* e);
-	void	TxPktProcess(Event* e, DMac_PktSendTimer* pkt_send_timer);
+
 
 
 	DMac_CallbackHandler callback_handler;
@@ -300,56 +255,65 @@ class DMac: public UnderwaterMac
 	Packet* makeSYNCPkt(Time CyclePeriod, nsaddr_t Recver = MAC_BROADCAST); //perhaps CyclePeriod is not required
 
 	void	wakeup(nsaddr_t node_id);  //perhaps I should calculate the energy consumption in these two functions
-	void	sleep();
+	void	idle();
 
 	void	setSleepTimer(Time Interval);     //keep awake for To, and then fall sleep
 	void	start();	//initilize NexCyclePeriod_ and the sleep timer, sendout first SYNC pkt
-	void	SYNCSchedule(bool initial = false);
+
 	void  sendDataPkt(Packet* p, bool ack);
 	void	send_info();
+	int  updateNumPktSend() {return NumPktSend_++; }
 
 
  private:
 
-	Time  NextCyclePeriod_;		//next sending cycle
-	Time  AvgCyclePeriod_;
+
+	void makeData(Packet* p);
+	void canSend();
+	void sendData(Packet* p);
+	void sendEndFlag();
+	Packet* makeEndPkt();
+
+	void handleRecvPkt(Packet* p);
+	Packet* makeACK(Packet* p);
+	void handleRecvData(Packet* p);
+	void canSendACK(Packet* p);
+	void setNodeListen(){ nodeFlag = NF_LISTEN;}
 
 
-	/*  The length of initial cycle period, whenever I send current
-	 *  packet, I should first decide when I will send out next one.
-	 */
-	static Time  InitialCyclePeriod_;
-	static Time  ListenPeriod_;		//the length of listening to the channel after transmission.
-	static Time  MaxTxTime_;
-	static Time  MaxPropTime_;		//GuardTime_;		//2* static Time  MaxPropTime_;
-	static Time  hello_tx_len;
-	static Time  WakePeriod_;
+	static Time  sendInterval;
+	static Time  maxPropTime;
+	static Time  baseTime;
+	static int   nodeCount;
+
 
 	ScheQueue	WakeSchQueue_;
 
-	int		CycleCounter_;   //count the number of cycle.
+	int		CycleCount;   //count the number of cycle.
 	int		NumPktSend_;
 	int   NumDataSend_;
 
 
-	set<DMac_PktSendTimer*> PktSendTimerSet_;
-	DMac_DataPktSendTimer* dataSendHandler;
 	typedef int NodeID;
 	map<NodeID, NodeInfo> neighbors_;//neighbor nodes info
 
   //packet queue which this node cache the packet from upper layer
-	map<NodeID, deque<Packet* > > waitingPackets_;
-	bool checkGuardTime(Time SendTime, Time GuardTime, Time MaxTxTime); //the efficiency is too low, I prefer to use the function below
-	Time getAvailableSendTime(Time startTime, Time interval,
-	                          Time guardTime, Time maxTxTime);
-	void handleRecvData(Packet* p);
+	deque<Packet* >  waitingPackets_;
 
+
+	enum NodeFlag
+	{
+	  NF_LISTEN,
+	  NF_SEND,
+	};
+
+	NodeFlag nodeFlag;
   friend class DMac_CallbackHandler;
   friend class DMac_WakeTimer;
   friend class DMac_SleepTimer;
-  friend class DMac_DataPktSendTimer;
+
   friend class DMac_StatusHandler;
-  friend class DMac_PktSendTimer;
+
   friend class DMac_StartTimer;
   friend class DMac_TxStatusHandler;
 

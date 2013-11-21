@@ -84,7 +84,13 @@ Antenna/OmniAntenna set Gr_ 1.0
 Mac/UnderwaterMac set bit_rate_  $opt(bit_rate)
 Mac/UnderwaterMac set encoding_efficiency_  $opt(encoding_efficiency)
 
-Mac/UnderwaterMac/DMac set CyclePeriod 15;#[expr 1/$opt(data_rate_)]
+
+#Mac/UnderwaterMac/DMac set nodeCount 8;
+#Mac/UnderwaterMac/DMac set sendInterval 2;
+#Mac/UnderwaterMac/DMac set baseTime 0;
+#Mac/UnderwaterMac/DMac set maxPropTime 0.5;
+
+
 
 Mac/UnderwaterMac/RMac set ND_window_  $opt(ND_window)
 Mac/UnderwaterMac/RMac set ACKND_window_ $opt(ACKND_window)
