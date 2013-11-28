@@ -26,88 +26,7 @@ public:
 
 } class_dmac_hdr;
 
-void ScheQueue::push(Time SendTime, nsaddr_t node_id, Time Interval)
-{
-  ScheTime* newElem = new ScheTime(SendTime, node_id, mac_);
-  newElem->start(Interval);
 
-  ScheTime* pos = Head_->next_;
-  ScheTime* pre_pos = Head_;
-
-  //find the position where new element should be insert
-  while (pos != NULL)
-  {
-    if (pos->SendTime_ > SendTime)
-    {
-      break;
-    }
-    else
-    {
-      pos = pos->next_;
-      pre_pos = pre_pos->next_;
-    }
-
-  }
-  /*
-   * insert new element after pre_pos
-   */
-  newElem->next_ = pos;
-  pre_pos->next_ = newElem;
-}
-
-//get the top element, but not pop it
-
-ScheTime* ScheQueue::top()
-{
-  return Head_->next_;
-}
-
-//pop the top element
-void ScheQueue::pop()
-{
-  if (Head_->next_ != NULL)
-  {
-
-    ScheTime* tmp = Head_->next_;
-    Head_->next_ = Head_->next_->next_;
-
-    if (tmp->timer_.isPending()) //TimerHandler::TIMER_PENDING ) {
-    {
-      tmp->timer_.cancel();
-    }
-
-    delete tmp;
-  }
-}
-
-void ScheQueue::clearExpired(Time CurTime)
-{
-  ScheTime* NextSch = NULL;
-  while ((NextSch = top()) && NextSch->SendTime_ < CurTime)
-  {
-    pop();
-  }
-}
-
-void ScheQueue::print(Time GuardTime, Time MaxTxTime, bool IsMe, nsaddr_t index)
-{
-  ScheTime* pos = Head_->next_;
-  char file_name[30];
-  strcpy(file_name, "schedule_");
-  file_name[strlen(file_name) + 1] = '\0';
-  file_name[strlen(file_name)] = char(index + '0');
-  FILE* stream = fopen(file_name, "a");
-  if (IsMe)
-    fprintf(stream, "I send  ");
-  while (pos != NULL)
-  {
-    fprintf(stream, "(%f--%f, %f) ", pos->SendTime_, pos->SendTime_ + MaxTxTime,
-        pos->SendTime_ + GuardTime + MaxTxTime);
-    pos = pos->next_;
-  }
-  fprintf(stream, "\n");
-  fclose(stream);
-}
 
 void DMac_CallbackHandler::handle(Event* e)
 {
@@ -121,19 +40,33 @@ void DMac_StatusHandler::handle(Event* e)
 
 void DMac_WakeTimer::expire(Event *e)
 {
-  mac_->wakeup(ScheT_->node_id_);
+
+  if(mac_->isNodeWaitFlag() || mac_->isNodeListenFlag())
+  {
+
+    mac_->setNodeSendFlag();
+    mac_->canSend();
+  }
+
+  resched(mac_->getRoundTime());
 }
 
 void DMac_SleepTimer::expire(Event *e)
 {
-  mac_->idle();
-  mac_->setNodeListen();
+  if(!mac_->isNodeListenFlag())
+  {
 
+    mac_->setNodeListenFlag();
+    mac_->updateNodeTime();
+  }
+
+  resched(mac_->getRoundTime());
 }
 
 void DMac_StartTimer::expire(Event* e)
 {
   mac_->start();
+
 }
 
 //bind the tcl object
@@ -151,17 +84,22 @@ public:
 } class_dmac;
 
 
-Time DMac::maxPropTime = UnderwaterChannel::Transmit_distance() / 1500.0;
-Time DMac::sendInterval = 0.5;
-Time DMac::baseTime = 0.0;
+//Time DMac::maxPropTime = UnderwaterChannel::Transmit_distance() / 1500.0;//0.7333
+
+Time DMac::maxPropTime = 0;
+
+Time DMac::sendInterval = 2.0;
+Time DMac::baseTime = 0.2;
 int DMac::nodeCount = 8;
 
 ofstream outfile("/home/yongj/NS2/ns-2.30/result/dmacfile");
 
+
 DMac::DMac()
     : UnderwaterMac(), callback_handler(this),
     /*pkt_send_timer(this),*/
-    status_handler(this), sleep_timer(this), start_timer_(this), WakeSchQueue_(this)
+    status_handler(this), sleep_timer(this),
+    start_timer_(this), wake_timer(this)
 {
   CycleCount = 1;
   NumPktSend_ = 0;
@@ -171,6 +109,7 @@ DMac::DMac()
 
   if (!outfile)
     cout << "outfile wrong!!!";
+
 
 }
 
@@ -184,12 +123,15 @@ void DMac::send_info()
 
 void DMac::makeData(Packet* p)
 {
-  outfile << index_ << " DMac::makeData" << endl;
+  outfile << now()
+      << " # " << index_
+      << " DMac::makeData" << endl;
 
   hdr_cmn* cmh = HDR_CMN(p);
   cmh->direction() = hdr_cmn::DOWN;
   cmh->txtime() = getTxTime(cmh->size());
 
+  outfile << "DATA packet size is: " << cmh->txtime() << endl;
   hdr_mac* mh = hdr_mac::access(p);
   int dst = mh->macDA();
   int src = mh->macSA();
@@ -205,15 +147,6 @@ void DMac::makeData(Packet* p)
   dh->receiver_addr = dst;
 
   dh->t_send = now;
-
-  ((UnderwaterSensorNode*) node_)->SetTransmissionStatus(SEND);
-
-  sendDown(p);
-  NumPktSend_++;
-  NumDataSend_++;
-  Scheduler::instance().schedule(&status_handler, &status_event, cmh->txtime());
-
-
 }
 
 void DMac::CallbackProcess(Event* e)
@@ -233,16 +166,12 @@ void DMac::StatusProcess(Event *e)
 
 void DMac::canSend()
 {
-  nodeFlag = NF_SEND;
+
+
+  setNodeSendFlag();
   Time now = Scheduler::instance().clock();
-  Time wakeTime = CycleCount * nodeCount * sendInterval + baseTime - now;
-  outfile << now << " # " << index_ << " DMac::canSend";
 
-  WakeSchQueue_.clearExpired(now);
-
-  setSleepTimer(wakeTime);
-
-  while(nodeFlag == NF_SEND)
+  while(getNodeFlag() == NF_SEND)
   {
 
     if(waitingPackets_.empty() != true)
@@ -250,9 +179,11 @@ void DMac::canSend()
       Packet* p = waitingPackets_.front();
       waitingPackets_.pop_front();
       sendData(p);
+      return;
     }
     else
     {
+      setNodeNoDataFlag();
       sendEndFlag();
       return;
     }
@@ -262,27 +193,31 @@ void DMac::canSend()
 
 void DMac::sendData(Packet* p)
 {
+
+  outfile << now() << " # " << index_
+      << " sendData" << endl;
+
   makeData(p);
 
-  ((UnderwaterSensorNode*) node_)->SetTransmissionStatus(SEND);
-  hdr_cmn* cmh = HDR_CMN(p);
-  sendDown(p);
-  NumPktSend_++;
-  NumDataSend_++;
-  Scheduler::instance().schedule(&status_handler, &status_event, cmh->txtime());
+  sendout(p);
 
 }
 
 void DMac::sendEndFlag()
 {
 
-  ((UnderwaterSensorNode*) node_)->SetTransmissionStatus(SEND);
-  Packet* p = makeEndPkt();
-  hdr_cmn* cmh = HDR_CMN(p);
-  sendDown(p);
-  updateNumPktSend();
-  Scheduler::instance().schedule(&status_handler, &status_event,
-      cmh->txtime());
+  if(isSendEndFlag())
+  {
+    Packet* p = makeEndPkt();
+
+    sendout(p);
+
+    setNodeListenFlag();
+  }
+  else
+  {
+    setNodeWaitFlag();
+  }
 
 }
 
@@ -291,15 +226,10 @@ Packet* DMac::makeEndPkt()
 
   Time now = Scheduler::instance().clock();
 
-  outfile << now
-      << " # " << index_
-      << " Make EndFlag"
-      << endl;
-
   Packet* p = Packet::alloc();
   hdr_dmac* dh = HDR_DMAC(p);
 
-  int dst = index_+1;
+  int dst = (index_+ 1) % nodeCount;
 
   dh->ptype = DP_END;
   dh->ack = false;
@@ -311,7 +241,7 @@ Packet* DMac::makeEndPkt()
 
   hdr_cmn* cmh = HDR_CMN(p);
   cmh->size() = hdr_dmac::size();
-  cmh->next_hop() = dst;
+  //cmh->next_hop() = dst;
   cmh->direction() = hdr_cmn::DOWN;
   cmh->addr_type() = NS_AF_ILINK;
   cmh->ptype() = PT_DMAC;
@@ -321,7 +251,6 @@ Packet* DMac::makeEndPkt()
   hdr_mac* mh = HDR_MAC(p);
   mh->macDA() = dst;
   mh->macSA() = index_;
-
 
   return p;
 
@@ -346,8 +275,6 @@ void DMac::setSleepTimer(Time Interval)
 void DMac::RecvProcess(Packet *p)
 {
   //sendUp(p);
-  Time now = Scheduler::instance().clock();
-  outfile << index_ << " DMac::RecvProcess" << endl;
 
   hdr_mac* mh = HDR_MAC(p);
   int dst = mh->macDA();
@@ -356,7 +283,12 @@ void DMac::RecvProcess(Packet *p)
 
   if (cmh->error())
   {
-    outfile << "DMac::RecvProcess cmh-> error" << endl;
+    outfile << now()
+        << "DMac::RecvProcess cmh-> error"
+        << " at:" << index_
+        << " src:" << src
+        << " dest" << dst
+        << endl;
 
     if (drop_)
       drop_->recv(p, "Error/Collision");
@@ -366,9 +298,9 @@ void DMac::RecvProcess(Packet *p)
     return;
   }
 
-  outfile << now
+  outfile << now()
       << " # " << index_
-      << "DMac::RecvProcess dst:" << dst
+      << " RecvProcess dst:" << dst
       << " src:" << src << endl;
 
 
@@ -376,29 +308,35 @@ void DMac::RecvProcess(Packet *p)
   {
 
     outfile << "DMac::RecvProcess arrive at the dest" << endl;
-    handleRecvData(p);
+    handleRecvPkt(p);
   }
 }
 
 //handle any packet that arrived at the destination
 void DMac::handleRecvPkt(Packet* p)
 {
-  Time now = Scheduler::instance().clock();
+
   hdr_dmac* dh = HDR_DMAC(p);
 
   //the previous node has no data to send
   if(dh->ptype == DP_END)
   {
+    outfile << now()
+        << " # " << index_
+        << "recv end flag"
+        << endl;
+    Packet::free(p);
     canSend();
   }
 
   else if(dh->ptype == DP_DATA)
   {
-
     handleRecvData(p);
+    sendUp(p);
   }
   else if(dh->ptype == DP_ACKDATA)
   {
+    Packet::free(p);
     return;
   }
 }
@@ -406,10 +344,6 @@ void DMac::handleRecvPkt(Packet* p)
 Packet* DMac::makeACK(Packet* p)
 {
   Time now = Scheduler::instance().clock();
-  outfile << now
-      << " # " << index_
-      << " Make ACK"
-      << endl;
 
   Packet* q = Packet::alloc();
   hdr_dmac* dh_p = HDR_DMAC(p);
@@ -455,14 +389,69 @@ void DMac::handleRecvData(Packet* p)
 
 void DMac::canSendACK(Packet* p)
 {
-  ((UnderwaterSensorNode*) node_)->SetTransmissionStatus(SEND);
-  Packet* q = makeACK(p);
-  hdr_cmn* cmh_q = HDR_CMN(q);
-  sendDown(q);
-  updateNumPktSend();
-  Scheduler::instance().schedule(&status_handler, &status_event,
-      cmh_q->txtime());
 
+  Packet* q = makeACK(p);
+
+  sendout(q);
+
+  updateNumPktSend();
+
+}
+
+int DMac::sendout(Packet* p)
+{
+  UnderwaterSensorNode* n=(UnderwaterSensorNode*) node_;
+
+  hdr_cmn* cmh = HDR_CMN(p);
+  hdr_mac* mh = HDR_MAC(p);
+  int dst = mh->macDA();
+  int src = mh->macSA();
+
+  switch( n->TransmissionStatus() )
+  {
+    case SLEEP:
+      Poweron();
+
+    case IDLE:
+      outfile << now()
+            << " # " << index_
+            << " send out"
+            << " src:" << src
+            << " dest:" << dst
+            << endl;
+      n->SetTransmissionStatus(SEND);
+      cmh->timestamp() = now();
+      updateNumPktSend();
+      sendDown(p);
+      Scheduler::instance().schedule(&status_handler,&status_event,cmh->txtime());
+      break;
+
+    case RECV:
+      outfile << now()
+            << " # " << index_
+            << " RECV-SEND Collision"
+            << " src:" << src
+            << " dest:" << dst
+            << endl;
+      printf("RECV-SEND Collision!\n");
+      Packet::free(p);
+
+      break;
+
+    default:
+      //status is SEND, send too fast
+      outfile << now()
+      << " # " << index_
+      << " send too fast"
+      << " src:" << src
+      << " dest:" << dst
+      << endl;
+
+      printf("node%d send data too fast\n",index_);
+      Packet::free(p);
+      break;
+  }
+  return  1;
 }
 
 //process the outgoing packet
@@ -478,19 +467,19 @@ void DMac::TxProcess(Packet *p)
   hdr_uwvb* vbh = HDR_UWVB(p);
   hdr_dmac *dh = HDR_DMAC(p);  //hdr_dmac::access(p);
 
-  int src = mh->macSA();
-  Time now = Scheduler::instance().clock();
-  outfile << now <<" # "<< index_
+  int src = vbh->sender_id.addr_;
+  int dst = vbh->target_id.addr_;
+
+  outfile << now() <<" # "<< index_
   <<" TxProcess"
   << " src:"<< src;
-  //<< endl;
 
-  int dst = vbh->target_id.addr_;
+
   outfile << " id:" << cmh->uid_
   << " dest:" << dst
   << endl;
 
-  HDR_CMN(p)->size() = 1600;
+  HDR_CMN(p)->size() = 600;
   cmh->next_hop() = dst;
   cmh->direction()=hdr_cmn::DOWN;
   cmh->addr_type()=NS_AF_ILINK;
@@ -507,7 +496,6 @@ void DMac::TxProcess(Packet *p)
   Scheduler::instance().schedule(&callback_handler,
       &callback_event, DMAC_CALLBACK_DELAY);
 
-
 }
 
 
@@ -515,20 +503,63 @@ void DMac::start()
 {
   outfile << "DMac::start" << endl;
 
-  idle();
+  initNodeTime();
 
+  sleep_timer.resched(getInitEndTime());
+  wake_timer.resched(getInitStartTime());
   Random::seed_heuristically();
 //  bind("nodeCount", &nodeCount);
 //  bind("sendInterval", &sendInterval);
 //  bind("baseTime",&baseTime);
 //  bind("maxPropTime",&maxPropTime);
-  if(index_ ==0)
-    canSend();
+//  if(index_ ==0)
+//    canSend();
 //  MaxTxTime_ = 1610 * encoding_efficiency_ / bit_rate_;
 //  hello_tx_len = (hdr_dmac::size()) * 8 * encoding_efficiency_ / bit_rate_;
 
 }
+Time DMac::getInitStartTime()
+{
+  return nodeTime.startSend - now();
+}
 
+Time DMac::getInitEndTime()
+{
+  return nodeTime.endSend - now();
+}
+
+Time DMac::getRoundTime()
+{
+  return nodeCount * sendInterval + (nodeCount - 1) * maxPropTime;
+}
+
+void DMac::initNodeTime()
+{
+  nodeTime.startSend = baseTime + index_ * sendInterval + index_*maxPropTime;
+  nodeTime.endSend = nodeTime.startSend + sendInterval;
+}
+
+void DMac::updateNodeTime()
+{
+  nodeTime.startSend += getRoundTime();
+  nodeTime.endSend += getRoundTime();
+  addCycleCount();
+}
+
+bool DMac::isSendEndFlag()
+{
+
+  if(nodeTime.startSend - now() >
+        nodeCount * sendInterval - nodeCount * maxPropTime)
+    return false;
+  else
+    return true;
+}
+Time DMac::now()
+{
+  Time t = Scheduler::instance().clock();
+  return t;
+}
 int DMac::command(int argc, const char * const *argv)
 {
   if (argc == 3)

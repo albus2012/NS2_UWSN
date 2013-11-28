@@ -7,7 +7,7 @@
 
 for ((i =10; i< 120; i+=5))
 do
-	for(( j = 0; j < 200; j++))
+	for(( j = 0; j < 50; j++))
 	 do
 	ns ~/NS2/ns-2.30/underwatersensor/uw_tcl/dmac1.tcl $i $j; #一次NS运行
 	echo "UWANMAC NO is $j" >>  ~/NS2/ns-2.30/result/uwanexcel;

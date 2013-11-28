@@ -5,13 +5,17 @@ set opt(mac)			Mac/UnderwaterMac/UWANMac
 set opt(ifq)			Queue/DropTail/PriQueue
 set opt(ll)				LL
 set opt(energy)         EnergyModel
-set opt(txpower)        6;#not here
+set opt(txpower)        20;#not here
 set opt(rxpower)        2; #not here
 set opt(initialenergy)  10000
-set opt(idlepower)      0.01 ;#set idlepower 
+set opt(idlepower)      0.5 ;#set idlepower 
 set opt(ant)            Antenna/OmniAntenna  ;#we don't use it in underwater
 set opt(filters)        GradientFilter    ;# options can be one or more of 
                                 ;# TPP/OPP/Gear/Rmst/SourceRoute/Log/TagFilter
+Phy/UnderwaterPhy set tranp  20; # set transmission power here
+Phy/UnderwaterPhy set recvp  2  ; #here
+Phy/UnderwaterPhy set idlep  0.5  ;#not here
+Phy/UnderwaterPhy set sync_hdr_len 1.5;
 
 set rate [lindex $argv 0];
 set opt(data_rate_) [expr 0.001*$rate];#  [lindex $argv 0]  ;#0.02
@@ -112,9 +116,7 @@ Phy/UnderwaterPhy set Pt_ 0.2818;
 Phy/UnderwaterPhy set freq_ 25  ;#frequency range in khz 
 Phy/UnderwaterPhy set K_ 2.0   ;#spherical spreading
 
-Phy/UnderwaterPhy set tranp  6; # set transmission power here
-Phy/UnderwaterPhy set recvp  2  ; #here
-Phy/UnderwaterPhy set idlep  0.01  ;#not here
+
 
 # ==================================================================
 # Main Program

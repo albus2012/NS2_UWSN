@@ -802,7 +802,7 @@ Phy/UnderwaterPhy set debug_ false
 Phy/UnderwaterPhy set K_ 1.5
 Phy/UnderwaterPhy set TurnOnEnergy 0.0
 Phy/UnderwaterPhy set TurnOffEnergy 0.0
-Phy/UnderwaterPhy set sync_hdr_len  0.0
+Phy/UnderwaterPhy set sync_hdr_len  1.5
 Phy/UnderwaterPhy set fowarding_delay 0.0
 Phy/UnderwaterPhy set bit_error_rate 0.0
 

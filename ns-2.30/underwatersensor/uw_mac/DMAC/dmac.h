@@ -67,29 +67,22 @@ struct hdr_dmac
 };
 
 class DMac;
-struct ScheTime;
 
 class DMac_WakeTimer: public TimerHandler {
 public:
 
-  DMac_WakeTimer(DMac* mac,ScheTime* ScheT)
-    :TimerHandler()
-  {
-    mac_ = mac;
-    ScheT_ = ScheT;
-  }
+  DMac_WakeTimer(DMac* mac)
+    :TimerHandler(),mac_ (mac)
+  {}
+
   DMac_WakeTimer()
-   :TimerHandler()
-  {
-    mac_ = NULL;
-    ScheT_ = NULL;
-  }
+   :TimerHandler(),mac_(NULL)
+  {}
+
   DMac_WakeTimer(const DMac_WakeTimer & rhs)
-   :TimerHandler(), mac_(rhs.mac_),ScheT_(rhs.ScheT_)
-  {
-    mac_ = rhs.mac_;
-    ScheT_ = rhs.ScheT_;
-  }
+   :TimerHandler(), mac_(rhs.mac_)
+  {}
+
   bool isPending()
   {
     if( status() == TIMER_PENDING )
@@ -100,73 +93,9 @@ public:
 
 protected:
   DMac* mac_;
-  ScheTime* ScheT_;
   virtual void expire(Event* e);
 };
 
-/*
- * Data structure for neighbors' schedule
- */
-
-
-struct ScheTime {
-  ScheTime* next_;
-  Time    SendTime_;
-  nsaddr_t  node_id_;  //with this field, we can determine that which node will send packet.
-  DMac_WakeTimer  timer_;
-
-  ScheTime(Time SendTime, nsaddr_t node_id, DMac* mac)
-    :   next_(NULL), SendTime_(SendTime),
-      node_id_(node_id), timer_(mac, this) {
-  }
-
-  ~ScheTime() {
-    if( timer_.isPending())
-
-      timer_.cancel();
-  }
-
-  void start(Time Delay) {
-    if( Delay >= 0.0 )
-      timer_.resched(Delay);
-  }
-
-};
-
-
-
-/*The SendTime in SYNC should be translated to absolute time
- *and then insert into ScheQueue
- */
-class ScheQueue{
-private:
-  ScheTime* Head_;
-  DMac* mac_;
-public:
-  ScheQueue(DMac* mac): mac_(mac) {
-    Head_ = new ScheTime(0.0, 0, NULL);
-  }
-
-  ~ScheQueue() {
-    ScheTime* tmp;
-    while( Head_ != NULL ) {
-      tmp = Head_;
-      Head_ = Head_->next_;
-      delete tmp;
-    }
-  }
-
-public:
-
-  //first parameter is the time when sending next packet,
-  //the last one is the time interval between current time and sending time
-  void push(Time SendTime, nsaddr_t node_id, Time Interval);
-
-  ScheTime* top();//NULL is returned if the queue is empty
-  void pop();
-  void clearExpired(Time CurTime);
-  void print(Time GuardTime, Time MaxTxTime, bool IsMe, nsaddr_t index);
-};
 
 class DMac_CallbackHandler: public Handler{
 public:
@@ -222,9 +151,6 @@ class DMac_StartTimer: public TimerHandler {
 
 
 
-
-
-
 class DMac: public UnderwaterMac
 {
 
@@ -248,7 +174,7 @@ class DMac: public UnderwaterMac
 	DMac_StatusHandler  status_handler;
 
 
-	DMac_WakeTimer wake_timer;	//wake this node after NextCyclePeriod;
+	DMac_WakeTimer wake_timer;
 	DMac_SleepTimer		sleep_timer;
 	DMac_StartTimer		start_timer_;
 
@@ -267,7 +193,7 @@ class DMac: public UnderwaterMac
 
  private:
 
-
+	int sendout(Packet* p);
 	void makeData(Packet* p);
 	void canSend();
 	void sendData(Packet* p);
@@ -278,8 +204,28 @@ class DMac: public UnderwaterMac
 	Packet* makeACK(Packet* p);
 	void handleRecvData(Packet* p);
 	void canSendACK(Packet* p);
-	void setNodeListen(){ nodeFlag = NF_LISTEN;}
 
+	void addCycleCount() { CycleCount++;}
+	int  getCycleCount() { return CycleCount;}
+
+	enum NodeFlag
+	{
+	  NF_LISTEN,
+	  NF_SEND,
+	  NF_NODATA,
+	  NF_WAIT,
+	}nodeFlag;
+
+
+	void setNodeWaitFlag(){ nodeFlag = NF_WAIT;}
+	void setNodeListenFlag(){ nodeFlag = NF_LISTEN;}
+	void setNodeSendFlag(){ nodeFlag = NF_SEND;}
+	void setNodeNoDataFlag(){ nodeFlag = NF_NODATA;}
+	NodeFlag getNodeFlag(){ return nodeFlag;}
+	bool isNodeWaitFlag() { return nodeFlag == NF_WAIT;}
+	bool isNodeListenFlag() { return nodeFlag == NF_LISTEN;}
+	bool isNodeSendFlag() { return nodeFlag == NF_SEND;}
+	bool isNodeNoDataFlag() { return nodeFlag == NF_NODATA;}
 
 	static Time  sendInterval;
 	static Time  maxPropTime;
@@ -287,12 +233,11 @@ class DMac: public UnderwaterMac
 	static int   nodeCount;
 
 
-	ScheQueue	WakeSchQueue_;
+//	ScheQueue	WakeSchQueue_;
 
 	int		CycleCount;   //count the number of cycle.
 	int		NumPktSend_;
 	int   NumDataSend_;
-
 
 	typedef int NodeID;
 	map<NodeID, NodeInfo> neighbors_;//neighbor nodes info
@@ -301,13 +246,22 @@ class DMac: public UnderwaterMac
 	deque<Packet* >  waitingPackets_;
 
 
-	enum NodeFlag
+	struct NodeTime
 	{
-	  NF_LISTEN,
-	  NF_SEND,
-	};
+	  Time startSend;
+	  Time endSend;
+	}nodeTime;
 
-	NodeFlag nodeFlag;
+	Time getRoundTime();
+  Time getInitStartTime();
+  Time getInitEndTime();
+	void initNodeTime();
+
+	void updateNodeTime();
+
+	bool isSendEndFlag();
+  Time now();
+
   friend class DMac_CallbackHandler;
   friend class DMac_WakeTimer;
   friend class DMac_SleepTimer;
@@ -318,8 +272,6 @@ class DMac: public UnderwaterMac
   friend class DMac_TxStatusHandler;
 
 };
-
-
 
 
 #endif

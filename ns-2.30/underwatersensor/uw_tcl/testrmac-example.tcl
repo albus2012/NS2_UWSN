@@ -58,9 +58,9 @@ set opt(z)                              [expr ($opt(layers)-1)*$opt(dz)]
 set opt(seed)	                	349
 set opt(stop)	                	1000	;# simulation time
 set opt(prestop)                        20     ;# time to prepare to stop
-set opt(tr)	                	"result/dmac.tr"	;# trace file
-set opt(nam)                            "result/dmac.nam"  ;# nam file
-set opt(datafile)	                "result/dmac.data"
+set opt(tr)	                	"~/NS2/ns-2.30/result/rmac.tr"	;# trace file
+set opt(nam)                            "~/NS2/ns-2.30/result/rmac.nam"  ;# nam file
+set opt(datafile)	                "~/NS2/ns-2.30/result/rmac.data"
 set opt(adhocRouting)                   Vectorbasedforward ;#SillyRouting
 set opt(width)                           20
 set opt(adj)                             10

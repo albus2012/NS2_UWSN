@@ -33,9 +33,9 @@ set opt(z)                              [expr ($opt(layers)-1)*$opt(dz)]
 set opt(seed)	                	348.88
 set opt(stop)	                	1000	;# simulation time
 set opt(prestop)                        20     ;# time to prepare to stop
-set opt(tr)	                	"result/uwan.tr"	;# trace file
-set opt(nam)                            "result/uwan.nam"  ;# nam file
-set opt(datafile)	                "result/uwan.data"
+set opt(tr)	                	"~/NS2/ns-2.30/result/uwan.tr"	;# trace file
+set opt(nam)                            "~/NS2/ns-2.30/result/uwan.nam"  ;# nam file
+set opt(datafile)	                "~/NS2/ns-2.30/result/uwan.data"
 set opt(adhocRouting)                   Vectorbasedforward ;#SillyRouting
 set opt(width)                           20
 set opt(adj)                             10
@@ -65,7 +65,7 @@ Mac/UnderwaterMac set bit_rate_  $opt(bit_rate)
 Mac/UnderwaterMac set encoding_efficiency_  $opt(encoding_efficiency)
 
 Mac/UnderwaterMac/UWANMac set AvgCyclePeriod [expr 1/$opt(data_rate_)]
-Mac/UnderwaterMac/UWANMac set StdCyclePeriod 1
+Mac/UnderwaterMac/UWANMac set StdCyclePeriod 0.1
 
 # Initialize the SharedMedia interface with parameters to make
 # it work like the 914MHz Lucent WaveLAN DSSS radio interface
@@ -232,11 +232,11 @@ $node_(7) set-cz 0
 #	$ns_ at $start_time "$a_($i) cbr-start"
 #}
 
-$ns_ at $start_time.11 "$a_(0) cbr-start"
-$ns_ at $start_time.33 "$a_(2) cbr-start"
+$ns_ at $start_time.11 "$a_(0)  exp-start"
+$ns_ at $start_time.33 "$a_(2)  exp-start"
 #$ns_ at $start_time "$a_(3) cbr-start"
-$ns_ at $start_time.56 "$a_(4) cbr-start"
-$ns_ at $start_time.79 "$a_(5) cbr-start"
+$ns_ at $start_time.56 "$a_(4)  exp-start"
+$ns_ at $start_time.79 "$a_(5)  exp-start"
 #$ns_ at $start_time "$a_(6) cbr-start"
 #$ns_ at $start_time "$a_(7) cbr-start"
 

@@ -133,10 +133,17 @@ IncommingChannel::UpdatePacketStatus(){
     }
     else {
       // printf("IncommingChannel: current packet RX is %f and noise is %f and CPThresh is %f\n",(t1->packet)->txinfo_.RxPr,noise,(t1->packet)->txinfo_.CPThresh);
-      if (((t1->packet)->txinfo_.RxPr)/noise >= (t1->packet)->txinfo_.CPThresh)
-	{/*printf("RECEPTION\n");*/	t1->status=RECEPTION;}
-      else {//printf("COLLISION noise=%f \n",noise); 
-               t1->status=COLLISION;}
+      if (((t1->packet)->txinfo_.RxPr)/noise >=
+          (t1->packet)->txinfo_.CPThresh)
+      {/*printf("RECEPTION\n");*/
+        t1->status=RECEPTION;
+      }
+      else
+      {
+        //printf("COLLISION noise=%f \n",noise);
+        t1->status=COLLISION;
+      }
+
     }
       t1=t1->next;
     }

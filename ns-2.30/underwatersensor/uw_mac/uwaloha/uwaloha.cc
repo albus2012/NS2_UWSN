@@ -141,7 +141,6 @@ void UWALOHA::TxProcess(Packet* pkt)
 	hdr_uwvb* vbh = HDR_UWVB(pkt);
 	hdr_mac* mh=HDR_MAC(pkt);
 
-
 	cmh->size() += hdr_UWALOHA::size();
 	cmh->txtime() = getTxTime(cmh->size());
 	cmh->error() = 0;
@@ -275,7 +274,7 @@ void UWALOHA::RecvProcess(Packet *pkt)
 
 	if( cmh->error() ) 
 	{
-	  if(drop_	&&	recver==index_) {
+	  if(drop_ && recver==index_) {
 		  drop_->recv(pkt,"Error/Collision");
 	  }
 	  else

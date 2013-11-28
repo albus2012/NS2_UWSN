@@ -5,16 +5,19 @@ set opt(mac)			Mac/UnderwaterMac/DMac
 set opt(ifq)			Queue/DropTail/PriQueue
 set opt(ll)				LL
 set opt(energy)         EnergyModel
-set opt(txpower)        6;#not here
-set opt(rxpower)        2; #not here
+set opt(txpower)        10;#not here
+set opt(rxpower)        1; #not here
 set opt(initialenergy)  10000
-set opt(idlepower)      0.01 ;#set idlepower 
+set opt(idlepower)      0.5 ;#set idlepower 
 set opt(ant)            Antenna/OmniAntenna  ;#we don't use it in underwater
 set opt(filters)        GradientFilter    ;# options can be one or more of 
                                 ;# TPP/OPP/Gear/Rmst/SourceRoute/Log/TagFilter
+Phy/UnderwaterPhy set tranp  10; # set transmission power here
+Phy/UnderwaterPhy set recvp  1  ; #here
+Phy/UnderwaterPhy set idlep  0.5  ;#not here
 
 #set rate [lindex $argv 0];
-set rate 20;
+set rate 50;
 set opt(data_rate_) [expr 0.001*$rate];#  [lindex $argv 0]  ;#0.02
 
 
@@ -118,10 +121,9 @@ Phy/UnderwaterPhy set RXThresh_ 0   ;#3.652e-10
 Phy/UnderwaterPhy set Pt_ 0.2818;
 Phy/UnderwaterPhy set freq_ 25  ;#frequency range in khz 
 Phy/UnderwaterPhy set K_ 2.0   ;#spherical spreading
+Phy/UnderwaterPhy set sync_hdr_len 1.5;
 
-Phy/UnderwaterPhy set tranp  6; # set transmission power here
-Phy/UnderwaterPhy set recvp  2  ; #here
-Phy/UnderwaterPhy set idlep  0.01  ;#not here
+
 
 # ==================================================================
 # Main Program
@@ -152,13 +154,13 @@ set data [open $opt(datafile) w]
 
 
 # DMAC
-#set start_time 0.001
+set start_time 1
 #puts "the start time is $start_time"
 
 #RMAC
-set phase1_time [expr $opt(PhaseOne_cycle)*$opt(PhaseOne_window)]
-set phase2_time [expr $opt(PhaseTwo_cycle)*($opt(PhaseTwo_window)+$opt(PhaseTwo_interval))]
-set start_time [expr $phase1_time+$phase2_time+$opt(IntervalPhase2Phase3)]
+#set phase1_time [expr $opt(PhaseOne_cycle)*$opt(PhaseOne_window)]
+#set phase2_time [expr $opt(PhaseTwo_cycle)*($opt(PhaseTwo_window)+$opt(PhaseTwo_interval))]
+#set start_time [expr $phase1_time+$phase2_time+$opt(IntervalPhase2Phase3)]
 
 set total_number [expr $opt(nn)-1]
 set god_ [create-god $opt(nn)]
@@ -201,7 +203,7 @@ for {set i 0} {$i<$opt(nn)} {incr i} {
 	set a_($i) [new Agent/UWSink]
 	$ns_ attach-agent $node_($i) $a_($i)
 	$a_($i) attach-vectorbasedforward $opt(width)
-	$a_($i) cmd set-range 20
+	$a_($i) cmd set-range 200
 	$a_($i) cmd set-filename $opt(datafile)
 	$a_($i) set data_rate_ $opt(data_rate_)
 	
@@ -306,7 +308,7 @@ $node_(6) set-cz 0
 $node_(7) set X_  80
 $node_(7) set Y_  160
 $node_(7) set Z_  0
-$node_(7) set_next_hop 3
+
 $a_(7) setTargetAddress 3
 #$a_(7) cmd set-target-x   30
 #$a_(7) cmd set-target-y   100
@@ -320,14 +322,14 @@ $node_(7) set-cz 0
 #	$ns_ at $start_time "$a_($i) cbr-start"
 #}
 
-#$ns_ at $start_time.11 "$a_(0) exp-start"
-$ns_ at $start_time.11 "$a_(1) exp-start"
+$ns_ at $start_time.11 "$a_(0) exp-start"
+#$ns_ at $start_time.11 "$a_(1) exp-start"
 $ns_ at $start_time.40 "$a_(2) exp-start"
 $ns_ at $start_time.70 "$a_(3) exp-start"
 $ns_ at $start_time.99 "$a_(4) exp-start"
-#$ns_ at $start_time.79 "$a_(5) cbr-start"
-#$ns_ at $start_time.44 "$a_(6) exp-start"
-#$ns_ at $start_time.66 "$a_(7) cbr-start"
+#$ns_ at $start_time.79 "$a_(5) exp-start"
+$ns_ at $start_time.44 "$a_(6) exp-start"
+#$ns_ at $start_time.66 "$a_(7) exp-start"
 
 
 set node_size 10

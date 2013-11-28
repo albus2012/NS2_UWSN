@@ -76,7 +76,7 @@ void UWAN_MAC::sendFrame(Packet* p, bool IsMacPkt, Time delay)
 {
 	hdr_cmn* cmh = HDR_CMN(p);
 	cmh->direction() = hdr_cmn::DOWN; 
-	cmh->txtime() = cmh->size()*encoding_efficiency_/bit_rate_;
+	cmh->txtime() = getTxTime(cmh->size());//*encoding_efficiency_/bit_rate_;
 
 	UWAN_MAC_PktSendTimer *tmp = new UWAN_MAC_PktSendTimer(this);
 	tmp->tx_time() = HDR_CMN(p)->txtime();
@@ -212,7 +212,7 @@ void UWAN_MAC::wakeup(nsaddr_t node_id)
 
 	if( node_id == index_ ) {
 		//generate the time when this node will send out next packet
-		CycleCounter_ = (++CycleCounter_) % 10;
+		CycleCounter_ = (++CycleCounter_) % 1000;
 		
 		switch( CycleCounter_ ) {
 			case 0:
@@ -400,8 +400,8 @@ void UWAN_MAC::start()
 	Random::seed_heuristically();
 
 	SYNCSchedule(true);
-	MaxTxTime_ = 1610*encoding_efficiency_/bit_rate_;
-	hello_tx_len = (hdr_SYNC::size())*8*encoding_efficiency_/bit_rate_;
+	MaxTxTime_ = getTxTime(1610);//*encoding_efficiency_/bit_rate_;
+	hello_tx_len = getTxTime(hdr_SYNC::size());//*8*encoding_efficiency_/bit_rate_;
 	ListenPeriod_ = 10*hello_tx_len + 2*MaxPropTime_ + MaxTxTime_;
 	WakePeriod_ = ListenPeriod_ + MaxTxTime_;
 }

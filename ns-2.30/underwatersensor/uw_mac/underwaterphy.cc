@@ -200,11 +200,11 @@ UnderwaterPhy::sendDown(Packet *p)
 
 			  // update energy
 			  if (start_time >= update_energy_time_) {
-				  em()->DecrIdleEnergy(start_time - 
-					  update_energy_time_, P_idle_);
+				  em()->DecrIdleEnergy(start_time - update_energy_time_, P_idle_);
 				  update_energy_time_ = start_time;
 			  }
-			  else printf("underwater phy node %d: overlappd transmission %f and %f\n",node_->address(),start_time,update_energy_time_ );
+			  else
+			    printf("underwater phy node %d: overlappd transmission %f and %f\n",node_->address(),start_time,update_energy_time_ );
 
 			  //minus the forwarding delay part
 			  //suppose modem cannot recv when the packet is experiencing forwarding delay

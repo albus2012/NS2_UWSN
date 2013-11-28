@@ -5,14 +5,18 @@ set opt(mac)		Mac/UnderwaterMac/RMac
 set opt(ifq)		Queue/DropTail/PriQueue
 set opt(ll)		LL
 set opt(energy)         EnergyModel
-set opt(txpower)        0.6
-set opt(rxpower)        0.3
+set opt(txpower)        10
+set opt(rxpower)        1
 set opt(initialenergy)  10000
-set opt(idlepower)      0.01
+set opt(idlepower)      0.5
 set opt(ant)            Antenna/OmniAntenna  ;#we don't use it in underwater
 set opt(filters)        GradientFilter    ;# options can be one or more of 
                                 ;# TPP/OPP/Gear/Rmst/SourceRoute/Log/TagFilter
 
+
+Phy/UnderwaterPhy set tranp  10; # set transmission power here
+Phy/UnderwaterPhy set recvp  1  ; #here
+Phy/UnderwaterPhy set idlep  0.5  ;#not here
 
 
 # the following parameters are set fot protocols
@@ -40,12 +44,12 @@ set opt(layers)                         1
 set opt(x)	                	100	;# X dimension of the topography
 set opt(y)	                        100  ;# Y dimension of the topography
 set opt(z)                              [expr ($opt(layers)-1)*$opt(dz)]
-set opt(seed)	                	348.88
+set opt(seed)	                	349
 set opt(stop)	                	1000	;# simulation time
 set opt(prestop)                        20     ;# time to prepare to stop
-set opt(tr)	                	"result/rmac.tr"	;# trace file
-set opt(nam)                            "result/rmac.nam"  ;# nam file
-set opt(datafile)	                "result/rmac.data"
+set opt(tr)	                	"~/NS2/ns-2.30/result/rmac.tr"	;# trace file
+set opt(nam)                            "~/NS2/ns-2.30/result/rmac.nam"  ;# nam file
+set opt(datafile)	                "~/NS2/ns-2.30/result/rmac.data"
 set opt(adhocRouting)                    Vectorbasedforward
 set opt(width)                           20
 set opt(adj)                             10
@@ -156,7 +160,7 @@ $ns_ node-config -adhocRouting $opt(adhocRouting) \
 		 -propType $opt(prop) \
 		 -phyType $opt(netif) \
 		 -agentTrace OFF \
-                 -routerTrace OFF \
+                 -routerTrace ON \
                  -macTrace ON\
                  -topoInstance $topo\
                  -energyModel $opt(energy)\

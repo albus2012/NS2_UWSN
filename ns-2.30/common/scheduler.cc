@@ -152,7 +152,7 @@ Scheduler::dispatch(Event* p, double t)
 		fprintf(stderr, "ns: scheduler going backwards in time from %f \
 			to \
 			%f.\n", clock_, t);
-			printf("Current Event:\n");
+		printf("Current Event:\n");
 		printf("t:%f uid: ", p->time_);
 		printf(UID_PRINTF_FORMAT, p->uid_);
 		printf(" handler: %p\n", p->handler_);
