@@ -1,0 +1,26 @@
+#!/bin/bash
+
+	 rm ~/NS2/ns-2.30/result/dmacexcel;
+	 rm ~/NS2/ns-2.30/result/dmac.data;
+	 rm ~/NS2/ns-2.30/result/dmacdata;
+	 rm ~/NS2/ns-2.30/result/dmac.tr;
+	 rm ~/NS2/ns-2.30/result/dmac.nam;
+
+for ((i =10; i< 200; i+=10))
+do
+	for(( j = 0; j <1000; j++))
+	 do
+	
+	ns ~/NS2/ns-2.30/underwatersensor/uw_tcl/dmac_autorun.tcl $i $j; #一次NS运行
+	echo "DMAC NO is $j" >>  ~/NS2/ns-2.30/result/dmacexcel;
+	echo "DMAC rate is $i" >>  ~/NS2/ns-2.30/result/dmacexcel;
+	awk -f ~/NS2/ns-2.30/result/dmactr.awk ~/NS2/ns-2.30/result/dmac.tr >> ~/NS2/ns-2.30/result/dmacexcel;
+	
+	
+	 done
+	 
+	 awk -f ~/NS2/ns-2.30/result/excel.awk ~/NS2/ns-2.30/result/dmacexcel >> ~/NS2/ns-2.30/result/dmacdata;
+	 rm ~/NS2/ns-2.30/result/*excel;
+done
+
+

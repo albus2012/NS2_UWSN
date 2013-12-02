@@ -1,0 +1,26 @@
+#!/bin/bash
+
+	 rm ~/NS2/ns-2.30/result/alohaexcel;
+	 rm ~/NS2/ns-2.30/result/aloha.data;
+	 rm ~/NS2/ns-2.30/result/alohadata;
+	 rm ~/NS2/ns-2.30/result/aloha.tr;
+	 rm ~/NS2/ns-2.30/result/aloha.nam;
+
+for ((i =10; i< 200; i+=10))
+do
+	for(( j = 0; j <500; j++))
+	 do
+	
+	ns ~/NS2/ns-2.30/underwatersensor/uw_tcl/aloha_autorun.tcl $i $j; #一次NS运行
+	echo "ALOHA NO is $j" >>  ~/NS2/ns-2.30/result/alohaexcel;
+	echo "ALOHA rate is $i" >>  ~/NS2/ns-2.30/result/alohaexcel;
+	awk -f ~/NS2/ns-2.30/result/alohatr.awk ~/NS2/ns-2.30/result/aloha.tr >> ~/NS2/ns-2.30/result/alohaexcel;
+	
+	
+	 done
+	 
+	 awk -f ~/NS2/ns-2.30/result/excel.awk ~/NS2/ns-2.30/result/alohaexcel >> ~/NS2/ns-2.30/result/alohadata;
+	 rm ~/NS2/ns-2.30/result/*excel;
+done
+
+
