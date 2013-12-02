@@ -48,6 +48,7 @@
 #include <mac-802_11.h>
 #include <smac.h>
 #include "underwatersensor/uw_mac/rmac.h"
+#include "underwatersensor/uw_mac/uwaloha/uwaloha.h"
 #include "underwatersensor/uw_mac/DMAC/dmac.h"
 #include <address.h>
 #include <tora/tora_packet.h> //TORA
@@ -65,12 +66,14 @@
 #include "diffusion/diff_header.h" // DIFFUSION -- Chalermek
 #include "underwatersensor/uw_mac/underwaterchannel.h"
 #include "underwatersensor/uw_mac/slotted-fama/sfama-pkt.h"
+//#include "underwatersensor/uw_mac/slotted-fama/sfama.h"
 
 //#define LOG_POSITION
 
 //extern char* pt_names[];
 
-static class CMUTraceClass : public TclClass {
+static class CMUTraceClass : public TclClass
+{
 public:
 	CMUTraceClass() : TclClass("CMUTrace") { }
 	TclObject* create(int, const char*const* argv) {
@@ -131,6 +134,8 @@ CMUTrace::format_mac_common(Packet *p, const char *why, int offset)
 	struct hdr_smac *sh;
 	struct hdr_rmac *rh;
 	struct hdr_dmac *dh;
+	struct hdr_UWALOHA *ah;
+	struct hdr_SFAMA * sfh;
 	char mactype[SMALL_LEN];
 
 	strcpy(mactype, Simulator::instance().macType());
@@ -140,6 +145,11 @@ CMUTrace::format_mac_common(Packet *p, const char *why, int offset)
 		rh = HDR_RMAC(p);
   else if (strcmp (mactype, "Mac/UnderwaterMac/DMac") == 0)
     dh = HDR_DMAC(p);
+  else if (strcmp (mactype, "Mac/UnderwaterMac/UWALOHA") == 0)
+    ah = HDR_UWALOHA(p);
+  else if (strcmp (mactype, "Mac/UnderwaterMac/SFAMA") == 0)
+    sfh = HDR_SFAMA(p);
+
 	else
 		mh = HDR_MAC802_11(p);
 	
@@ -197,6 +207,10 @@ CMUTrace::format_mac_common(Packet *p, const char *why, int offset)
 			format_rmac(p, offset);
 		}else if (strcmp (mactype, "Mac/UnderwaterMac/DMac") == 0){
       format_dmac(p, offset);
+    }else if (strcmp (mactype, "Mac/UnderwaterMac/UWALOHA") == 0){
+      format_uwaloha(p, offset);
+    }else if (strcmp (mactype, "Mac/UnderwaterMac/SFAMA") == 0){
+      format_sfama(p, offset);
     }else {
 			format_mac(p, offset);
 		}
@@ -218,14 +232,14 @@ CMUTrace::format_mac_common(Packet *p, const char *why, int offset)
 		    op,                       // event type
 		    Scheduler::instance().clock(),  // time
 		    src_,                           // this node
-                    ch->next_hop_,                  // next hop
+        ch->next_hop_,                  // next hop
 		    src_,                           // this node
 		    x,                              // x coordinate
 		    y,                              // y coordinate
 		    z,                              // z coordinate
 		    energy,                         // energy, -1 = not existing
 		    tracename,                      // trace level
-                    why);                            // reason
+        why);                            // reason
 
 	    // mac layer extension
 
@@ -236,6 +250,10 @@ CMUTrace::format_mac_common(Packet *p, const char *why, int offset)
 		    format_rmac(p, offset);
 	    } else if (strcmp(mactype, "Mac/UnderwaterMac/DMac") == 0) {
         format_dmac(p, offset);
+      } else if (strcmp(mactype, "Mac/UnderwaterMac/UWALOHA") == 0) {
+        format_uwaloha(p, offset);
+      } else if (strcmp(mactype, "Mac/UnderwaterMac/SFAMA") == 0) {
+        format_sfama(p, offset);
       } else{
 		    format_mac(p, offset);
 	    }
@@ -301,8 +319,18 @@ CMUTrace::format_mac_common(Packet *p, const char *why, int offset)
 		 (ch->ptype() == PT_DMAC) ? (
 		  (dh->ptype == DP_DATA) ? "DATA" :
 		  (dh->ptype == DP_ACKDATA) ? "ACKDATA" :
-		  (dh->ptype == DP_SYNC) ? "SYNC" :
+		  (dh->ptype == DP_END) ? "END" :
 		  "UNKN") :
+     (ch->ptype() == PT_UWALOHA) ? (
+      (ah->ptype == ALOHA_DATA) ? "UWALOHADATA" :
+      (ah->ptype == ALOHA_ACK) ? "UWALOHAACK" :
+      "UNKN") :
+     (ch->ptype() == PT_SFAMA) ? (
+      (sfh->ptype == SFAMA_RTS) ? "SFAMARTS" :
+      (sfh->ptype == SFAMA_CTS) ? "SFAMACTS" :
+      (sfh->ptype == SFAMA_DATA) ? "SFAMADATA" :
+      (sfh->ptype == SFAMA_ACK) ? "SFAMAACK" :
+      "UNKN") :
 		 packet_info.name(ch->ptype())),
 		ch->size());
 	offset = strlen(pt_->buffer());
@@ -313,6 +341,10 @@ CMUTrace::format_mac_common(Packet *p, const char *why, int offset)
 		format_rmac(p, offset);
 	}  else if(strncmp (mactype, "Mac/UnderwaterMac/DMac", 22) == 0) {
     format_dmac(p, offset);
+  }  else if(strncmp (mactype, "Mac/UnderwaterMac/UWALOHA", 25) == 0) {
+    format_uwaloha(p, offset);
+  }  else if(strncmp (mactype, "Mac/UnderwaterMac/SFAMA", 23) == 0) {
+    format_uwaloha(p, offset);
   } else {
 		format_mac(p, offset);
         }
@@ -412,6 +444,17 @@ CMUTrace::format_dmac(Packet *p, int offset)
     dh->t_send,
     dh->sender_addr,
     dh->receiver_addr);
+}
+
+
+void
+CMUTrace::format_uwaloha(Packet *p, int offset)
+{
+  struct hdr_UWALOHA *ah = HDR_UWALOHA(p);
+  sprintf(pt_->buffer() + offset,
+    " [%d %d] ",
+    ah->SA,
+    ah->DA);
 }
 
 void
@@ -838,24 +881,27 @@ CMUTrace::format_tora(Packet *p, int offset)
 void
 CMUTrace::format_sfama(Packet* p, int offset)
 {
+    printf("test\n");
 		hdr_SFAMA* SFAMAh = hdr_SFAMA::access(p);
 		
 		char packet_name[50];
 		
-		switch( SFAMAh->packet_type ) {
-		  case hdr_SFAMA::SFAMA_RTS:
-			strcpy(packet_name, "RTS");
-			break;
-		  case hdr_SFAMA::SFAMA_CTS:
-			strcpy(packet_name, "CTS");
-			break;
-		  case hdr_SFAMA::SFAMA_DATA:
-			strcpy(packet_name, "DATA");
-			break;
-		  case hdr_SFAMA::SFAMA_ACK:
-			strcpy(packet_name, "ACK");
+		switch( SFAMAh->ptype )
+		{
+		  case SFAMA_RTS:
+		    strcpy(packet_name, "RTS");
+		    break;
+		  case SFAMA_CTS:
+		    strcpy(packet_name, "CTS");
+		    break;
+		  case SFAMA_DATA:
+		    strcpy(packet_name, "DATA");
+		    break;
+		  case SFAMA_ACK:
+		    strcpy(packet_name, "ACK");
+		    break;
 		  default:
-			break;
+		    break;
 		}
 		
 		if( pt_->tagged() ) {
@@ -1338,85 +1384,87 @@ void CMUTrace::format(Packet* p, const char *why)
 		nam_format(p, offset);
 	offset = strlen(pt_->buffer());
 	switch(ch->ptype()) {
-	case PT_MAC:
-	case PT_SMAC:
-	case PT_RMAC:
-	case PT_DMAC:
-		break;
-	case PT_ARP:
-		format_arp(p, offset);
-		break;
-	default:
-		format_ip(p, offset);
-		offset = strlen(pt_->buffer());
-		switch(ch->ptype()) {
-		case PT_AODV:
-			format_aodv(p, offset);
-			break;
-		case PT_TORA:
-                        format_tora(p, offset);
-                        break;
-                case PT_IMEP:
-                        format_imep(p, offset);
-                        break;
-		case PT_DSR:
-			format_dsr(p, offset);
-			break;
-		case PT_MESSAGE:
-		case PT_UDP:
-			format_msg(p, offset);
-			break;
-		case PT_TCP:
-		case PT_ACK:
-			format_tcp(p, offset);
-			break;
-		case PT_SCTP:
-			/* Armando L. Caro Jr. <acaro@@cis,udel,edu> 6/5/2002
-			 */
-			format_sctp(p, offset);
-			break;
-		case PT_CBR:
-			format_rtp(p, offset);
-			break;
-	        case PT_DIFF:
-			break;
-		case PT_GAF:
-		case PT_PING:
-			break;
-		case PT_DBR:
-			break;
-              case PT_UW_DROUTING:
-			break;
-		case PT_UWVB:
-			break;
-        case PT_UWVBVA:
-            break;
-        case PT_RMAC:
-			break; 
-        case PT_DMAC:
+    case PT_MAC:
+    case PT_SMAC:
+    case PT_RMAC:
+    case PT_DMAC:
+    case PT_UWALOHA:
+    //case PT_SFAMA:
       break;
-        case PT_TMAC:
-			break;
+    case PT_ARP:
+      format_arp(p, offset);
+      break;
+    default:
+      format_ip(p, offset);
+      offset = strlen(pt_->buffer());
+		switch(ch->ptype()) {
+      case PT_AODV:
+        format_aodv(p, offset);
+        break;
+      case PT_TORA:
+        format_tora(p, offset);
+        break;
+      case PT_IMEP:
+        format_imep(p, offset);
+        break;
+      case PT_DSR:
+        format_dsr(p, offset);
+        break;
+      case PT_MESSAGE:
+      case PT_UDP:
+        format_msg(p, offset);
+        break;
+      case PT_TCP:
+      case PT_ACK:
+        format_tcp(p, offset);
+        break;
+      case PT_SCTP:
+        /* Armando L. Caro Jr. <acaro@@cis,udel,edu> 6/5/2002
+         */
+        format_sctp(p, offset);
+        break;
+      case PT_CBR:
+        format_rtp(p, offset);
+        break;
+      case PT_DIFF:
+        break;
+      case PT_GAF:
+      case PT_PING:
+        break;
+      case PT_DBR:
+        break;
+      case PT_UW_DROUTING:
+        break;
+      case PT_UWVB:
+        break;
+      case PT_UWVBVA:
+        break;
+      case PT_RMAC:
+        break;
+      case PT_DMAC:
+        break;
+      case PT_TMAC:
+        break;
 		
-        case PT_UWAN_SYNC:
-        case PT_UWAN_HELLO:
-        case PT_UWAN_ML:
-			break;
-        case PT_OTMAN:
-			break;
-        case PT_UW_SROUTE:
-            break;
-        case PT_SFAMA:
-			format_sfama(p, offset);
-            break;
+      case PT_UWAN_SYNC:
+      case PT_UWAN_HELLO:
+      case PT_UWAN_ML:
+        break;
+      case PT_OTMAN:
+        break;
+      case PT_UW_SROUTE:
+          break;
+      case PT_SFAMA:
+        format_sfama(p, offset);
+        break;
 	
-		default:
-		/*<zheng: del -- there are many more new packet types added, like PT_EXP (poisson traffic belongs to this type)>
-			fprintf(stderr, "%s - invalid packet type (%s).\n",
-				__PRETTY_FUNCTION__, packet_info.name(ch->ptype()));
-			exit(1);
-		</zheng: del>*/
-			break;		//zheng: add
+      default:
+        /*<zheng: del -- there are many more new packet types added, like PT_EXP (poisson traffic belongs to this type)>
+          fprintf(stderr, "%s - invalid packet type (%s).\n",
+            __PRETTY_FUNCTION__, packet_info.name(ch->ptype()));
+          exit(1);
+        </zheng: del>*/
+        break;		//zheng: add
 		}
 	}
 }

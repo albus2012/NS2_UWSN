@@ -1,4 +1,4 @@
-
+#include <fstream>
 //#include "delay.h"
 //#include "connector.h"
 #include "packet.h"
@@ -9,7 +9,7 @@
 #include "underwatermac.h"
 #include "underwaterphy.h"
 //#include "underwatersensor/uw_routing/vectorbasedforward.h"
-
+using namespace std;
 void 
 IncommingChannel::AddNewPacket(Packet* p){
   IncommingPacket* t1;
@@ -27,41 +27,47 @@ IncommingChannel::AddNewPacket(Packet* p){
   
   num_of_active_incomming_packet++;
   //  printf("IncommingChannel: number of packet is %d\n",num_of_active_incomming_packet);
-  TotalSignalStrength=TotalSignalStrength+p->txinfo_.RxPr;
+  TotalSignalStrength = TotalSignalStrength + p->txinfo_.RxPr;
   UpdatePacketStatus();
 }
 
 
 int
-IncommingChannel::DeleteIncommingPacket(Packet* p){
+IncommingChannel::DeleteIncommingPacket(Packet* p)
+{
   IncommingPacket* t2;
   
   // insert this packet at the head of the link
   t2=head_;
 
-  if (!t2) return 0;//0 no such point, 1:delete this point
+  if (!t2)
+    return 0;//0 no such point, 1:delete this point
 
-  if (p==t2->packet){
+  if (p == t2->packet)
+  {
     //    printf("underwatermac: the packet is at the head of list\n");
     head_=t2->next;
     num_of_active_incomming_packet--;
-    TotalSignalStrength=TotalSignalStrength-p->txinfo_.RxPr;
+    TotalSignalStrength -= p->txinfo_.RxPr;
     delete t2;
     return 1;
-}
+  }
   
   int modified=0;
-  while(t2->next){
-    if ((t2->next)->packet!=p) t2=t2->next;
-    else{
-     IncommingPacket* t1;
+  while(t2->next)
+  {
+    if ((t2->next)->packet != p)
+      t2=t2->next;
+    else
+    {
+      IncommingPacket* t1;
   
-     t1=t2->next;
-     t2->next=t1->next;
-     num_of_active_incomming_packet--;
-    TotalSignalStrength=TotalSignalStrength-p->txinfo_.RxPr;
-    delete t1;
-    modified=1;
+      t1=t2->next;
+      t2->next=t1->next;
+      num_of_active_incomming_packet--;
+      TotalSignalStrength -= p->txinfo_.RxPr;
+      delete t1;
+      modified=1;
     }
   }
   
@@ -97,13 +103,15 @@ IncommingChannel::Status(Packet* p){
   
   t2=head_;
  
-  while ((t2->packet!=p)&&(t2)) t2=t2->next;
+  while ((t2->packet!=p) && (t2))
+    t2=t2->next;
 
   if (!t2) {
     printf("IncommingChannel:oops! no such packet\n");
     return INVALID;
   }
-  else return t2->status;
+  else
+    return t2->status;
 }
 
 
@@ -113,34 +121,43 @@ IncommingChannel::UpdatePacketStatus(){
   t1=head_;
 
   while(t1)
+  {
+    printf("!!!IncommingChannel: Total is %f and packe Rxpr is %f\n",TotalSignalStrength,(t1->packet)->txinfo_.RxPr);
+    double noise=TotalSignalStrength-(t1->packet)->txinfo_.RxPr;
+    double t2=(t1->packet)->txinfo_.RxPr;
+    double alpha=0.00000001;
+    printf("coll: %lf, %lf\n", noise,t2);
+
+    if (TotalSignalStrength < t2)
     {
-	// printf("!!!IncommingChannel: Total is %f and packe Rxpr is %f\n",TotalSignalStrength,(t1->packet)->txinfo_.RxPr);
-      double noise=TotalSignalStrength-(t1->packet)->txinfo_.RxPr;
-      double t2=(t1->packet)->txinfo_.RxPr;     
-      double alpha=0.00000001;
+      //   printf("IncommingChannel what a hell %f\n",noise);
+      //  printf("RECEPTION\n");
+	    t1->status = RECEPTION;
 
-      if (TotalSignalStrength<t2) {
-	  //   printf("IncommingChannel what a hell %f\n",noise);
-	 //  printf("RECEPTION\n");
-	     t1->status=RECEPTION;
-	     return;
-      }
-
-    if (fabs(TotalSignalStrength-t2)<alpha){
-	//      printf("IncommingChannel noise is zero %f \n",noise);      //       printf("RECEPTION\n");
-	        t1->status=RECEPTION;
-		// return;
+	    return;
     }
-    else {
+
+    if (fabs(TotalSignalStrength-t2) < alpha)
+    {
+      //      printf("IncommingChannel noise is zero %f \n",noise);
+      //       printf("RECEPTION\n");
+	    t1->status = RECEPTION;
+
+	    // return;
+    }
+    else
+    {
       // printf("IncommingChannel: current packet RX is %f and noise is %f and CPThresh is %f\n",(t1->packet)->txinfo_.RxPr,noise,(t1->packet)->txinfo_.CPThresh);
-      if (((t1->packet)->txinfo_.RxPr)/noise >=
-          (t1->packet)->txinfo_.CPThresh)
-      {/*printf("RECEPTION\n");*/
-        t1->status=RECEPTION;
+      if (((t1->packet)->txinfo_.RxPr) / noise >= (t1->packet)->txinfo_.CPThresh)
+      {
+        /*printf("RECEPTION\n");*/
+
+        t1->status = RECEPTION;
       }
       else
       {
-        //printf("COLLISION noise=%f \n",noise);
+        printf("COLLISION noise=%f \n",noise);
+
         t1->status=COLLISION;
       }
 
@@ -296,51 +313,61 @@ UnderwaterMac::command(int argc, const char*const* argv)
 
 
 void
-UnderwaterMac::IncommingChannelProcess(Event* e){
+UnderwaterMac::IncommingChannelProcess(Event* e)
+{
 
-    //  printf("underwatermac recv(%d) :process incommingchannel at %f\n",node_->nodeid(),NOW); 
+  //printf("underwatermac recv(%d) :process incommingchannel at %f\n",node_->nodeid(),NOW);
  
   //IncommingPacket* p;
   Packet*  target;
-           target=(Packet*) e;
-	   enum PacketStatus status=recv_channel.Status(target);
+  target=(Packet*) e;
+	enum PacketStatus status=recv_channel.Status(target);
 
- UnderwaterSensorNode* n=(UnderwaterSensorNode*) node_;
+	UnderwaterSensorNode* n=(UnderwaterSensorNode*) node_;
        
 
 
-   struct hdr_cmn *hdr = HDR_CMN(target);
+	struct hdr_cmn *hdr = HDR_CMN(target);
 
 	   //  p=recv_channel.lookup(target);
-   if (COLLISION==status) {
-      printf("underwater: the packet is interfered at node %d\n",node_->nodeid()); 
-            recv_channel.DeleteIncommingPacket(target);
-            ResetTransmissionStatus();
-            hdr->error()=1; //set error flag
-            RecvProcess(target);
-	    // Packet::free(target);  
-	    // return;
+  if (COLLISION==status)
+  {
+    printf("underwater: the packet is interfered at node %d\n",node_->nodeid());
+    int res = recv_channel.DeleteIncommingPacket(target);
+    //printf("res is %d\n", res);
+    ResetTransmissionStatus();
+    hdr->error()=1; //set error flag
+    RecvProcess(target);
+    // Packet::free(target);
+    // return;
   }
 
-  if (INVALID==status) {
+  if (INVALID==status)
+  {
+
     printf("underwater:the packet is invalidated at node %d\n",node_->nodeid()); 
-            recv_channel.DeleteIncommingPacket(target);
-            ResetTransmissionStatus();
-             hdr->error()=1; //set error flag
-             RecvProcess(target);
-	    // Packet::free(target);  
-	     // return;
+    recv_channel.DeleteIncommingPacket(target);
+    ResetTransmissionStatus();
+    hdr->error()=1; //set error flag
+    RecvProcess(target);
+    // Packet::free(target);
+    // return;
   }
  
- if (RECEPTION==status) {
-     // printf("underwater:the packet is correctly received at node %d\n",node_->nodeid()); 
-            recv_channel.DeleteIncommingPacket(target);
-            ResetTransmissionStatus();
-            RecvProcess(target);
-	    // return;
- }
+  if (RECEPTION==status)
+  {
+    printf("underwater:the packet is correctly received at node %d\n",node_->nodeid());
+    int res = recv_channel.DeleteIncommingPacket(target);
+    //printf("res is %d\n", res);
+    hdr->error()=0;
+    ResetTransmissionStatus();
+    RecvProcess(target);
+    // return;
+  }
 
- if(recv_channel.num_of_active_incomming_packet==0) n->ResetCarrierSense();
+ if(recv_channel.num_of_active_incomming_packet==0)
+   n->ResetCarrierSense();
+
  return;
 }
 
@@ -349,16 +376,16 @@ UnderwaterMac::IncommingChannelProcess(Event* e){
 void 
 UnderwaterMac::Poweron()
 {
-   assert(initialized());
-   UnderwaterPhy* phy;
-   //phy=(UnderwaterPhy*) downtarget_;
-   phy = (UnderwaterPhy*) netif_;
+  assert(initialized());
+  UnderwaterPhy* phy;
+  //phy=(UnderwaterPhy*) downtarget_;
+  phy = (UnderwaterPhy*) netif_;
 
-   UnderwaterSensorNode* n;
+  UnderwaterSensorNode* n;
 
-	n=(UnderwaterSensorNode*) node_ ;         
-        n->SetTransmissionStatus(IDLE);
-        phy->power_on();       
+  n=(UnderwaterSensorNode*) node_ ;
+  n->SetTransmissionStatus(IDLE);
+  phy->power_on();
 }
 
 
@@ -375,18 +402,19 @@ double UnderwaterMac::getForwardingDelay()
 }
 
 void 
-UnderwaterMac::Poweroff(){
- 	assert(initialized());
-       UnderwaterPhy* phy;
-        //phy=(UnderwaterPhy*) downta_;
-        phy = (UnderwaterPhy*) netif_;
+UnderwaterMac::Poweroff()
+{
+  assert(initialized());
+  UnderwaterPhy* phy;
+  //phy=(UnderwaterPhy*) downta_;
+  phy = (UnderwaterPhy*) netif_;
 
-        UnderwaterSensorNode* n;
+  UnderwaterSensorNode* n;
 
-        recv_channel.InvalidateIncommingPacket();
-	n=(UnderwaterSensorNode*) node_ ;         
-        n->SetTransmissionStatus(SLEEP);
-        phy->power_off();       
+  recv_channel.InvalidateIncommingPacket();
+  n=(UnderwaterSensorNode*) node_ ;
+  n->SetTransmissionStatus(SLEEP);
+  phy->power_off();
         
 }
 
@@ -396,10 +424,11 @@ UnderwaterMac::ResetTransmissionStatus()
   UnderwaterSensorNode* n;
 	assert(initialized());
 	n=(UnderwaterSensorNode*) node_ ;
-        if (0!=recv_channel.num_of_active_incomming_packet)
-           {
-	     //printf("UnderwaterMac: there exist %d packets\n",recv_channel.num_of_active_incomming_packet); 
-return;}
+  if (0!=recv_channel.num_of_active_incomming_packet)
+  {
+    //printf("UnderwaterMac: there exist %d packets\n",recv_channel.num_of_active_incomming_packet);
+    return;
+  }
       
 	if (RECV==n->TransmissionStatus())
 	{
@@ -408,28 +437,32 @@ return;}
 	return;
 }
 
-double UnderwaterMac::getTxTime(int pkt_len) {
+double UnderwaterMac::getTxTime(int pkt_len)
+{
 	UnderwaterPhy* phy = (UnderwaterPhy*)netif_;
 	
 	return phy->sync_hdr_len()+ pkt_len*8*encoding_efficiency_/bit_rate_;
 }
 
-double UnderwaterMac::getTxTime(Packet* pkt) {
+double UnderwaterMac::getTxTime(Packet* pkt)
+{
 	return getTxTime(hdr_cmn::access(pkt)->size());
 }
 
 void 
-UnderwaterMac::InterruptRecv(double txtime){
-       assert(initialized());
-       UnderwaterPhy* phy;
-       //phy=(UnderwaterPhy*) downtarget_;
-       phy = (UnderwaterPhy*)netif_;
-       UnderwaterSensorNode* n;
-	n=(UnderwaterSensorNode*) node_ ;  
-        n->SetTransmissionStatus(SEND);
+UnderwaterMac::InterruptRecv(double txtime)
+{
+  assert(initialized());
+  UnderwaterPhy* phy;
+  //phy=(UnderwaterPhy*) downtarget_;
+  phy = (UnderwaterPhy*)netif_;
+  UnderwaterSensorNode* n;
+  n=(UnderwaterSensorNode*) node_ ;
+  n->SetTransmissionStatus(SEND);
 
-	if (RECV==n->TransmissionStatus()){ 
-        recv_channel.InvalidateIncommingPacket();   
-        phy->status_shift(txtime);       
+	if (RECV==n->TransmissionStatus())
+	{
+    recv_channel.InvalidateIncommingPacket();
+    phy->status_shift(txtime);
 	}
 }

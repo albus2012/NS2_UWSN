@@ -25,12 +25,15 @@ int hdr_rmac::offset_;
 
 
 
-static class RMACHeaderClass: public PacketHeaderClass{
- public:
-  RMACHeaderClass():PacketHeaderClass("PacketHeader/RMAC",sizeof(hdr_rmac))
+static class RMACHeaderClass: public PacketHeaderClass
 {
- bind_offset(&hdr_rmac::offset_);
-}
+public:
+  RMACHeaderClass()
+  :PacketHeaderClass("PacketHeader/RMAC",sizeof(hdr_rmac))
+  {
+
+    bind_offset(&hdr_rmac::offset_);
+  }
 } class_rmachdr;
 
 
@@ -1981,28 +1984,29 @@ RMac::GenerateSYN(){
 
 
 void 
-RMac::SendSYN(){
+RMac::SendSYN()
+{
 
-       Packet* pkt =Packet::alloc();
-       hdr_rmac* synh = HDR_RMAC(pkt); 
-       hdr_cmn*  cmh = HDR_CMN(pkt);
-      
-       cmh->size()=short_packet_size_;
-       cmh->next_hop()=MAC_BROADCAST;
-       cmh->direction()=hdr_cmn::DOWN; 
-       cmh->addr_type()=NS_AF_ILINK;
-       cmh->ptype_=PT_RMAC;
-      
-      
-       synh->ptype=P_SYN;
-       synh->pk_num = num_send;
-       synh->sender_addr= node_->address();
-     
-       synh->duration=duration_;
-        num_send++;
+  Packet* pkt =Packet::alloc();
+  hdr_rmac* synh = HDR_RMAC(pkt);
+  hdr_cmn*  cmh = HDR_CMN(pkt);
 
-	printf("rmac SendSYN:node(%d) send SYN packet at %f\n", synh->sender_addr,NOW);
-      TxND(pkt, PhaseTwo_window_);  
+  cmh->size()=short_packet_size_;
+  cmh->next_hop()=MAC_BROADCAST;
+  cmh->direction()=hdr_cmn::DOWN;
+  cmh->addr_type()=NS_AF_ILINK;
+  cmh->ptype_=PT_RMAC;
+
+
+  synh->ptype=P_SYN;
+  synh->pk_num = num_send;
+  synh->sender_addr= node_->address();
+
+  synh->duration=duration_;
+  num_send++;
+
+  printf("rmac SendSYN:node(%d) send SYN packet at %f\n", synh->sender_addr,NOW);
+  TxND(pkt, PhaseTwo_window_);
 }
 
 

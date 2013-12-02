@@ -3,7 +3,7 @@
 
 
 
-enum PacketStatus{RECEPTION,COLLISION,INVALID};
+enum PacketStatus{RECEPTION,COLLISION=4,INVALID};
 
 struct IncommingPacket{
 	Packet* packet;

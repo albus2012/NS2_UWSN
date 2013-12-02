@@ -100,8 +100,8 @@ public:
 private:
 	char	tracename[MAX_ID_LEN + 1];
 	int	nodeColor[MAX_NODE];
-        int     tracetype;
-        MobileNode *node_;
+  int     tracetype;
+  MobileNode *node_;
 	int     newtrace_;
 
 	//<zheng: ns 2.27 removed the following part, but we need it to control the broadcast radius>
@@ -116,26 +116,27 @@ private:
 	int	command(int argc, const char*const* argv);
 	void	format(Packet *p, const char *why);
 
-        void    nam_format(Packet *p, int offset);
+  void  nam_format(Packet *p, int offset);
 
 	void	format_mac_common(Packet *p, const char *why, int offset);
-	void    format_mac(Packet *p, int offset);
-	void    format_smac(Packet *p, int offset);
+	void  format_mac(Packet *p, int offset);
+	void  format_smac(Packet *p, int offset);
 	void	format_ip(Packet *p, int offset);
 
 	void	format_arp(Packet *p, int offset);
-	void    format_hdlc(Packet *p, int offset);
+	void  format_hdlc(Packet *p, int offset);
 	void	format_dsr(Packet *p, int offset);
 	void	format_msg(Packet *p, int offset);
 	void	format_tcp(Packet *p, int offset);
-	void    format_sctp(Packet *p, int offset);
+	void  format_sctp(Packet *p, int offset);
 	void	format_rtp(Packet *p, int offset);
 	void	format_tora(Packet *p, int offset);
-	void    format_imep(Packet *p, int offset);
-	void    format_aodv(Packet *p, int offset);
+	void  format_imep(Packet *p, int offset);
+	void  format_aodv(Packet *p, int offset);
 	void	format_sfama(Packet* p, int offset);
 	void	format_rmac(Packet* p, int offset);
   void  format_dmac(Packet* p, int offset);
+  void  format_uwaloha(Packet* p, int offset);
 };
 
 #endif /* __cmu_trace__ */

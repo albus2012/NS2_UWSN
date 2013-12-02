@@ -90,11 +90,11 @@ CFLAGS	+= $(CCOPT) $(DEFINE)
 
 .cc.o:
 	@rm -f $@
-	$(CPP) -c $(CFLAGS) $(INCLUDES) -o $@ $*.cc
+	$(CPP) -g3 -c $(CFLAGS) $(INCLUDES) -o $@ $*.cc
 
 .c.o:
 	@rm -f $@
-	$(CC) -c $(CFLAGS) $(INCLUDES) -o $@ $*.c
+	$(CC) -g3 -c $(CFLAGS) $(INCLUDES) -o $@ $*.c
 
 
 GEN_DIR	= gen/
@@ -234,11 +234,10 @@ OBJ_CC = \
 	underwatersensor/uw_mac/broadcastmac.o \
    	underwatersensor/uw_mac/uwbuffer.o underwatersensor/uw_mac/rmac.o  \
    	underwatersensor/uw_mac/tmac.o \
-   	underwatersensor/uw_mac/DMAC/dmac.o \
 	underwatersensor/uw_mac/uwan-mac/uwan-mac-pkt.o underwatersensor/uw_mac/uwan-mac/uwan-mac.o \
-	underwatersensor/uw_mac/auv-mac/auv-mac-pkt.o underwatersensor/uw_mac/auv-mac/auv-mac.o \
 	underwatersensor/uw_mac/COPEMAC/copemac.o \
 	underwatersensor/uw_mac/FAMA/fama.o \
+	underwatersensor/uw_mac/DMAC/dmac.o \
 	underwatersensor/uw_mac/slotted-fama/sfama.o \
 	underwatersensor/uw_mac/uwaloha/uwaloha.o \
 	underwatersensor/uw_mobility_pattern/uw_mobility_pattern.o \

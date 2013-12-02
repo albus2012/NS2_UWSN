@@ -1,11 +1,18 @@
+#include "fstream"
+
 #include "sfama.h"
+#include "underwatersensor/uw_routing/vectorbasedforward.h"
 
+using namespace std;
 
+ofstream sfamaout("/home/yongj/NS2/ns-2.30/result/sfamafile");
 
 int hdr_SFAMA::offset_;
-static class SFAMA_HeaderClass: public PacketHeaderClass{
+static class SFAMA_HeaderClass: public PacketHeaderClass
+{
 public:
-	SFAMA_HeaderClass():PacketHeaderClass("PacketHeader/SFAMA",sizeof(hdr_SFAMA))
+	SFAMA_HeaderClass()
+  :PacketHeaderClass("PacketHeader/SFAMA",sizeof(hdr_SFAMA))
 	{
 		bind_offset(&hdr_SFAMA::offset_);
 	}
@@ -15,8 +22,12 @@ public:
 
 static class SFAMAClass : public TclClass {
 public:
-	SFAMAClass():TclClass("Mac/UnderwaterMac/SFAMA") {}
-	TclObject* create(int, const char*const*) {
+	SFAMAClass()
+  :TclClass("Mac/UnderwaterMac/SFAMA")
+  {}
+
+	TclObject* create(int, const char*const*)
+	{
 		return (new SFAMA());
 	}
 }class_SFAMA;
@@ -95,27 +106,26 @@ void SFAMA::RecvProcess(Packet *p)
 				   NOW, index_, NOW, HDR_MAC(p)->macDA(), HDR_MAC(p)->macSA());
 #endif
 	
-		switch( SFAMAh->packet_type ) {
-			case hdr_SFAMA::SFAMA_RTS:
-				processRTS(p);
-				break;
-			case hdr_SFAMA::SFAMA_CTS:
-				processCTS(p);
-				break;
-			case hdr_SFAMA::SFAMA_DATA:
-				processDATA(p);
-				break;
-			case hdr_SFAMA::SFAMA_ACK:
-				processACK(p);
-				break;
-			default:
-				/*unknown packet type. error happens*/
-				printf("unknown packet type in SFAMA::RecvProcess");
+  switch( SFAMAh->ptype )
+  {
+    case SFAMA_RTS:
+      processRTS(p);
+      break;
+    case SFAMA_CTS:
+      processCTS(p);
+      break;
+    case SFAMA_DATA:
+      processDATA(p);
+      break;
+    case SFAMA_ACK:
+      processACK(p);
+      break;
+    default:
+      /*unknown packet type. error happens*/
+      printf("unknown packet type in SFAMA::RecvProcess");
 
-				break;
-		}
-	
-	
+      break;
+  }
 
 	Packet::free(p);
 }
@@ -157,7 +167,7 @@ printAllQ();
 void SFAMA::initSlotLen()
 {
 	slot_len_ = guard_time_ + 
-		getTxTime(hdr_SFAMA::getSize(hdr_SFAMA::SFAMA_CTS)) +
+		getTxTime(hdr_SFAMA::getSize(SFAMA_CTS)) +
 		UnderwaterChannel::Transmit_distance()/1500.0;
 }
 
@@ -179,12 +189,15 @@ Time SFAMA::getTime2ComingSlot(Time t)
 
 Packet* SFAMA::makeRTS(nsaddr_t recver, int slot_num)
 {
+  sfamaout << "make RTS"
+      << index_
+      << endl;
 	Packet* rts_pkt = Packet::alloc();
 	hdr_cmn* cmh = HDR_CMN(rts_pkt);
 	hdr_mac* mach = HDR_MAC(rts_pkt);
 	hdr_SFAMA* SFAMAh= hdr_SFAMA::access(rts_pkt);
 
-	cmh->size() = hdr_SFAMA::getSize(hdr_SFAMA::SFAMA_RTS);
+	cmh->size() = hdr_SFAMA::getSize(SFAMA_RTS);
 	cmh->txtime() = getTxTime(cmh->size());
 	cmh->error() = 0;
 	cmh->direction() = hdr_cmn::DOWN;
@@ -193,7 +206,7 @@ Packet* SFAMA::makeRTS(nsaddr_t recver, int slot_num)
 	mach->macSA() = index_;
 	mach->macDA() = recver;
 	
-	SFAMAh->packet_type = hdr_SFAMA::SFAMA_RTS;
+	SFAMAh->ptype = SFAMA_RTS;
 	//SFAMAh->SA = index_;
 	//SFAMAh->DA = recver;
 	SFAMAh->SlotNum = slot_num;
@@ -206,12 +219,16 @@ Packet* SFAMA::makeRTS(nsaddr_t recver, int slot_num)
 
 Packet* SFAMA::makeCTS(nsaddr_t rts_sender, int slot_num)
 {
+  sfamaout << "make CTS"
+      << index_
+      << rts_sender
+      << endl;
 	Packet* cts_pkt = Packet::alloc();
 	hdr_cmn* cmh = HDR_CMN(cts_pkt);
 	hdr_mac* mach = HDR_MAC(cts_pkt);
 	hdr_SFAMA* SFAMAh= hdr_SFAMA::access(cts_pkt);
 
-	cmh->size() = hdr_SFAMA::getSize(hdr_SFAMA::SFAMA_CTS);
+	cmh->size() = hdr_SFAMA::getSize(SFAMA_CTS);
 	cmh->txtime() = getTxTime(cmh->size());
 	cmh->error() = 0;
 	cmh->direction() = hdr_cmn::DOWN;
@@ -220,7 +237,7 @@ Packet* SFAMA::makeCTS(nsaddr_t rts_sender, int slot_num)
 	mach->macSA() = index_;
 	mach->macDA() = rts_sender;
 	
-	SFAMAh->packet_type = hdr_SFAMA::SFAMA_CTS;
+	SFAMAh->ptype = SFAMA_CTS;
 	//SFAMAh->SA = index_;
 	//SFAMAh->DA = rts_sender;
 	SFAMAh->SlotNum = slot_num;
@@ -233,19 +250,21 @@ Packet* SFAMA::makeCTS(nsaddr_t rts_sender, int slot_num)
 
 Packet* SFAMA::fillDATA(Packet *data_pkt)
 {
+
+  hdr_uwvb* vbh = HDR_UWVB(data_pkt);
 	hdr_cmn* cmh = HDR_CMN(data_pkt);
 	hdr_mac* mach = HDR_MAC(data_pkt);
 	hdr_SFAMA* SFAMAh = hdr_SFAMA::access(data_pkt);
 
-	cmh->size() += hdr_SFAMA::getSize(hdr_SFAMA::SFAMA_DATA);
+	cmh->size() += hdr_SFAMA::getSize(SFAMA_DATA);
 	cmh->txtime() = getTxTime(cmh->size());
 	cmh->error() = 0;
 	cmh->direction() = hdr_cmn::DOWN;
 	
 	mach->macSA() = index_;
-	mach->macDA() = cmh->next_hop();
+	mach->macDA() = vbh->target_id.addr_;
 
-	SFAMAh->packet_type = hdr_SFAMA::SFAMA_DATA;
+	SFAMAh->ptype = SFAMA_DATA;
 	//SFAMAh->SA = index_;
 	//SFAMAh->DA = cmh->next_hop();
 
@@ -255,13 +274,16 @@ Packet* SFAMA::fillDATA(Packet *data_pkt)
 
 Packet* SFAMA::makeACK(nsaddr_t data_sender)
 {
+  sfamaout << "make ACK"
+      << index_
+      << endl;
 	Packet* ack_pkt = Packet::alloc();
 	hdr_cmn* cmh = HDR_CMN(ack_pkt);
 	hdr_mac* mach = HDR_MAC(ack_pkt);
 
 	hdr_SFAMA* SFAMAh= hdr_SFAMA::access(ack_pkt);
 
-	cmh->size() = hdr_SFAMA::getSize(hdr_SFAMA::SFAMA_ACK);
+	cmh->size() = hdr_SFAMA::getSize(SFAMA_ACK);
 	cmh->txtime() = getTxTime(cmh->size());
 	cmh->error() = 0;
 	cmh->direction() = hdr_cmn::DOWN;
@@ -270,7 +292,7 @@ Packet* SFAMA::makeACK(nsaddr_t data_sender)
 	mach->macSA() = index_;
 	mach->macDA() = data_sender;
 
-	SFAMAh->packet_type = hdr_SFAMA::SFAMA_ACK;
+	SFAMAh->ptype = SFAMA_ACK;
 	//SFAMAh->SA = index_;
 	//SFAMAh->DA = data_sender;
 	
@@ -282,16 +304,21 @@ Packet* SFAMA::makeACK(nsaddr_t data_sender)
 
 void SFAMA::processRTS(Packet *rts_pkt)
 {
+
 	hdr_SFAMA* SFAMAh = hdr_SFAMA::access(rts_pkt);
 	hdr_mac* mach = HDR_MAC(rts_pkt);
 
 	Time time2comingslot = getTime2ComingSlot(NOW);
 
-	if( mach->macDA() == index_ ) {
+	if( mach->macDA() == index_ )
+	{
 		if ( (getStatus() == IDLE_WAIT ||
 			getStatus() == WAIT_SEND_RTS ||
-			getStatus() == BACKOFF_FAIR )   		) {
-
+			getStatus() == BACKOFF_FAIR))
+		{
+		  sfamaout << "dest recv RTS"
+		      << index_
+		      << endl;
 				stopTimers();		
 				setStatus(WAIT_SEND_CTS);
 				//reply a cts
@@ -299,10 +326,10 @@ void SFAMA::processRTS(Packet *rts_pkt)
 				wait_send_timer.resched(time2comingslot);
 		}
 	}
-	else {
+	else
+	{
 		//do backoff
-		Time backoff_time = time2comingslot + 1 /*for cts*/+
-			SFAMAh->SlotNum*slot_len_ /*for data*/+ 1 /*for ack*/;
+		Time backoff_time = time2comingslot + 1 /*for cts*/+SFAMAh->SlotNum*slot_len_ /*for data*/+ 1 /*for ack*/;
 
 		stopTimers();		
 		setStatus(BACKOFF);
@@ -318,8 +345,13 @@ void SFAMA::processCTS(Packet *cts_pkt)
 	hdr_mac* mach = HDR_MAC(cts_pkt);
 	Time time2comingslot = getTime2ComingSlot(NOW);
 
-	if( mach->macDA() == index_ && getStatus() == WAIT_RECV_CTS ) {
 
+
+	if( mach->macDA() == index_ && getStatus() == WAIT_RECV_CTS )
+	{
+	  sfamaout << "dest recv CTS"
+	      << index_
+	      << endl;
 		//send DATA
 		stopTimers();		
 		setStatus(WAIT_SEND_DATA);
@@ -354,6 +386,9 @@ void SFAMA::processDATA(Packet* data_pkt)
 
 	if( mach->macDA() == index_ && getStatus() == WAIT_RECV_DATA ) {
 		//send ACK
+	  sfamaout << "process DATA"
+	      << index_
+	      << endl;
 		stopTimers();
 		setStatus(WAIT_SEND_ACK);
 
@@ -361,7 +396,7 @@ void SFAMA::processDATA(Packet* data_pkt)
 		wait_send_timer.resched(getTime2ComingSlot(NOW));
 
 		/*send packet to upper layer*/		
-		hdr_cmn::access(data_pkt)->size() -= hdr_SFAMA::getSize(hdr_SFAMA::SFAMA_DATA);
+		hdr_cmn::access(data_pkt)->size() -= hdr_SFAMA::getSize(SFAMA_DATA);
 		sendUp(data_pkt->copy()); /*the original one will be released*/
 	}
 	else {
@@ -386,6 +421,9 @@ void SFAMA::processACK(Packet* ack_pkt)
 	printf("Status is %d", getStatus());
 #endif
 	if( mach->macDA() == index_ && getStatus() == WAIT_RECV_ACK ) {
+	  sfamaout << "dest recv ACK"
+	      << index_
+	      << endl;
 		stopTimers();
 		setStatus(IDLE_WAIT);
 
@@ -448,11 +486,13 @@ void SFAMA::prepareSendingDATA()
 	if( !SendingPktQ_.empty() && getStatus() == IDLE_WAIT  ) {
 		recver_addr = HDR_MAC(SendingPktQ_.front())->macDA();
 
-	} else if( !CachedPktQ_.empty() && getStatus() == IDLE_WAIT ) {
-#ifdef SFAMA_DEBUG
-	printf("prepareSendingDATA(before) \n");
-	printAllQ();
-#endif
+	}
+	else if( !CachedPktQ_.empty() && getStatus() == IDLE_WAIT )
+	{
+    #ifdef SFAMA_DEBUG
+      printf("prepareSendingDATA(before) \n");
+      printAllQ();
+    #endif
 		tmp_pkt = CachedPktQ_.front();
 		recver_addr = HDR_MAC(tmp_pkt)->macDA();
 		CachedPktQ_.pop();
@@ -460,7 +500,8 @@ void SFAMA::prepareSendingDATA()
 		pkt_num = 1;
 
 		/*get at most max_burst_ DATA packets with same receiver*/
-		while( (pkt_num < max_burst_) && (!CachedPktQ_.empty()) ) {
+		while( (pkt_num < max_burst_) && (!CachedPktQ_.empty()) )
+		{
 			tmp_pkt = CachedPktQ_.front();
 			CachedPktQ_.pop();
 
@@ -492,12 +533,10 @@ void SFAMA::prepareSendingDATA()
 	}
 	
 
-	Time additional_txtime = getPktTrainTxTime()-
-			getTxTime(hdr_SFAMA::getSize(hdr_SFAMA::SFAMA_CTS));
+	Time additional_txtime = getPktTrainTxTime()-getTxTime(hdr_SFAMA::getSize(SFAMA_CTS));
 		
 
-	scheduleRTS(recver_addr, int(additional_txtime/slot_len_)+1 /*for ceil*/
-	+1/*the basic slot*/ );
+	scheduleRTS(recver_addr, int(additional_txtime/slot_len_)+1 /*for ceil*/+1/*the basic slot*/ );
 }
 
 
@@ -556,10 +595,10 @@ void SFAMA::sendPkt(Packet* pkt)
 	Scheduler& s=Scheduler::instance();
 
 	//status_handler.is_ack() = false;
-	if( SFAMAh->packet_type == hdr_SFAMA::SFAMA_CTS ) {
+	if( SFAMAh->ptype == SFAMA_CTS ) {
 		status_handler.slotnum() = SFAMAh->SlotNum;
 	}
-	/*else if ( SFAMAh->packet_type == hdr_SFAMA::SFAMA_ACK ) {
+	/*else if ( SFAMAh->packet_type == SFAMA_ACK ) {
 		status_handler.is_ack() = true;
 	}*/
 	
@@ -753,6 +792,9 @@ void SFAMA::DataSendTimerProcess()
 
 void SFAMA::sendDataPkt(Packet* pkt)
 {
+  sfamaout << "send data packet"
+      << index_
+      << endl;
 	hdr_cmn* cmh=HDR_CMN(pkt);
 	//hdr_FAMA* FAMAh = hdr_FAMA::access(pkt);
 

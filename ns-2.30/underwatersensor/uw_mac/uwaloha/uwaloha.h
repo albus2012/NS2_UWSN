@@ -25,15 +25,17 @@ typedef double Time;
 #define MAXIMUMCOUNTER 4
 #define Broadcast -1
 class UWALOHA;
+enum PacketType {
+  ALOHA_DATA,
+  ALOHA_ACK
+};
 
 struct hdr_UWALOHA{
+  int ptype;
 	nsaddr_t SA;
 	nsaddr_t DA;
 
-	enum PacketType {
-		ALOHA_DATA,
-		ALOHA_ACK
-	} packet_type;
+
 	static int offset_;
 	inline static int& offset() {  return offset_; }
 	
@@ -150,11 +152,11 @@ public:
 	void	processRetryTimer(UWALOHA_ACK_RetryTimer* timer);
 protected:
 
-	enum {
-		PASSIVE,
-		BACKOFF,
-		SEND_DATA,
-		WAIT_ACK,
+	enum UWALOHA_STATUS{
+		UWALOHA_PASSIVE,
+		UWALOHA_BACKOFF,
+		UWALOHA_SEND_DATA,
+		UWALOHA_WAIT_ACK,
 	}UWALOHA_Status;
 
 	double	Persistent;

@@ -78,7 +78,7 @@ void FAMA_CallBackHandler::handle(Event* e)
 
 
 FAMA::FAMA(): UnderwaterMac(), FAMA_Status(PASSIVE), NDPeriod(4), MaxBurst(1),
-		DataPktInterval(0.00001), EstimateError(0.001),DataPktSize(1600),
+		DataPktInterval(0.00001), EstimateError(0.001),DataPktSize(500),
 		neighbor_id(0), backoff_timer(this), status_handler(this), NDTimer(this), 
 		WaitCTSTimer(this),DataBackoffTimer(this),RemoteTimer(this), CallBack_Handler(this)
 {
@@ -87,6 +87,8 @@ FAMA::FAMA(): UnderwaterMac(), FAMA_Status(PASSIVE), NDPeriod(4), MaxBurst(1),
 	CTSTxTime = RTSTxTime + 2*MaxPropDelay;
 	
 	MaxDataTxTime = DataPktSize/bit_rate_;  //1600bits/10kbps
+
+	bind("MaxPropDelay", &MaxPropDelay);
 
 	bind("MaxBurst", &MaxBurst);
 
@@ -156,7 +158,8 @@ void FAMA::TxProcess(Packet* pkt)
 	hdr_uwvb* vbh = HDR_UWVB(pkt);
 	hdr_FAMA* FAMAh = hdr_FAMA::access(pkt);
 	cmh->size() = DataPktSize;
-	cmh->txtime() = MaxDataTxTime;
+	//cmh->txtime() = MaxDataTxTime;
+	cmh->txtime() = getTxTime(cmh->size());
 	cmh->error() = 0;
 	cmh->direction() = hdr_cmn::DOWN;
 
@@ -196,10 +199,13 @@ void FAMA::RecvProcess(Packet *pkt)
 	hdr_cmn* cmh=HDR_CMN(pkt);
 
 	
-	if( backoff_timer.status() == TIMER_PENDING ) {
+	if( backoff_timer.status() == TIMER_PENDING )
+	{
 		backoff_timer.cancel();
 		doRemote(2*MaxPropDelay+EstimateError);
-	} else if( RemoteTimer.status() == TIMER_PENDING ) {
+	}
+	else if( RemoteTimer.status() == TIMER_PENDING )
+	{
 		RemoteTimer.cancel();
 		RemoteTimer.ExpiredTime = -1;
 	}
@@ -207,8 +213,8 @@ void FAMA::RecvProcess(Packet *pkt)
 	/*ND is not a part of FAMA. We just want to use it to get next hop
 	 *So we do not care wether it collides with others
 	 */
-	if( (cmh->ptype()==PT_FAMA) 
-		&& (FAMAh->packet_type==hdr_FAMA::ND) ) {
+	if( (cmh->ptype()==PT_FAMA) && (FAMAh->packet_type==hdr_FAMA::ND) )
+	{
 		processND(pkt);
 		Packet::free(pkt);
 		return;
@@ -218,40 +224,47 @@ void FAMA::RecvProcess(Packet *pkt)
     {
      	//printf("broadcast:node %d  gets a corrupted packet at  %f\n",index_,NOW);
      	if(drop_)
-			drop_->recv(pkt,"Error/Collision");
+     	  drop_->recv(pkt,"Error/Collision");
      	else
-			Packet::free(pkt);
+     	  Packet::free(pkt);
 
-		doRemote(2*MaxPropDelay+EstimateError);
+     	doRemote(2*MaxPropDelay+EstimateError);
      	return;
     }
 
 
-	if( WaitCTSTimer.status() == TIMER_PENDING ) {
+	if( WaitCTSTimer.status() == TIMER_PENDING )
+	{
 
 		//printf("%f: node %d receive RTS\n", NOW, index_);
 		WaitCTSTimer.cancel();
 		if( (cmh->ptype() == PT_FAMA ) 
 			&& (FAMAh->packet_type==hdr_FAMA::CTS)
-			&& (cmh->next_hop()==index_) ) {
+			&& (cmh->next_hop()==index_) )
+		{
 			//receiving the CTS
 			sendDataPkt();
 		}
-		else {
+		else
+		{
 			doBackoff();
 		}
+
 		Packet::free(pkt);
 		return;
 	}
 
 
-	if( cmh->ptype() == PT_FAMA ) {
+	if( cmh->ptype() == PT_FAMA )
+	{
 
-		switch( FAMAh->packet_type ) {
+		switch( FAMAh->packet_type )
+		{
 
 			case hdr_FAMA::RTS:
 				//printf("%f: node %d receive RTS\n", NOW, index_);
-				if( dst == index_ ) {
+				if( dst == index_ )
+				{
 					processRTS(pkt);
 				}
 				doRemote(CTSTxTime+2*MaxPropDelay+EstimateError);
@@ -265,12 +278,14 @@ void FAMA::RecvProcess(Packet *pkt)
 			default:
 				//printf("%f: node %d receive DATA\n", NOW, index_);
 				//process Data packet
-				if( dst == index_ ) {
+				if( dst == index_ )
+				{
 					cmh->ptype() = UpperLayerPktType;
 					sendUp(pkt);
 					return;
 				}
-				else {
+				else
+				{
 					doRemote(MaxPropDelay+EstimateError);
 				}
 				
@@ -345,6 +360,7 @@ Packet* FAMA::makeND()
 
 	cmh->size() = 2*sizeof(nsaddr_t)+1;
 	cmh->txtime() = getTxTimebyPktSize(cmh->size());
+	cmh->txtime() = getTxTime(cmh->size());
 	cmh->error() = 0;
 	cmh->direction() = hdr_cmn::DOWN;
 	cmh->ptype() = PT_FAMA;
@@ -378,6 +394,7 @@ Packet* FAMA::makeRTS(nsaddr_t Recver)
 
 	cmh->size() = getPktSizebyTxTime(RTSTxTime);
 	cmh->txtime() = RTSTxTime;
+	//cmh->txtime() = getTxTime(cmh->size());
 	cmh->error() = 0;
 	cmh->direction() = hdr_cmn::DOWN;
 	cmh->ptype() = PT_FAMA;
@@ -418,6 +435,7 @@ Packet* FAMA::makeCTS(nsaddr_t RTS_Sender)
 
 	cmh->size() = getPktSizebyTxTime(CTSTxTime);
 	cmh->txtime() = CTSTxTime;
+	//cmh->txtime() = getTxTime(cmh->size());
 	cmh->error() = 0;
 	cmh->direction() = hdr_cmn::DOWN;
 	cmh->ptype() = PT_FAMA;

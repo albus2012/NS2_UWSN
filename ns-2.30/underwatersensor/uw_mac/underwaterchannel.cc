@@ -88,24 +88,26 @@ UnderwaterChannel::sendUp(Packet* p, Phy *tifp)
        affectedNodes = getAffectedNodes(mtnode, distCST_ , &numAffectedNodes); 
       
 			 //  printf("underwaterchannel the affected number of node is %d\n",numAffectedNodes);
-		 for (i=0; i < numAffectedNodes; i++) {
+		 for (i=0; i < numAffectedNodes; i++)
+		 {
 			 rnode = affectedNodes[i];
 			 
 
 		   double d1=distance(tnode,rnode);
 
-		    if((rnode == tnode)||(d1>distCST_))
-			{
-			  //printf("channel they are same\n");
-                          	 continue;
-			}
+		   if((rnode == tnode)||(d1>distCST_))
+		   {
+		     //printf("channel they are same\n");
+
+		     continue;
+		   }
 
 
-			 newp = p->copy();
+		   newp = p->copy();
 		     
-                         // add by peng Xie
+		   // add by peng Xie
 		      
-                         calculatePosition(tnode,rnode,newp);
+       calculatePosition(tnode,rnode,newp);
 			 propdelay = get_pdelay(tnode, rnode);	      
  
 			 rifp = (rnode->ifhead()).lh_first;

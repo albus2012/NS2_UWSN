@@ -146,7 +146,8 @@ public:
 	// The remaining objects handle a (static) linked list of nodes
 	// Used by Tom's satallite code and the wireless code
 	inline const struct if_head& ifhead() const { return ifhead_; }
-	inline const struct linklist_head& linklisthead() const { 
+	inline const struct linklist_head& linklisthead() const
+	{
 		return linklisthead_; 
 	}
 	

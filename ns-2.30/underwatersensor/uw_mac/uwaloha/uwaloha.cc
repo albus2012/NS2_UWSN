@@ -48,7 +48,7 @@ void UWALOHA_WaitACKTimer::expire(Event *e) //WaitACKTimer expire
 
 
 //construct function
-UWALOHA::UWALOHA(): UnderwaterMac(), bo_counter(0), UWALOHA_Status(PASSIVE),
+UWALOHA::UWALOHA(): UnderwaterMac(), bo_counter(0), UWALOHA_Status(UWALOHA_PASSIVE),
     Persistent(1.0),
 		ACKOn(1), Min_Backoff(0.0), Max_Backoff(1.5), MAXACKRetryInterval(0.05), 
 		blocked(false), BackoffTimer(this), WaitACKTimer(this),
@@ -70,7 +70,7 @@ void UWALOHA::doBackoff()
 	  Time BackoffTime=Random::uniform(Min_Backoff,Max_Backoff);
 	  bo_counter++;
 	  if (bo_counter < MAXIMUMCOUNTER) {
-		  UWALOHA_Status = BACKOFF;
+		  UWALOHA_Status = UWALOHA_BACKOFF;
 		  BackoffTimer.resched(BackoffTime);
 	  }
 	  else {
@@ -85,7 +85,7 @@ void UWALOHA::doBackoff()
 
 void UWALOHA::processPassive()
 {
-	if (UWALOHA_Status == PASSIVE && !blocked) {
+	if (UWALOHA_Status == UWALOHA_PASSIVE && !blocked) {
 		if (!PktQ_.empty() )
 			sendDataPkt();
 	}
@@ -115,11 +115,11 @@ void UWALOHA::StatusProcess(bool is_ack)
 	
 	if( !ACKOn ) {
 		/*Must be DATA*/
-		UWALOHA_Status = PASSIVE;
+		UWALOHA_Status = UWALOHA_PASSIVE;
 		processPassive();
 	}
 	else if (ACKOn && !is_ack ) {
-		UWALOHA_Status = WAIT_ACK;
+		UWALOHA_Status = UWALOHA_WAIT_ACK;
 	}
 	
 }
@@ -155,7 +155,7 @@ void UWALOHA::TxProcess(Packet* pkt)
 	Time t = NOW;
 	if( t > 500 ) 
 	  t = NOW;
-	UWALOHAh->packet_type = hdr_UWALOHA::ALOHA_DATA;
+	UWALOHAh->ptype = ALOHA_DATA;
 	UWALOHAh->SA = index_;
 	
 	if( cmh->next_hop() == (nsaddr_t)IP_BROADCAST ) {
@@ -168,7 +168,7 @@ void UWALOHA::TxProcess(Packet* pkt)
 	PktQ_.push(pkt);//push packet to the queue
 	
 	//fill the next hop when sending out the packet;
-	if(UWALOHA_Status == PASSIVE 
+	if(UWALOHA_Status == UWALOHA_PASSIVE
 		&& PktQ_.size() == 1 && !blocked ) 
 	{
 		sendDataPkt();
@@ -182,7 +182,7 @@ void UWALOHA::sendDataPkt()
 	Packet* tmp = PktQ_.front();
 	nsaddr_t recver = HDR_CMN(tmp)->next_hop();
 	
-	UWALOHA_Status = SEND_DATA;
+	UWALOHA_Status = UWALOHA_SEND_DATA;
 	
 	if( P<=Persistent ) {
 		if( HDR_CMN(tmp)->next_hop() == recver )// {
@@ -222,17 +222,17 @@ void UWALOHA::sendPkt(Packet *pkt)
 			cmh->direction() = hdr_cmn::DOWN;
 			
 			//ACK doesn't affect the status, only process DATA here
-			if (UWALOHAh->packet_type == hdr_UWALOHA::ALOHA_DATA) {
+			if (UWALOHAh->ptype == ALOHA_DATA) {
 				//must be a DATA packet, so setup wait ack timer 
 				if ((UWALOHAh->DA != (nsaddr_t)MAC_BROADCAST) && ACKOn) {
-					UWALOHA_Status = WAIT_ACK;
+					UWALOHA_Status = UWALOHA_WAIT_ACK;
 
 					WaitACKTimer.resched(WaitACKTime+txtime);
 				}
 				else {
 					Packet::free(PktQ_.front());
 					PktQ_.pop();
-					UWALOHA_Status = PASSIVE;
+					UWALOHA_Status = UWALOHA_PASSIVE;
 				}
 				status_handler.is_ack() = false;
 			}
@@ -247,22 +247,22 @@ void UWALOHA::sendPkt(Packet *pkt)
 			
 		case RECV:
 			printf("RECV-SEND Collision!!!!!\n");
-			if( UWALOHAh->packet_type == hdr_UWALOHA::ALOHA_ACK )
+			if( UWALOHAh->ptype == ALOHA_ACK )
 				retryACK(pkt);
 			else
 				Packet::free(pkt);
 			
-			UWALOHA_Status = PASSIVE;
+			UWALOHA_Status = UWALOHA_PASSIVE;
 			break;
 			
 		default:
 		//status is SEND
 			printf("node%d send data too fast\n",index_);
-			if( UWALOHAh->packet_type == hdr_UWALOHA::ALOHA_ACK )
+			if( UWALOHAh->ptype == ALOHA_ACK )
 				retryACK(pkt);
 			else
 				Packet::free(pkt);
-			UWALOHA_Status = PASSIVE;
+			UWALOHA_Status = UWALOHA_PASSIVE;
 	}
 }
 
@@ -284,18 +284,18 @@ void UWALOHA::RecvProcess(Packet *pkt)
 	  return;
 	}
 
-	if( UWALOHAh->packet_type == hdr_UWALOHA::ALOHA_ACK ) {
+	if( UWALOHAh->ptype == ALOHA_ACK ) {
 			//if get ACK after WaitACKTimer, ignore ACK
-			if( recver == index_ && UWALOHA_Status == WAIT_ACK) {
+			if( recver == index_ && UWALOHA_Status == UWALOHA_WAIT_ACK) {
 				WaitACKTimer.cancel();
 				bo_counter=0;
 				Packet::free(PktQ_.front());
 				PktQ_.pop();
-				UWALOHA_Status=PASSIVE;
+				UWALOHA_Status=UWALOHA_PASSIVE;
 				processPassive();
 			}
 	}
-	else if(UWALOHAh->packet_type == hdr_UWALOHA::ALOHA_DATA) {
+	else if(UWALOHAh->ptype == ALOHA_DATA) {
 			//process Data packet
 			if( recver == index_ || recver == (nsaddr_t)MAC_BROADCAST ) {
 				cmh->size() -= hdr_UWALOHA::size();
@@ -332,7 +332,7 @@ Packet* UWALOHA::makeACK(nsaddr_t Data_Sender)
 	cmh->next_hop() = Data_Sender;
 	cmh->ptype() = PT_UWALOHA;
 
-	UWALOHAh->packet_type = hdr_UWALOHA::ALOHA_ACK;
+	UWALOHAh->ptype = ALOHA_ACK;
 	UWALOHAh->SA = index_;
 	UWALOHAh->DA = Data_Sender;
 

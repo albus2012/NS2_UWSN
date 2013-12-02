@@ -271,7 +271,8 @@ UnderwaterPhy::sendUp(Packet *p)
 	/*here only set the percent of error packets*/
 	double recv_pro=n1->failure_pro();
 	double error_pro=Random::uniform();
-	if(error_pro<=recv_pro) cmnh->error()=1;       
+	if(error_pro<=recv_pro)
+	  cmnh->error()=1;
 
 	TransmissionStatus status=n1->TransmissionStatus(); 
 	PacketStamp s;

@@ -48,12 +48,12 @@ set opt(PeriodInterval)               1
 
 set opt(dz)                           10
 set opt(ifqlen)		              50	;# max packet in ifq
-set opt(nn)	                	8;# number of nodes
+set opt(nn)	                	7;# number of nodes
 set opt(layers)                         1
 set opt(x)	                	100	;# X dimension of the topography
 set opt(y)	                        100  ;# Y dimension of the topography
 set opt(z)                              [expr ($opt(layers)-1)*$opt(dz)]
-set opt(seed)	                	333;#[lindex $argv 1]
+set opt(seed)	                	113;#[lindex $argv 1]
 set opt(stop)	                	1000	;# simulation time
 set opt(prestop)                        20     ;# time to prepare to stop
 set opt(tr)	                	"~/NS2/ns-2.30/result/dmac.tr"	;# trace file
@@ -260,8 +260,8 @@ $node_(3) set X_  30
 $node_(3) set Y_  100
 $node_(3) set Z_  0
 #$node_(3) set passive 1
-$node_(3) set_next_hop 0
-$a_(3) setTargetAddress 0
+$node_(3) set_next_hop 1
+$a_(3) setTargetAddress 1
 #$a_(3) cmd set-target-x   70
 #$a_(3) cmd set-target-y   70
 #$a_(3) cmd set-target-z   0
@@ -284,8 +284,8 @@ $node_(4) set-cz 3
 $node_(5) set X_  120
 $node_(5) set Y_  200
 $node_(5) set Z_  0
-$node_(5) set_next_hop 7
-$a_(5) setTargetAddress 7
+$node_(5) set_next_hop 1
+$a_(5) setTargetAddress 1
 #$a_(5) cmd set-target-x   80
 #$a_(5) cmd set-target-y   160
 #$a_(5) cmd set-target-z   0
@@ -305,17 +305,7 @@ $node_(6) set-cx 130
 $node_(6) set-cy 80
 $node_(6) set-cz 0
 
-$node_(7) set X_  80
-$node_(7) set Y_  160
-$node_(7) set Z_  0
 
-$a_(7) setTargetAddress 3
-#$a_(7) cmd set-target-x   30
-#$a_(7) cmd set-target-y   100
-#$a_(7) cmd set-target-z   0
-$node_(7) set-cx 80
-$node_(7) set-cy 160
-$node_(7) set-cz 0
 
 #for { set i 0 } { $i < 8 } { incr i } {
 #	set start_time [expr $start_time+0.69238]
@@ -323,11 +313,11 @@ $node_(7) set-cz 0
 #}
 
 $ns_ at $start_time.11 "$a_(0) exp-start"
-#$ns_ at $start_time.11 "$a_(1) exp-start"
+$ns_ at $start_time.11 "$a_(1) exp-start"
 $ns_ at $start_time.40 "$a_(2) exp-start"
 $ns_ at $start_time.70 "$a_(3) exp-start"
 $ns_ at $start_time.99 "$a_(4) exp-start"
-#$ns_ at $start_time.79 "$a_(5) exp-start"
+$ns_ at $start_time.79 "$a_(5) exp-start"
 $ns_ at $start_time.44 "$a_(6) exp-start"
 #$ns_ at $start_time.66 "$a_(7) exp-start"
 
@@ -355,7 +345,7 @@ $ns_ at $opt(stop).005 "$a_(3) terminate"
 $ns_ at $opt(stop).006 "$a_(4) terminate"
 $ns_ at $opt(stop).007 "$a_(5) terminate"
 $ns_ at $opt(stop).008 "$a_(6) terminate"
-$ns_ at $opt(stop).002 "$a_(7) terminate"
+
 
 $ns_ at $opt(stop).013  "$god_ compute_energy"
 $ns_ at $opt(stop).014  "$ns_ nam-end-wireless $opt(stop)"

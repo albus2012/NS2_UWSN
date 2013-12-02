@@ -24,7 +24,7 @@ public:
     bind_offset(&hdr_dmac::offset_);
   }
 
-} class_dmac_hdr;
+} class_dmachdr;
 
 
 
