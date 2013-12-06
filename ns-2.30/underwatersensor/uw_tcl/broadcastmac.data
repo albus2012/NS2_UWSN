@@ -1,0 +1,6 @@
+New simulation....
+SINK(0) : num_send = 0, num_recv = 151, cum_delay = 81.993844
+SINK(3) : num_send = 68, num_recv = 0, cum_delay = 0.000000
+SINK(1) : num_send = 72, num_recv = 0, cum_delay = 0.000000
+SINK(2) : num_send = 64, num_recv = 0, cum_delay = 0.000000
+God : consumped_energy = 480.600567

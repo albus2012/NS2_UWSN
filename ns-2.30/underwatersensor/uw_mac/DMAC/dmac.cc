@@ -10,9 +10,12 @@
 #include <stdlib.h>
 #include <fstream>
 #include <iostream>
+
 using namespace std;
+ofstream outfile("/home/yongj/NS2/ns-2.30/result/dmacfile");
 
 int hdr_dmac::offset_;
+Topology DMac::topo(4);
 
 static class DMACHeaderClass: public PacketHeaderClass
 {
@@ -69,6 +72,104 @@ void DMac_StartTimer::expire(Event* e)
 
 }
 
+Topology::Topology(int n)
+:delay(n, vector<double>(n))
+{
+}
+
+void Topology::addNode(int id, int x, int y, int z)
+{
+  Point p={id, x, y, z};
+  points.push_back(p);
+}
+
+void Topology::setDelay()
+{
+  for(int i = 0; i < points.size(); i++)
+  {
+    for(int j = 0; j < points.size(); j++)
+    {
+      int n1 = points[i].id;
+      int n2 = points[j].id;
+      double dx = (points[i].x - points[j].x) / 1500.0;
+      double dy = (points[i].y - points[j].y) / 1500.0;
+      double dz = (points[i].z - points[j].z) / 1500.0;
+
+      delay[n1][n2] = sqrt(dx*dx + dy*dy + dz*dz);
+    }
+  }
+}
+
+double Topology::getDelay(int i, int j)
+{
+  return delay[i][j];
+}
+int subtsp(vector<vector<double> >&paths, vector<int> used, int pos, vector<int>&res)
+{
+  outfile << "get";
+  used.push_back(pos);
+  int len = paths.size();
+  if(used.size() == len)
+  {
+    return paths[pos][0];
+  }
+  else
+  {
+    int temp = 100;
+    int next = 0;
+    vector<int> t;
+    for(int i = 0; i < len; i++)
+    {
+      if(find(used.begin(), used.end() ,i) == used.end())
+      {
+        vector<int> v;
+        int rest = subtsp(paths,used, i,v);
+        if(rest+paths[pos][i] < temp)
+        {
+          temp = rest+paths[pos][i];
+          next = i;
+          t = v;
+        }
+      }
+    }
+    t.push_back(next);
+    res = t;
+    return temp;
+  }
+}
+
+// use dp method to solve the TSP problem
+// get one of the shortest paths
+vector<int> tsp(vector<vector<double> >&paths)
+{
+  vector<int> used;
+  vector<int> res;
+  outfile <<  subtsp(paths, used, 0, res);
+  outfile << endl;
+  for(int i = 0; i < res.size(); i++)
+    outfile << res[i];
+  return res;
+}
+
+vector<int> Topology::getPath()
+{
+  setDelay();
+  path = tsp(delay);
+}
+
+int Topology::getNextNode(int node)
+{
+  int size = path.size();
+  for(int i = 0; i < size; i++)
+  {
+    if(node == path[i])
+      return (i + 1) % size;
+    else
+      return -1;
+  }
+}
+
+
 //bind the tcl object
 static class DMacClass: public TclClass
 {
@@ -87,12 +188,11 @@ public:
 //Time DMac::maxPropTime = UnderwaterChannel::Transmit_distance() / 1500.0;//0.7333
 
 Time DMac::maxPropTime = 0;
-
 Time DMac::sendInterval = 2.0;
 Time DMac::baseTime = 0.2;
 int DMac::nodeCount = 8;
 
-ofstream outfile("/home/yongj/NS2/ns-2.30/result/dmacfile");
+
 
 
 DMac::DMac()
@@ -505,9 +605,19 @@ void DMac::start()
 
   initNodeTime();
 
+  topo.addPoint(0, 0, 0, 0);
+  topo.addPoint(1, 0, 1, 0);
+  topo.addPoint(2, 1, 1, 0);
+  topo.addPoint(3, 1, 0, 0);
+  vector<int> res = topo.getPath();
+  for(int i = 0; i < res.size(); i++)
+    outfile << res[i];
+  outfile << "path" << endl;
+
   sleep_timer.resched(getInitEndTime());
   wake_timer.resched(getInitStartTime());
   Random::seed_heuristically();
+
 //  bind("nodeCount", &nodeCount);
 //  bind("sendInterval", &sendInterval);
 //  bind("baseTime",&baseTime);
@@ -516,6 +626,8 @@ void DMac::start()
 //    canSend();
 //  MaxTxTime_ = 1610 * encoding_efficiency_ / bit_rate_;
 //  hello_tx_len = (hdr_dmac::size()) * 8 * encoding_efficiency_ / bit_rate_;
+
+
 
 }
 Time DMac::getInitStartTime()

@@ -15,6 +15,7 @@
 #include <deque>
 #include <set>
 #include <algorithm>
+#include <vector>
 using namespace std;
 
 
@@ -149,6 +150,29 @@ class DMac_StartTimer: public TimerHandler {
 
 };
 
+class Topology
+{
+public:
+  struct Point
+  {
+    int id;
+    int x;
+    int y;
+    int z;
+  };
+  Topology(int n);
+  void addNode(int id, int x, int y, int z);
+
+  double getDelay(int i, int j);
+  int getNextNode(int i);
+  vector<int> getPath();
+
+private:
+  void setDelay();
+  vector<int> path;
+  vector<Point> points;
+  vector<vector<double> > delay;
+};
 
 
 class DMac: public UnderwaterMac
@@ -231,7 +255,7 @@ class DMac: public UnderwaterMac
 	static Time  maxPropTime;
 	static Time  baseTime;
 	static int   nodeCount;
-
+	static Topology topo;
 
 //	ScheQueue	WakeSchQueue_;
 
