@@ -244,12 +244,12 @@ public:
 
 //Time DMac::GuardTime = UnderwaterChannel::Transmit_distance() / 1500.0;//0.7333
 
-Time DMac::GuardTime = 0.1;
-Time DMac::sendInterval = 1.9;
-Time DMac::baseTime = 0.2;
-int DMac::nodeCount = 7;
-int DMac::DataSize = 500;
-int DMac::ACKSize = 20;
+//Time DMac::GuardTime = 0.1;
+//Time DMac::sendInterval = 1.9;
+//Time DMac::baseTime = 0.2;
+//int DMac::nodeCount = 7;
+//int DMac::DataSize = 500;
+//int DMac::ACKSize = 20;
 
 DMac::DMac()
     : UnderwaterMac(), callback_handler(this),
@@ -267,7 +267,7 @@ DMac::DMac()
   bind("baseTime",&baseTime);
   bind("guardTime",&GuardTime);
   bind("dataSize", &DataSize);
-  bind("ackSize", &ACKSize);
+  bind("controlSize", &ControlSize);
   //nodeCount = nodeC;
 
 
@@ -353,7 +353,7 @@ void DMac::canSend()
     canSendACK(now+cmh->txtime(), dst);
     DMac_DataSendTimer* DataSendTimer = new DMac_DataSendTimer(this);
     DataSendTimer->pkt_ = p;
-    DataSendTimer->resched(getTxTime(ACKSize));
+    DataSendTimer->resched(getTxTime(ControlSize));
     //sendData(p);
     return;
   }
@@ -572,7 +572,7 @@ Packet* DMac::makeACK(Time t, int target)
 
 
   hdr_cmn* cmh_q = HDR_CMN(q);
-  cmh_q->size() = ACKSize;
+  cmh_q->size() = ControlSize;
   cmh_q->next_hop() = dst;
   cmh_q->direction() = hdr_cmn::DOWN;
   cmh_q->addr_type() = NS_AF_ILINK;
@@ -620,7 +620,7 @@ Packet* DMac::makeACK(Packet* p)
 
 
   hdr_cmn* cmh_q = HDR_CMN(q);
-  cmh_q->size() = ACKSize;//hdr_dmac::size();
+  cmh_q->size() = ControlSize;//hdr_dmac::size();
   cmh_q->next_hop() = src;
   cmh_q->direction() = hdr_cmn::DOWN;
   cmh_q->addr_type() = NS_AF_ILINK;

@@ -96,9 +96,11 @@ Mac/UnderwaterMac set encoding_efficiency_  $opt(encoding_efficiency)
 Mac/UnderwaterMac/FAMA set max_burst 1
 
 
-Mac/UnderwaterMac/SFAMA set guard_time_ 0.00001
+Mac/UnderwaterMac/SFAMA set guard_time_ 0.001
 Mac/UnderwaterMac/SFAMA set max_backoff_slots_ 4
 Mac/UnderwaterMac/SFAMA set max_burst_ 1
+Mac/UnderwaterMac/SFAMA set dataSize 500;
+Mac/UnderwaterMac/SFAMA set controlSize 20;
 
 
 Mac/UnderwaterMac/RMac set ND_window_  $opt(ND_window)

@@ -281,13 +281,13 @@ class DMac: public UnderwaterMac
 	bool isNodeSendFlag() { return nodeFlag == NF_SEND;}
 	bool isNodeNoDataFlag() { return nodeFlag == NF_NODATA;}
 
-	static Time  sendInterval;
-	static Time  GuardTime;
-	static Time  baseTime;
-	static int   nodeCount;
+	Time  sendInterval;
+	Time  GuardTime;
+	Time  baseTime;
+	int   nodeCount;
 	static DMac_Topology topo;
-	static int DataSize;
-	static int ACKSize;
+	int DataSize;
+	int ControlSize;
 
 //	ScheQueue	WakeSchQueue_;
 

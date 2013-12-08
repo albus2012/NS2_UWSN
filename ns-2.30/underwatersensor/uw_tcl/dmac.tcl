@@ -93,7 +93,7 @@ Mac/UnderwaterMac/DMac set sendInterval 1.9;
 Mac/UnderwaterMac/DMac set baseTime 0.2;
 Mac/UnderwaterMac/DMac set guardTime 0.01;
 Mac/UnderwaterMac/DMac set dataSize 500;
-Mac/UnderwaterMac/DMac set ackSize 20;
+Mac/UnderwaterMac/DMac set controlSize 20;
 
 
 

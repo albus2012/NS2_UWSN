@@ -83,6 +83,9 @@ SFAMA::SFAMA():UnderwaterMac(), status_(IDLE_WAIT), guard_time_(0.00001), slot_l
 	bind("guard_time_", &guard_time_);
 	bind("max_backoff_slots_", &max_backoff_slots_);	
 	bind("max_burst_", &max_burst_);
+	bind("dataSize", &DataSize);
+	bind("controlSize", &ControlSize);
+
 	
 	Random::seed_heuristically();
 
@@ -197,7 +200,7 @@ Packet* SFAMA::makeRTS(nsaddr_t recver, int slot_num)
 	hdr_mac* mach = HDR_MAC(rts_pkt);
 	hdr_SFAMA* SFAMAh= hdr_SFAMA::access(rts_pkt);
 
-	cmh->size() = hdr_SFAMA::getSize(SFAMA_RTS);
+	cmh->size() = ControlSize;
 	cmh->txtime() = getTxTime(cmh->size());
 	cmh->error() = 0;
 	cmh->direction() = hdr_cmn::DOWN;
@@ -228,7 +231,7 @@ Packet* SFAMA::makeCTS(nsaddr_t rts_sender, int slot_num)
 	hdr_mac* mach = HDR_MAC(cts_pkt);
 	hdr_SFAMA* SFAMAh= hdr_SFAMA::access(cts_pkt);
 
-	cmh->size() = hdr_SFAMA::getSize(SFAMA_CTS);
+	cmh->size() = ControlSize;//hdr_SFAMA::getSize(SFAMA_CTS);
 	cmh->txtime() = getTxTime(cmh->size());
 	cmh->error() = 0;
 	cmh->direction() = hdr_cmn::DOWN;
@@ -256,8 +259,9 @@ Packet* SFAMA::fillDATA(Packet *data_pkt)
 	hdr_mac* mach = HDR_MAC(data_pkt);
 	hdr_SFAMA* SFAMAh = hdr_SFAMA::access(data_pkt);
 
-	cmh->size() += hdr_SFAMA::getSize(SFAMA_DATA);
-	cmh->txtime() = getTxTime(cmh->size());
+	//cmh->size() += hdr_SFAMA::getSize(SFAMA_DATA);
+	cmh->size() = DataSize;
+	cmh->txtime() = getTxDataTime(cmh->size());
 	cmh->error() = 0;
 	cmh->direction() = hdr_cmn::DOWN;
 	
@@ -283,7 +287,8 @@ Packet* SFAMA::makeACK(nsaddr_t data_sender)
 
 	hdr_SFAMA* SFAMAh= hdr_SFAMA::access(ack_pkt);
 
-	cmh->size() = hdr_SFAMA::getSize(SFAMA_ACK);
+	//cmh->size() = hdr_SFAMA::getSize(SFAMA_ACK);
+	cmh->size() = ControlSize;
 	cmh->txtime() = getTxTime(cmh->size());
 	cmh->error() = 0;
 	cmh->direction() = hdr_cmn::DOWN;
