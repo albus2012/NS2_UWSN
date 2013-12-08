@@ -88,10 +88,12 @@ Mac/UnderwaterMac set bit_rate_  $opt(bit_rate)
 Mac/UnderwaterMac set encoding_efficiency_  $opt(encoding_efficiency)
 
 
-#Mac/UnderwaterMac/DMac set nodeCount 8;
-#Mac/UnderwaterMac/DMac set sendInterval 2;
-#Mac/UnderwaterMac/DMac set baseTime 0;
-#Mac/UnderwaterMac/DMac set maxPropTime 0.5;
+Mac/UnderwaterMac/DMac set nodeCount 7;
+Mac/UnderwaterMac/DMac set sendInterval 1.9;
+Mac/UnderwaterMac/DMac set baseTime 0.2;
+Mac/UnderwaterMac/DMac set guardTime 0.01;
+Mac/UnderwaterMac/DMac set dataSize 500;
+Mac/UnderwaterMac/DMac set ackSize 20;
 
 
 
@@ -121,7 +123,7 @@ Phy/UnderwaterPhy set RXThresh_ 0   ;#3.652e-10
 Phy/UnderwaterPhy set Pt_ 0.2818;
 Phy/UnderwaterPhy set freq_ 25  ;#frequency range in khz 
 Phy/UnderwaterPhy set K_ 2.0   ;#spherical spreading
-Phy/UnderwaterPhy set sync_hdr_len 1.5;
+Phy/UnderwaterPhy set sync_hdr_len 1;
 
 
 

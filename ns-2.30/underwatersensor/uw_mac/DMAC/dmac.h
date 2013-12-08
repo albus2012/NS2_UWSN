@@ -25,6 +25,7 @@ typedef double Time;
 
 #define DMAC_CALLBACK_DELAY 0.001
 #define INFINITE_PERIOD   10000000.0
+#define BROADCAST -1
 
 
 enum DmacPacketType
@@ -91,6 +92,7 @@ public:
     else
       return false;
   }
+  void change(double t);
 
 protected:
   DMac* mac_;
@@ -118,6 +120,16 @@ class DMac_StatusHandler: public Handler{
   	DMac* mac_;
 };
 
+class DMac_DataSendTimer: public TimerHandler{
+public:
+  DMac_DataSendTimer(DMac* mac): TimerHandler() {
+    mac_ = mac;
+  }
+  Packet* pkt_;
+protected:
+  DMac* mac_;
+  virtual void expire(Event* e);
+};
 
 class DMac_SleepTimer: public TimerHandler {
 public:
@@ -150,27 +162,42 @@ class DMac_StartTimer: public TimerHandler {
 
 };
 
-class Topology
+class DMac_InitTimer: public TimerHandler {
+ public:
+  DMac_InitTimer(DMac* mac): TimerHandler() {
+    mac_ = mac;
+  }
+ protected:
+  virtual void expire(Event* e);
+
+ protected:
+  DMac* mac_;
+
+};
+
+class DMac_Topology
 {
 public:
   struct Point
   {
     int id;
-    int x;
-    int y;
-    int z;
+    double x;
+    double y;
+    double z;
   };
-  Topology(int n);
-  void addNode(int id, int x, int y, int z);
+  DMac_Topology();
+  void addNode(int id, double x, double y, double z);
 
   double getDelay(int i, int j);
   int getNextNode(int i);
+  int getPos(int i);
   vector<int> getPath();
+  double getMaxProp();
 
 private:
   void setDelay();
   vector<int> path;
-  vector<Point> points;
+  map<int,Point> points;
   vector<vector<double> > delay;
 };
 
@@ -201,6 +228,7 @@ class DMac: public UnderwaterMac
 	DMac_WakeTimer wake_timer;
 	DMac_SleepTimer		sleep_timer;
 	DMac_StartTimer		start_timer_;
+	DMac_InitTimer   init_timer_;
 
 	Packet* makeSYNCPkt(Time CyclePeriod, nsaddr_t Recver = MAC_BROADCAST); //perhaps CyclePeriod is not required
 
@@ -208,7 +236,8 @@ class DMac: public UnderwaterMac
 	void	idle();
 
 	void	setSleepTimer(Time Interval);     //keep awake for To, and then fall sleep
-	void	start();	//initilize NexCyclePeriod_ and the sleep timer, sendout first SYNC pkt
+	void	start();
+	void  init();
 
 	void  sendDataPkt(Packet* p, bool ack);
 	void	send_info();
@@ -226,9 +255,10 @@ class DMac: public UnderwaterMac
 
 	void handleRecvPkt(Packet* p);
 	Packet* makeACK(Packet* p);
+	Packet* makeACK(Time t, int target);
 	void handleRecvData(Packet* p);
+	void canSendACK(Time t,int target);
 	void canSendACK(Packet* p);
-
 	void addCycleCount() { CycleCount++;}
 	int  getCycleCount() { return CycleCount;}
 
@@ -252,10 +282,12 @@ class DMac: public UnderwaterMac
 	bool isNodeNoDataFlag() { return nodeFlag == NF_NODATA;}
 
 	static Time  sendInterval;
-	static Time  maxPropTime;
+	static Time  GuardTime;
 	static Time  baseTime;
 	static int   nodeCount;
-	static Topology topo;
+	static DMac_Topology topo;
+	static int DataSize;
+	static int ACKSize;
 
 //	ScheQueue	WakeSchQueue_;
 
@@ -276,14 +308,17 @@ class DMac: public UnderwaterMac
 	  Time endSend;
 	}nodeTime;
 
-	Time getRoundTime();
-  Time getInitStartTime();
-  Time getInitEndTime();
-	void initNodeTime();
 
+	Time getRoundTime();
+  Time getStartTime();
+  Time getEndTime();
+	void initNodeTime();
+	void changeSendTime(Packet* p);
+	void handleRecvACK(Packet* p);
 	void updateNodeTime();
 
 	bool isSendEndFlag();
+	void processDataSendTimer(DMac_DataSendTimer * DataSendTimer);
   Time now();
 
   friend class DMac_CallbackHandler;
@@ -291,9 +326,10 @@ class DMac: public UnderwaterMac
   friend class DMac_SleepTimer;
 
   friend class DMac_StatusHandler;
-
+  friend class DMac_InitTimer;
   friend class DMac_StartTimer;
   friend class DMac_TxStatusHandler;
+  friend class DMac_DataSendTimer;
 
 };
 
