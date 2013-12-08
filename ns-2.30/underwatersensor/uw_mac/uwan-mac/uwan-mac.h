@@ -152,6 +152,8 @@ protected:
 
 
 private:
+	int DataSize;
+	int ControlSize;
 	set<nsaddr_t> CL_;				//contact list
 	set<nsaddr_t> neighbors_;		//neighbor list.
 	/*the difference between CL_ and neighbors_ is the Missing list*/

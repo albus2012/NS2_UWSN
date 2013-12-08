@@ -59,6 +59,8 @@ UWAN_MAC::UWAN_MAC(): UnderwaterMac(), callback_handler(this),
 	NumPktSend_ = 0;
 	bind("AvgCyclePeriod", &AvgCyclePeriod_);
 	bind("StdCyclePeriod", &StdCyclePeriod_);
+	bind("dataSize", &DataSize);
+	bind("controlSize",&ControlSize);
 	start_timer_.resched(0.001);	
 	next_hop_num = 0;
 } 
@@ -76,10 +78,14 @@ void UWAN_MAC::sendFrame(Packet* p, bool IsMacPkt, Time delay)
 {
 	hdr_cmn* cmh = HDR_CMN(p);
 	cmh->direction() = hdr_cmn::DOWN; 
-	cmh->txtime() = getTxTime(cmh->size());//*encoding_efficiency_/bit_rate_;
+
+	if(IsMacPkt)
+	  cmh->txtime() = getTxTime(ControlSize);//*encoding_efficiency_/bit_rate_;
+	else
+	  cmh->txtime() = getTxDataTime(DataSize);
 
 	UWAN_MAC_PktSendTimer *tmp = new UWAN_MAC_PktSendTimer(this);
-	tmp->tx_time() = HDR_CMN(p)->txtime();
+	tmp->tx_time() = cmh->txtime();
 	tmp->p_ = p;
 	tmp->resched(delay);
 	PktSendTimerSet_.insert(tmp);
@@ -147,12 +153,13 @@ Packet* UWAN_MAC::makeSYNCPkt(Time CyclePeriod, nsaddr_t Recver)
 
 	hdr_cmn* cmh = HDR_CMN(p);
     
-	cmh->size() = hdr_SYNC::size();
+	//cmh->size() = hdr_SYNC::size();
+	cmh->size() = ControlSize;
 
-    cmh->next_hop() = Recver;  //the sent packet??
-    cmh->direction()=hdr_cmn::DOWN; 
-    cmh->addr_type()=NS_AF_ILINK;
-    cmh->ptype()=PT_UWAN_SYNC;
+	cmh->next_hop() = Recver;  //the sent packet??
+  cmh->direction()=hdr_cmn::DOWN;
+  cmh->addr_type()=NS_AF_ILINK;
+  cmh->ptype()=PT_UWAN_SYNC;
 
 	hdr_mac* mh=hdr_mac::access(p);
 	mh->macDA() = Recver;
@@ -357,7 +364,7 @@ void UWAN_MAC::TxProcess(Packet *p)
 	 */
 	
 
-	HDR_CMN(p)->size() = 1600;
+	HDR_CMN(p)->size() = DataSize;
 	PacketQueue_.push(p);
 	Scheduler::instance().schedule(&callback_handler, 
 						&callback_event, UWAN_MAC_CALLBACK_DELAY);
@@ -400,8 +407,8 @@ void UWAN_MAC::start()
 	Random::seed_heuristically();
 
 	SYNCSchedule(true);
-	MaxTxTime_ = getTxTime(1610);//*encoding_efficiency_/bit_rate_;
-	hello_tx_len = getTxTime(hdr_SYNC::size());//*8*encoding_efficiency_/bit_rate_;
+	MaxTxTime_ = getTxTime(ControlSize);//*encoding_efficiency_/bit_rate_;
+	hello_tx_len = getTxTime(ControlSize);//*8*encoding_efficiency_/bit_rate_;
 	ListenPeriod_ = 10*hello_tx_len + 2*MaxPropTime_ + MaxTxTime_;
 	WakePeriod_ = ListenPeriod_ + MaxTxTime_;
 }
@@ -436,8 +443,8 @@ void UWAN_MAC::sendoutPkt(Time NextCyclePeriod)
 	//whether backoff?
 	fillMissingList(pkt);
 
-    cmh->direction()=hdr_cmn::DOWN; 
-    cmh->addr_type()=NS_AF_ILINK;
+  cmh->direction()=hdr_cmn::DOWN;
+  cmh->addr_type()=NS_AF_ILINK;
 
 	nsaddr_t next_hop = MAC_BROADCAST;
 

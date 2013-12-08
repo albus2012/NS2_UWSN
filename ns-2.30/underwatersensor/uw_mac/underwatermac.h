@@ -84,6 +84,7 @@ public:
 	void InterruptRecv(double);
 	double getTxTime(int pkt_len); //pkt_len is in byte
 	double getTxTime(Packet* pkt);
+	double getTxDataTime(int pkt_len);//remove the sync_hdr_len
 	// The sending process can stop receiving process and change the transmission
 	// status of the node since underwatermac is half-deplex
 

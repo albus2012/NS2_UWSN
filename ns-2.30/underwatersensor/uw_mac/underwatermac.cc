@@ -122,11 +122,11 @@ IncommingChannel::UpdatePacketStatus(){
 
   while(t1)
   {
-    printf("!!!IncommingChannel: Total is %f and packe Rxpr is %f\n",TotalSignalStrength,(t1->packet)->txinfo_.RxPr);
+
     double noise=TotalSignalStrength-(t1->packet)->txinfo_.RxPr;
     double t2=(t1->packet)->txinfo_.RxPr;
     double alpha=0.00000001;
-    printf("coll: %lf, %lf\n", noise,t2);
+
 
     if (TotalSignalStrength < t2)
     {
@@ -156,8 +156,6 @@ IncommingChannel::UpdatePacketStatus(){
       }
       else
       {
-        printf("COLLISION noise=%f \n",noise);
-
         t1->status=COLLISION;
       }
 
@@ -302,7 +300,8 @@ UnderwaterMac::command(int argc, const char*const* argv)
 
 		if (strcmp(argv[1], "node_on") == 0) {
 		   Node* n1=(Node*) TclObject::lookup(argv[2]);
-		   if (!n1) return TCL_ERROR;
+		   if (!n1)
+		     return TCL_ERROR;
 		   node_ =n1; 
 		   return TCL_OK;
 		 }
@@ -332,7 +331,7 @@ UnderwaterMac::IncommingChannelProcess(Event* e)
 	   //  p=recv_channel.lookup(target);
   if (COLLISION==status)
   {
-    printf("underwater: the packet is interfered at node %d\n",node_->nodeid());
+//    printf("underwater: the packet is interfered at node %d\n",node_->nodeid());
     int res = recv_channel.DeleteIncommingPacket(target);
     //printf("res is %d\n", res);
     ResetTransmissionStatus();
@@ -345,7 +344,7 @@ UnderwaterMac::IncommingChannelProcess(Event* e)
   if (INVALID==status)
   {
 
-    printf("underwater:the packet is invalidated at node %d\n",node_->nodeid()); 
+//    printf("underwater:the packet is invalidated at node %d\n",node_->nodeid());
     recv_channel.DeleteIncommingPacket(target);
     ResetTransmissionStatus();
     hdr->error()=1; //set error flag
@@ -356,7 +355,7 @@ UnderwaterMac::IncommingChannelProcess(Event* e)
  
   if (RECEPTION==status)
   {
-    printf("underwater:the packet is correctly received at node %d\n",node_->nodeid());
+//    printf("underwater:the packet is correctly received at node %d\n",node_->nodeid());
     int res = recv_channel.DeleteIncommingPacket(target);
     //printf("res is %d\n", res);
     hdr->error()=0;
@@ -442,6 +441,13 @@ double UnderwaterMac::getTxTime(int pkt_len)
 	UnderwaterPhy* phy = (UnderwaterPhy*)netif_;
 	
 	return phy->sync_hdr_len()+ pkt_len*8*encoding_efficiency_/bit_rate_;
+}
+
+double UnderwaterMac::getTxDataTime(int pkt_len)
+{
+  UnderwaterPhy* phy = (UnderwaterPhy*)netif_;
+
+  return pkt_len*8*encoding_efficiency_/bit_rate_;
 }
 
 double UnderwaterMac::getTxTime(Packet* pkt)
