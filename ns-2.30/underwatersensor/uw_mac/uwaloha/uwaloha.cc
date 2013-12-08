@@ -50,7 +50,7 @@ void UWALOHA_WaitACKTimer::expire(Event *e) //WaitACKTimer expire
 //construct function
 UWALOHA::UWALOHA(): UnderwaterMac(), bo_counter(0), UWALOHA_Status(UWALOHA_PASSIVE),
     Persistent(1.0),
-		ACKOn(1), Min_Backoff(0.0), Max_Backoff(1.5), MAXACKRetryInterval(0.05), 
+		ACKOn(1), persize(600),Min_Backoff(0.0), Max_Backoff(1.5), MAXACKRetryInterval(0.05),
 		blocked(false), BackoffTimer(this), WaitACKTimer(this),
 		CallBack_handler(this), status_handler(this)
 {
@@ -58,9 +58,11 @@ UWALOHA::UWALOHA(): UnderwaterMac(), bo_counter(0), UWALOHA_Status(UWALOHA_PASSI
 
 	bind("Persistent",&Persistent);
 	bind("ACKOn",&ACKOn);
+	bind("persize",&persize);
 	bind("Min_Backoff",&Min_Backoff);
 	bind("Max_Backoff",&Max_Backoff);
 	bind("WaitACKTime",&WaitACKTime);
+
 }
 
 
@@ -141,7 +143,9 @@ void UWALOHA::TxProcess(Packet* pkt)
 	hdr_uwvb* vbh = HDR_UWVB(pkt);
 	hdr_mac* mh=HDR_MAC(pkt);
 
-	cmh->size() += hdr_UWALOHA::size();
+  //cmh->size() += hdr_UWALOHA::size();
+	cmh->size()=persize;
+
 	cmh->txtime() = getTxTime(cmh->size());
 	cmh->error() = 0;
 	cmh->direction() = hdr_cmn::DOWN;
@@ -174,6 +178,49 @@ void UWALOHA::TxProcess(Packet* pkt)
 		sendDataPkt();
 	}
 }
+
+//void DMac::TxProcess(Packet *p)
+//{
+//  /* because any packet which has nothing to do with this node is filtered by
+//  * RecvProcess(), p must be qualified packet.
+//  * Simply cache the packet to simulate the pre-knowledge of next transmission time
+//  */
+//
+//  hdr_mac* mh = HDR_MAC(p);
+//  hdr_cmn* cmh=HDR_CMN(p);
+//  hdr_uwvb* vbh = HDR_UWVB(p);
+//  hdr_dmac *dh = HDR_DMAC(p);  //hdr_dmac::access(p);
+//
+//  int src = vbh->sender_id.addr_;
+//  int dst = vbh->target_id.addr_;
+//
+//  outfile << now() <<" # "<< index_
+//  <<" TxProcess"
+//  << " src:"<< src;
+//
+//
+//  outfile << " id:" << cmh->uid_
+//  << " dest:" << dst
+//  << endl;
+//
+//  HDR_CMN(p)->size() = 600;
+//  cmh->next_hop() = dst;
+//  cmh->direction()=hdr_cmn::DOWN;
+//  cmh->addr_type()=NS_AF_ILINK;
+//  cmh->ptype() == PT_DMAC;
+//
+//  dh->ptype = DP_DATA;
+//
+//
+//  mh->macDA() = dst;
+//  mh->macSA() = index_;
+//
+//  waitingPackets_.push_back(p);
+//
+//  Scheduler::instance().schedule(&callback_handler,
+//      &callback_event, DMAC_CALLBACK_DELAY);
+//
+//}
 
 
 void UWALOHA::sendDataPkt()
@@ -337,6 +384,45 @@ Packet* UWALOHA::makeACK(nsaddr_t Data_Sender)
 	UWALOHAh->DA = Data_Sender;
 
 	return pkt;
+
+//	Packet* DMac::makeACK(Packet* p)
+//	{
+//	  Time now = Scheduler::instance().clock();
+//
+//	  Packet* q = Packet::alloc();
+//	  hdr_dmac* dh_p = HDR_DMAC(p);
+//	  hdr_dmac* dh_q = HDR_DMAC(q);
+//
+//	  int src = dh_p->sender_addr;
+//	  neighbors_[src].delay = now - dh_p->t_send; //update the delay between src and index_
+//
+//	  dh_q->ptype = DP_ACKDATA;
+//	  dh_q->pk_num = dh_p->pk_num + 1;    // sequence number
+//	  dh_q->data_num = dh_p->data_num;
+//	  dh_q->ack = false;
+//	  dh_q->sender_addr = index_;
+//	  dh_q->t_make = now;
+//	  dh_q->receiver_addr = src;
+//	  dh_q->t_send = now;
+//
+//
+//	  hdr_cmn* cmh_q = HDR_CMN(q);
+//	  cmh_q->size() = hdr_dmac::size();
+//	  cmh_q->next_hop() = src;
+//	  cmh_q->direction() = hdr_cmn::DOWN;
+//	  cmh_q->addr_type() = NS_AF_ILINK;
+//	  cmh_q->ptype() = PT_DMAC;
+//	  cmh_q->txtime() = getTxTime(cmh_q->size());
+//
+//
+//	  hdr_mac* mh_q = HDR_MAC(q);
+//	  mh_q->macDA() = src;
+//	  mh_q->macSA() = index_;
+//
+//
+//	  return q;
+
+
 }
 
 
