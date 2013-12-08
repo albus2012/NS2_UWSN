@@ -78,39 +78,39 @@ public:
 
 // Cut and Paste from setdest.h   -- Chalermek 12/1/99
 
-class vector {
+class vector_ {
 public:
-	vector(double x = 0.0, double y = 0.0, double z = 0.0) {
+	vector_(double x = 0.0, double y = 0.0, double z = 0.0) {
 		X = x; Y = y; Z = z;
 	}
 	double length() {
 		return sqrt(X*X + Y*Y + Z*Z);
 	}
 
-	inline void operator=(const vector a) {
+	inline void operator=(const vector_ a) {
 		X = a.X;
 		Y = a.Y;
 		Z = a.Z;
 	}
-	inline void operator+=(const vector a) {
+	inline void operator+=(const vector_ a) {
 		X += a.X;
 		Y += a.Y;
 		Z += a.Z;
 	}
-	inline int operator==(const vector a) {
+	inline int operator==(const vector_ a) {
 		return (X == a.X && Y == a.Y && Z == a.Z);
 	}
-	inline int operator!=(const vector a) {
+	inline int operator!=(const vector_ a) {
 		return (X != a.X || Y != a.Y || Z != a.Z);
 	}
-	inline vector operator-(const vector a) {
-		return vector(X-a.X, Y-a.Y, Z-a.Z);
+	inline vector_ operator-(const vector_ a) {
+		return vector_(X-a.X, Y-a.Y, Z-a.Z);
 	}
-	friend inline vector operator*(const double a, const vector b) {
-		return vector(a*b.X, a*b.Y, a*b.Z);
+	friend inline vector_ operator*(const double a, const vector_ b) {
+		return vector_(a*b.X, a*b.Y, a*b.Z);
 	}
-	friend inline vector operator/(const vector a, const double b) {
-		return vector(a.X/b, a.Y/b, a.Z/b);
+	friend inline vector_ operator/(const vector_ a, const double b) {
+		return vector_(a.X/b, a.Y/b, a.Z/b);
 	}
 
 	double X;

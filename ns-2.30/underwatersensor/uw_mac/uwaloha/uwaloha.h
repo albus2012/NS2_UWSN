@@ -160,6 +160,7 @@ protected:
 	}UWALOHA_Status;
 
 	double	Persistent;
+	int persize;
 	int		ACKOn;
 	Time	Min_Backoff;
 	Time 	Max_Backoff;
