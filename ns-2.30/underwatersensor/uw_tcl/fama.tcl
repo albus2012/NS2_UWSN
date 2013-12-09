@@ -93,8 +93,10 @@ Mac/UnderwaterMac set encoding_efficiency_  $opt(encoding_efficiency)
 #Mac/UnderwaterMac/DMac set baseTime 0;
 #Mac/UnderwaterMac/DMac set maxPropTime 0.5;
 
-Mac/UnderwaterMac/FAMA set MaxBurst 1
-Mac/UnderwaterMac/FAMA set MaxPropDelay 1
+Mac/UnderwaterMac/FAMA set maxBurst 1;
+Mac/UnderwaterMac/FAMA set maxPropDelay 1;
+Mac/UnderwaterMac/FAMA set dataSize 500;
+Mac/UnderwaterMac/FAMA set controlSize 20;
 
 Mac/UnderwaterMac/SFAMA set guard_time_ 0.5
 Mac/UnderwaterMac/SFAMA set max_backoff_slots_ 10
@@ -127,7 +129,7 @@ Phy/UnderwaterPhy set RXThresh_ 0   ;#3.652e-10
 Phy/UnderwaterPhy set Pt_ 0.2818;
 Phy/UnderwaterPhy set freq_ 25  ;#frequency range in khz 
 Phy/UnderwaterPhy set K_ 2.0   ;#spherical spreading
-Phy/UnderwaterPhy set sync_hdr_len 1;
+Phy/UnderwaterPhy set sync_hdr_len 0.5;
 
 
 

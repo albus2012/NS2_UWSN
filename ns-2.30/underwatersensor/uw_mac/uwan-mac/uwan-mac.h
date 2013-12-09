@@ -167,7 +167,7 @@ private:
 	static Time  InitialCyclePeriod_;	
 	static Time  ListenPeriod_;		//the length of listening to the channel after transmission.
 	static Time  MaxTxTime_;
-	static Time  MaxPropTime_;		//GuardTime_;		//2* static Time  MaxPropTime_;
+	static Time  MaxPropDelay;		//GuardTime_;		//2* static Time  MaxPropDelay;
 	static Time  hello_tx_len;
 	static Time  WakePeriod_;
 

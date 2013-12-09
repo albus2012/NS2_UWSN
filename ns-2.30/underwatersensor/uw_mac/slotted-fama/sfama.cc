@@ -85,7 +85,7 @@ SFAMA::SFAMA():UnderwaterMac(), status_(IDLE_WAIT), guard_time_(0.00001), slot_l
 	bind("max_burst_", &max_burst_);
 	bind("dataSize", &DataSize);
 	bind("controlSize", &ControlSize);
-
+	bind("maxPropDelay", &MaxPropDelay);
 	
 	Random::seed_heuristically();
 
@@ -170,8 +170,9 @@ printAllQ();
 void SFAMA::initSlotLen()
 {
 	slot_len_ = guard_time_ + 
-		getTxTime(hdr_SFAMA::getSize(SFAMA_CTS)) +
-		UnderwaterChannel::Transmit_distance()/1500.0;
+		//getTxTime(hdr_SFAMA::getSize(SFAMA_CTS)) +
+		getTxTime(ControlSize) + MaxPropDelay;
+//	    UnderwaterChannel::Transmit_distance()/1500.0;
 }
 
 /*
@@ -261,7 +262,7 @@ Packet* SFAMA::fillDATA(Packet *data_pkt)
 
 	//cmh->size() += hdr_SFAMA::getSize(SFAMA_DATA);
 	cmh->size() = DataSize;
-	cmh->txtime() = getTxDataTime(cmh->size());
+	cmh->txtime() = getTxTime(cmh->size());
 	cmh->error() = 0;
 	cmh->direction() = hdr_cmn::DOWN;
 	
@@ -388,7 +389,7 @@ void SFAMA::processDATA(Packet* data_pkt)
 {
 	//hdr_SFAMA* SFAMAh = hdr_SFAMA::access(data_pkt);
 	hdr_mac* mach = HDR_MAC(data_pkt);
-
+	hdr_cmn* cmh = HDR_CMN(data_pkt);
 	if( mach->macDA() == index_ && getStatus() == WAIT_RECV_DATA ) {
 		//send ACK
 	  sfamaout << "process DATA"
@@ -401,7 +402,8 @@ void SFAMA::processDATA(Packet* data_pkt)
 		wait_send_timer.resched(getTime2ComingSlot(NOW));
 
 		/*send packet to upper layer*/		
-		hdr_cmn::access(data_pkt)->size() -= hdr_SFAMA::getSize(SFAMA_DATA);
+		//hdr_cmn::access(data_pkt)->size() -= hdr_SFAMA::getSize(SFAMA_DATA);
+		cmh->size() -= DataSize;
 		sendUp(data_pkt->copy()); /*the original one will be released*/
 	}
 	else {
@@ -538,9 +540,9 @@ void SFAMA::prepareSendingDATA()
 	}
 	
 
-	Time additional_txtime = getPktTrainTxTime()-getTxTime(hdr_SFAMA::getSize(SFAMA_CTS));
+//	Time additional_txtime = getPktTrainTxTime()-getTxTime(hdr_SFAMA::getSize(SFAMA_CTS));
 		
-
+	Time additional_txtime = getPktTrainTxTime()-getTxTime(ControlSize);
 	scheduleRTS(recver_addr, int(additional_txtime/slot_len_)+1 /*for ceil*/+1/*the basic slot*/ );
 }
 

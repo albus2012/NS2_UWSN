@@ -43,7 +43,7 @@ public:
 
 
 Time UWAN_MAC::InitialCyclePeriod_ = 15.0;
-Time UWAN_MAC::MaxPropTime_ = UnderwaterChannel::Transmit_distance()/1500.0;
+Time UWAN_MAC::MaxPropDelay = UnderwaterChannel::Transmit_distance()/1500.0;
 Time UWAN_MAC::MaxTxTime_ = 0.0;
 Time UWAN_MAC::ListenPeriod_ = 0.0;		//the length of listening to the channel after transmission.
 Time UWAN_MAC::hello_tx_len = 0.0;
@@ -61,6 +61,7 @@ UWAN_MAC::UWAN_MAC(): UnderwaterMac(), callback_handler(this),
 	bind("StdCyclePeriod", &StdCyclePeriod_);
 	bind("dataSize", &DataSize);
 	bind("controlSize",&ControlSize);
+	bind("maxPropDelay", &MaxPropDelay);
 	start_timer_.resched(0.001);	
 	next_hop_num = 0;
 } 
@@ -238,14 +239,14 @@ void UWAN_MAC::wakeup(nsaddr_t node_id)
 				break;
 		}
 
-		if( ! WakeSchQueue_.checkGuardTime(NextCyclePeriod_, 2*MaxPropTime_, MaxTxTime_) ) {
+		if( ! WakeSchQueue_.checkGuardTime(NextCyclePeriod_, 2*MaxPropDelay, MaxTxTime_) ) {
 			NextCyclePeriod_ = 
 				WakeSchQueue_.getAvailableSendTime(now+WakePeriod_, 
-										NextCyclePeriod_, 2*MaxPropTime_, MaxTxTime_);
+										NextCyclePeriod_, 2*MaxPropDelay, MaxTxTime_);
 		}
 		
 		WakeSchQueue_.push(NextCyclePeriod_, index_, NextCyclePeriod_-now);
-		//WakeSchQueue_.print(2*MaxPropTime_, MaxTxTime_, true, index_);
+		//WakeSchQueue_.print(2*MaxPropDelay, MaxTxTime_, true, index_);
 		if( PacketQueue_.empty() )
 			sendFrame(makeSYNCPkt(NextCyclePeriod_-now),true);
 		else
@@ -322,7 +323,7 @@ void UWAN_MAC::RecvProcess(Packet *p)
 	if( cmh->ptype() == PT_UWAN_HELLO || cmh->ptype() == PT_UWAN_SYNC ) {
 		//the process to hello packet is same to SYNC packet
 		WakeSchQueue_.push(SYNC_h->cycle_period()+now, src, SYNC_h->cycle_period());
-		//WakeSchQueue_.print(2*MaxPropTime_, MaxTxTime_, false, index_);
+		//WakeSchQueue_.print(2*MaxPropDelay, MaxTxTime_, false, index_);
 	}
 	else {
 		/*
@@ -336,7 +337,7 @@ void UWAN_MAC::RecvProcess(Packet *p)
 				printf("node(%d) recv %s\n", index_, packet_info.name(cmh->ptype()));
 
 			WakeSchQueue_.push(SYNC_h->cycle_period_+now, src, SYNC_h->cycle_period() );
-			//WakeSchQueue_.print(2*MaxPropTime_, MaxTxTime_, false, index_);
+			//WakeSchQueue_.print(2*MaxPropDelay, MaxTxTime_, false, index_);
 
 			//extract Missing list
 			processMissingList(p->accessdata(), src);  //hello is sent to src in this function
@@ -379,21 +380,21 @@ void UWAN_MAC::SYNCSchedule(bool initial)
 	if( initial ) {
 		Time RandomDelay = Random::uniform(0, InitialCyclePeriod_);
 		WakeSchQueue_.push(NextCyclePeriod_+RandomDelay, index_, NextCyclePeriod_+RandomDelay-now);
-		//WakeSchQueue_.print(2*MaxPropTime_, MaxTxTime_, true, index_);
+		//WakeSchQueue_.print(2*MaxPropDelay, MaxTxTime_, true, index_);
 		sendFrame(makeSYNCPkt(NextCyclePeriod_-now), true, RandomDelay);
 		return; 
 	}
 
 	//NextCyclePeriod_ = genNxCyclePeriod();
 	//check whether next cycle period is available.
-	if( ! WakeSchQueue_.checkGuardTime(NextCyclePeriod_, 2*MaxPropTime_, MaxTxTime_) ) {
+	if( ! WakeSchQueue_.checkGuardTime(NextCyclePeriod_, 2*MaxPropDelay, MaxTxTime_) ) {
 		//if it overlaps with others, re-generate a cycle period
 		NextCyclePeriod_ = WakeSchQueue_.getAvailableSendTime(now+WakePeriod_, 
-						NextCyclePeriod_, 2*MaxPropTime_, MaxTxTime_);
+						NextCyclePeriod_, 2*MaxPropDelay, MaxTxTime_);
 	}
 	
 	WakeSchQueue_.push(NextCyclePeriod_, index_, NextCyclePeriod_-now);
-	//WakeSchQueue_.print(2*MaxPropTime_, MaxTxTime_, true, index_);
+	//WakeSchQueue_.print(2*MaxPropDelay, MaxTxTime_, true, index_);
 	sendFrame(makeSYNCPkt(NextCyclePeriod_-now),true);
 }
 
@@ -407,9 +408,9 @@ void UWAN_MAC::start()
 	Random::seed_heuristically();
 
 	SYNCSchedule(true);
-	MaxTxTime_ = getTxTime(ControlSize);//*encoding_efficiency_/bit_rate_;
-	hello_tx_len = getTxTime(ControlSize);//*8*encoding_efficiency_/bit_rate_;
-	ListenPeriod_ = 10*hello_tx_len + 2*MaxPropTime_ + MaxTxTime_;
+	MaxTxTime_ = getTxTime(DataSize);//*encoding_efficiency_/bit_rate_;
+	hello_tx_len = getTxTime(DataSize);//*8*encoding_efficiency_/bit_rate_;
+	ListenPeriod_ = 10*hello_tx_len + 2*MaxPropDelay + MaxTxTime_;
 	WakePeriod_ = ListenPeriod_ + MaxTxTime_;
 }
 

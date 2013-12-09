@@ -1,0 +1,94 @@
+#分析不同路由協定的效能的AWK程式
+BEGIN{
+	
+  	highest_packet_id=0;
+	sends=0;
+	receives=0;
+	first_received_time=0;
+	first=0;
+	end=0;
+        sendoutnum=0;
+	recvnum=0;
+	sendnum=0;
+	sendackdata=0;
+	recvackdata=0;
+}
+
+{
+	time = $1;
+	flag = $2;
+	node = $3;
+	val4 = $4;
+        val5 = $5;
+	val7 = $7;
+	last = $NF;
+	pkt =$8;
+	
+	if(last == "2" && node == "3" )
+	{  
+            print $0
+  	}
+        if (val5 == "DESTDATA")
+          {
+          print $0;
+          recvnum++;
+          }
+
+        if (val4 == "TxProcess")
+          {
+          print $0;
+          sendnum++;
+          }
+        if (node == "2" && val4 == "sendDown")
+          {
+          print $0;
+          sendoutnum++;
+          }
+       if (node == "3" && val5 == "2")
+          {
+          print $0;
+          }
+
+       if (node == "2" && val5 == "2" && val7 = "3")
+          {
+          print $0;
+          }
+       
+       if (last == "DESTACKDATA")
+       {
+         print $0;
+         recvackdata++;
+	}
+       if (last == "SENDACKDATA")
+       {
+         print $0;
+         sendackdata++;
+       }
+}
+
+END{
+	printf("send num =%d\n", sendnum);
+	printf("sendout num =%d\n", sendoutnum);
+	printf("recvackdata num =%d\n", recvackdata);
+	printf("sendackdata num =%d\n", sendackdata);
+	printf("recv num =%d\n", recvnum);
+#	packet_duration=0;
+#	end_to_end_delay=0;
+#         for (packet_id = 0; packet_id < highest_packet_id ; packet_id++) {
+#           packet_duration = end_time[packet_id] - start_time[packet_id];
+#          # printf("packet_duration=%f\n", packet_duration);
+#          if (packet_duration >= 0.0) 
+#           	{end_to_end_delay = end_to_end_delay + packet_duration;
+#          }
+#		#printf("end_to_end_delay=%f\n", end_to_end_delay);
+#
+#         }
+#   	avg_end_to_end_delay = end_to_end_delay / receives;			      printf("total througput: %f bps \n", total);
+# 	total = total / (end - first_received_time);         
+#        loss = (sends-receives)/(sends)*100;				
+#         printf(" Total packet sends: %d \n", sends);
+#         printf(" Total packet receives: %d \n", receives);
+#         printf(" Packet delivery loss: %s \n", loss);
+#         printf(" Average End-to-End delay:%f s \n" , avg_end_to_end_delay);
+#         printf(" avg througput:%f bps/s\n", total);     
+}

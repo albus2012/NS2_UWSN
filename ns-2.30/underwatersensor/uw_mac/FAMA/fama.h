@@ -165,7 +165,8 @@ protected:
 	Time DataPktInterval;  //0.0001??
 
 	Time EstimateError;		//Error for timeout estimation
-	int	 DataPktSize;
+	int	 DataSize;
+	int  ControlSize;
 	int	 neighbor_id; //use this value to pick the next hop one by one
 
 	FAMA_BackoffTimer		backoff_timer;
@@ -181,7 +182,6 @@ protected:
 	Time RTSTxTime;
 	Time CTSTxTime;
 
-	Time MaxDataTxTime;
 
 
 	queue<Packet*>	PktQ_;

@@ -123,7 +123,7 @@ Phy/UnderwaterPhy set RXThresh_ 0   ;#3.652e-10
 Phy/UnderwaterPhy set Pt_ 0.2818;
 Phy/UnderwaterPhy set freq_ 25  ;#frequency range in khz 
 Phy/UnderwaterPhy set K_ 2.0   ;#spherical spreading
-Phy/UnderwaterPhy set sync_hdr_len 1;
+Phy/UnderwaterPhy set sync_hdr_len 0.5;
 
 
 

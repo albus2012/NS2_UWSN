@@ -171,6 +171,7 @@ private:
 
 	int DataSize;
 	int ControlSize;
+	int MaxPropDelay;
 	//index_ is the mac address of this node
 	Time guard_time_;  //need to be binded
 	Time slot_len_;

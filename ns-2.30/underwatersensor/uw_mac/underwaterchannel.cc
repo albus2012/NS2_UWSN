@@ -33,7 +33,7 @@ public:
 
 class MobileNode;
 
-double UnderwaterChannel::distCST_ =1100.0;
+double UnderwaterChannel::distCST_ =2200.0;
 
 
 UnderwaterChannel::UnderwaterChannel(void) : Channel(), numNodes_(0), 

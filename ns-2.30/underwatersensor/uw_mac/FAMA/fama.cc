@@ -78,19 +78,20 @@ void FAMA_CallBackHandler::handle(Event* e)
 
 
 FAMA::FAMA(): UnderwaterMac(), FAMA_Status(PASSIVE), NDPeriod(4), MaxBurst(1),
-		DataPktInterval(0.00001), EstimateError(0.001),DataPktSize(500),
+		DataPktInterval(0.00001), EstimateError(0.001),
 		neighbor_id(0), backoff_timer(this), status_handler(this), NDTimer(this), 
 		WaitCTSTimer(this),DataBackoffTimer(this),RemoteTimer(this), CallBack_Handler(this)
 {
-	MaxPropDelay = UnderwaterChannel::Transmit_distance()/1500.0;
-	RTSTxTime = MaxPropDelay;
+	//MaxPropDelay = UnderwaterChannel::Transmit_distance()/1500.0;
+  bind("maxPropDelay", &MaxPropDelay);
+  bind("dataSize", &DataSize);
+  bind("controlSize", &ControlSize);
+  bind("maxBurst", &MaxBurst);
+
+  RTSTxTime = MaxPropDelay;
 	CTSTxTime = RTSTxTime + 2*MaxPropDelay;
-	
-	MaxDataTxTime = DataPktSize/bit_rate_;  //1600bits/10kbps
 
-	bind("MaxPropDelay", &MaxPropDelay);
 
-	bind("MaxBurst", &MaxBurst);
 
 	NDTimer.resched(Random::uniform(NDPeriod)+0.000001);
 }
@@ -157,7 +158,7 @@ void FAMA::TxProcess(Packet* pkt)
 	hdr_cmn* cmh = HDR_CMN(pkt);
 	hdr_uwvb* vbh = HDR_UWVB(pkt);
 	hdr_FAMA* FAMAh = hdr_FAMA::access(pkt);
-	cmh->size() = DataPktSize;
+	cmh->size() = DataSize;
 	//cmh->txtime() = MaxDataTxTime;
 	cmh->txtime() = getTxTime(cmh->size());
 	cmh->error() = 0;
@@ -358,8 +359,9 @@ Packet* FAMA::makeND()
 	hdr_cmn* cmh = HDR_CMN(pkt);
 	hdr_FAMA* FAMAh = hdr_FAMA::access(pkt);
 
-	cmh->size() = 2*sizeof(nsaddr_t)+1;
-	cmh->txtime() = getTxTimebyPktSize(cmh->size());
+//	cmh->size() = 2*sizeof(nsaddr_t)+1;
+	cmh->size() = ControlSize;
+//	cmh->txtime() = getTxTimebyPktSize(cmh->size());
 	cmh->txtime() = getTxTime(cmh->size());
 	cmh->error() = 0;
 	cmh->direction() = hdr_cmn::DOWN;
